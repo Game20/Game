@@ -189,7 +189,7 @@ void eventdisp(){
 			case SDLK_SPACE: //スペースキーを押した時
 			if(jumpflag == 0){
 			jumpflag = 1;}
-			jump_a = 14; //初速んんんんんん
+			jump_a = 14; //初速んんんんんんんんん
 				
 			break;
 
