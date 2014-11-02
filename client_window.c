@@ -14,10 +14,10 @@ int screensizey;
 TTF_Font* sTTF;
 //SDL_Surface *usa;  // 画像データへのポインタ
 
-char gMapDataFile1[] = "map1.data";
+char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
-char gMapImgFile[] = "images/map.png"; // マップ画像
+SDL_Rect gameRect = { 0,0, WIND_Width*MAP_ChipSize, WIND_Height*MAP_ChipSize }; // ゲームウィンドウの座標
 
 /*初期設定*/
 void setstart(){
@@ -43,7 +43,7 @@ void setstart(){
     }
 
 /* 画像の読み込み */
-    gMapImage = IMG_Load( gMapImgFile );
+    gMapImage = IMG_Load( "images/map.png" );
     if( gMapImage == NULL ){
         printf("failed to open map.png .\n");
         exit(0);
@@ -54,7 +54,7 @@ MapLayout();
 //SDL_JoystickEventState(SDL_ENABLE);
 //Joystick = SDL_JoystickOpen(0);
 
-	usa = IMG_Load("images/usa.png");//pngの読み込み
+	usa = IMG_Load("images/usa.png"); //pngの読み込み
 
 
     // フォントからメッセージ作成 
@@ -83,7 +83,7 @@ MapLayout();
 int MapLayout()
 {
 /* マップ読み込み */
-    FILE* fp = fopen( gMapDataFile1, "r" );
+    FILE* fp = fopen( gMapDataFile, "r" );
     if( fp == NULL ){
         printf("failed to open map data.\n");
         return 0;
@@ -134,7 +134,9 @@ void exepaste(void){
 	if(jumpflag == 1 || UD == -1)
 	PA.x = 80; //アニメーション固定
 
-	SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
+SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
+
+	SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P); //キャラ貼り付け
 	
 	/*
 	SDL_BlitSurface(Player[paste0], &PA[paste0], SDL_GetVideoSurface(), &P[paste0]);
