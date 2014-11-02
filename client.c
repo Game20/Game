@@ -20,7 +20,7 @@ void keycont(void);
 void exepaste(void);
 void EXITsetting(void);
 
-/*サーバ移行予定の関数*/
+/*サーバ移行予定の関数de*/
 void newpositionjadge(void);
 
 
