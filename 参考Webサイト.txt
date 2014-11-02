@@ -1,0 +1,2 @@
+"Git 前のバージョンに戻すには？"
+http://miffysora.wikidot.com/git-rollback
