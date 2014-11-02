@@ -71,7 +71,7 @@ static char gFontFile[] = "images/APJapanesefontT.ttf";
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる", "1P"};
 SDL_Surface *gMessages[ 100 ];
 
-
+SDL_Surface *usa;
 
 
 // メイン関数 /////////////////////////////////////////////////////////////////////////
