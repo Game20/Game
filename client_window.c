@@ -17,7 +17,7 @@ TTF_Font* sTTF;
 char gMapDataFile1[] = "map1.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
-char gMapImgFile[] = "map.png"; // マップ画像
+char gMapImgFile[] = "images/map.png"; // マップ画像
 
 /*初期設定*/
 void setstart(){
@@ -77,6 +77,42 @@ MapLayout();
 	sTTF = TTF_OpenFont( gFontFile, 30 );
 	gMessages[5] = TTF_RenderUTF8_Blended(sTTF, gMsgStrings[5], black);
 
+}
+
+/* マップ配置 */
+int MapLayout()
+{
+/* マップ読み込み */
+    FILE* fp = fopen( gMapDataFile1, "r" );
+    if( fp == NULL ){
+        printf("failed to open map data.\n");
+        return 0;
+    }
+    int i, j, ret = 0;
+    for(j=0; j<MAP_Height; j++){
+        for(i=0; i<MAP_Width; i++){
+            if(fscanf(fp, "%d", &gMaps[i][j]) != 1){
+                fclose( fp );
+                printf("failed to load map data.\n");
+                return 0;
+            }
+        }
+    }
+    fclose( fp );
+
+    SDL_Rect srcRect = { 0,0, MAP_ChipSize,MAP_ChipSize };
+    SDL_Rect dstRect = { 0 };
+
+    for(i=0; i<MAP_Width; i++){
+        dstRect.y = 0;
+        for(j=0; j<MAP_Height; j++){
+            srcRect.x = gMaps[i][j] * MAP_ChipSize ;
+            ret += SDL_BlitSurface(gMapImage, &srcRect, mapwindow, &dstRect );
+            dstRect.y += MAP_ChipSize;
+        }
+        dstRect.x += MAP_ChipSize;
+    }
+    return 0;
 }
 
 
