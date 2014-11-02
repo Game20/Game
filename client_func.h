@@ -31,7 +31,7 @@ typedef struct{
 /********************************************************************/
 
 
-/* マップ，ウインドウサイズ *//*
+/* マップ，ウインドウサイズ */
 enum { 
     MAP_Width    = 38, // マップ全体
     MAP_Height   = 10,
@@ -40,7 +40,7 @@ enum {
     MAP_ChipSize = 80 // マップチップ80*80
 };
 
-/* マップの種類 *//*
+/* マップの種類 */
 typedef enum {
     MT_sky = 0,
     MT_Wall = 1,
@@ -50,7 +50,7 @@ typedef enum {
     MT_Needle3 = 5,
     MT_Needle4 = 6,
     MT_Fruit = 7
-} MapType;*/
+} MapType;
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 

@@ -14,6 +14,10 @@ int screensizey;
 TTF_Font* sTTF;
 //SDL_Surface *usa;  // 画像データへのポインタ
 
+char gMapDataFile1[] = "map1.data";
+MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
+SDL_Surface *gMapImage; // マップ
+char gMapImgFile[] = "map.png"; // マップ画像
 
 /*初期設定*/
 void setstart(){
@@ -31,6 +35,21 @@ void setstart(){
 		printf("failed to initialize videomode.\n");
 		exit(-1);
 	}
+	
+	/* マップ画面(フィールドバッファ)の作成 */
+    if((mapwindow = SDL_CreateRGBSurface(SDL_HWSURFACE, MAP_Width*MAP_ChipSize, MAP_Height*MAP_ChipSize, 32, 0, 0, 0, 0)) == NULL) {
+        printf("Error.");
+        exit(-1);
+    }
+
+/* 画像の読み込み */
+    gMapImage = IMG_Load( gMapImgFile );
+    if( gMapImage == NULL ){
+        printf("failed to open map.png .\n");
+        exit(0);
+    }
+
+MapLayout();
 
 //SDL_JoystickEventState(SDL_ENABLE);
 //Joystick = SDL_JoystickOpen(0);
