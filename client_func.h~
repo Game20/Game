@@ -76,11 +76,8 @@ extern int jumpflag;
 extern int jump_LR;
 
 extern int bit;
-extern int newposx;
-extern int newposy;
-extern int hitx;
-extern int hity;
-
+int newposx;
+int newposy;
 
 extern SDL_Rect PA;
 extern SDL_Rect P;

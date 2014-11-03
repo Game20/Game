@@ -104,7 +104,7 @@ newposy = P.y;
 		jump_LR = 0;//LR判定もない
 	}
 
-	if(jumpflag == 1 && UD == 0)
+	if(jumpflag == 1)
 	newposy -= jump_a;//加速度で移動(y軸なのでマイナス)
 
 

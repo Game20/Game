@@ -40,7 +40,6 @@ int jump_a = 0;	//
 int jump_LR = 0;//
 int LR_sift = 0;//
 int newposx = 0, newposy = 0;	//新規位置　まだ実装できてない
-int hitx = 0, hity = 0;
 
 int bit = 60; //ビットサイズ
 
