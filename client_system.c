@@ -76,7 +76,7 @@ newposy = P.y;
 		
 		/*画面スクロール*/
 		if(//gameRect.x >=0 && 
-		newposx >= WIND_Width*MAP_ChipSize/2) { // マップが端でないなら
+		newposx >= WIND_Width*MAP_ChipSize/2 && hitx != 1) { // マップが端でないなら
             gameRect.x += 4;
             newposx -= 4;
 		}
@@ -84,7 +84,7 @@ newposy = P.y;
 		if( ((gameRect.x <= 0) && (newposx <= WIND_Width*MAP_ChipSize/2)) || 
             ((gameRect.x <= (MAP_Width-WIND_Width)*MAP_ChipSize) && 
              (newposx >= WIND_Width*MAP_ChipSize/2)) && 
-            (newposx <= (WIND_Width-1)*MAP_ChipSize)) { // マップの端なら
+            (newposx <= (WIND_Width-1)*MAP_ChipSize)&& hitx != 1) { // マップの端なら
 		
 		//newposx -= 4;
 		}
@@ -96,7 +96,7 @@ newposy = P.y;
 		newposx -= 4;
 		
 		/*画面スクロール*/
-		if(gameRect.x >=0 && newposx <= WIND_Width*MAP_ChipSize/2) { // マップが端でないなら
+		if(gameRect.x >=0 && newposx <= WIND_Width*MAP_ChipSize/2 && hitx != 1) { // マップが端でないなら
             gameRect.x -= 4;
             newposx += 4;
             
@@ -104,7 +104,7 @@ newposy = P.y;
             
             	if( ((gameRect.x <= 0) &&		(newposx<=WIND_Width*MAP_ChipSize/2)) || 
             ((gameRect.x <= (MAP_Width-WIND_Width)*MAP_ChipSize) &&
-             (newposx >= WIND_Width*MAP_ChipSize/2))) { // マップが端なら
+             (newposx >= WIND_Width*MAP_ChipSize/2))&& hitx != 1) { // マップが端なら
             
             //newposx -= 4;
             

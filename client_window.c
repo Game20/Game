@@ -124,22 +124,22 @@ hitx = 0;
 hity = 0;
 
 //左右
-if( gMaps[(newposx+10)/bit][(P.y+20)/bit] == 1 || 
-	gMaps[(newposx+10)/bit][(P.y+10)/bit+1] == 1 || 
-	gMaps[(newposx+45)/bit][(P.y+20)/bit] == 1 || 
-	gMaps[(newposx+45)/bit][(P.y+10)/bit+1] == 1	)
+if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+20)/bit] == 1 || 
+	gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 || 
+	gMaps[(newposx+gameRect.x+45)/bit][(P.y+20)/bit] == 1 || 
+	gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	)
 
 	hitx = 1;
 
 //上
-if( gMaps[(P.x+10)/bit][(newposy+15)/bit] == 1 ||
-	gMaps[(P.x+45)/bit][(newposy+15)/bit] == 1	)
+if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit] == 1 ||
+	gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit] == 1	)
 
 	hity = 1;
 
 //下
-if( gMaps[(P.x+10)/bit][(newposy+15)/bit+1] == 1 ||
-	gMaps[(P.x+45)/bit][(newposy+15)/bit+1] == 1	){
+if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit+1] == 1 ||
+	gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit+1] == 1	){
 
 	hity = -1;
 	jumpflag = 0;
