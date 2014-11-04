@@ -113,6 +113,8 @@ hitjudge();
 if(hitx == 0)
 P.x = newposx;
 
+hithold = hitx;
+
 if(hity == 0)
 P.y = newposy;
 else if(hity == -1)

@@ -164,19 +164,28 @@ void exepaste(void){
 	else
 	PA.y = (bit / 4 * 5) * 0; //正面
 
+
 	// アニメーション
-	if((PA.y != 0 && time % 20 == 0) || time % 20 == 10)
+	if((PA.y != 0 && time % 20 == 0) || time % 20 == 10){
 	PA.x = (PA.x + bit) % (bit * 2);
+	//PUSH
+	if(hitx != 0 && jumpflag == 0 && UD == 0)
+	PA.x += bit * 2;
+	}
 	if(jumpflag == 1 || UD == -1)
 	PA.x = bit; //アニメーション固定
 
-	//PUSH
-//	if(hitx != 0 && jumpflag == 0 && UD == 0)
-//	PA.x += bit * 2;
+
+	if(hitx - hithold == -1){
+	timekey = time;
+	PA.x = 0;
+	PA.y = 0;
+	}
 
 	SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
 
 	SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P); //キャラ貼り付け
+
 	
 	/*
 	SDL_BlitSurface(Player[paste0], &PA[paste0], SDL_GetVideoSurface(), &P[paste0]);

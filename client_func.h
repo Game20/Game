@@ -80,6 +80,8 @@ extern int newposx;
 extern int newposy;
 extern int hitx;
 extern int hity;
+extern int timekey;
+extern int hithold;
 
 
 extern SDL_Rect PA;
