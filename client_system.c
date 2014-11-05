@@ -73,44 +73,11 @@ newposy = P.y;
 	Uint8 *key = SDL_GetKeyState(NULL);
 	if(key[SDLK_RIGHT] == SDL_PRESSED){	//右移動
 		newposx += 4; 
-		
-		/*画面スクロール*/
-		if(//gameRect.x >=0 && 
-		newposx >= WIND_Width*MAP_ChipSize/2 && hitx != 1) { // マップが端でないなら
-            gameRect.x += 4;
-            newposx -= 4;
-		}
-		
-		if( ((gameRect.x <= 0) && (newposx <= WIND_Width*MAP_ChipSize/2)) || 
-            ((gameRect.x <= (MAP_Width-WIND_Width)*MAP_ChipSize) && 
-             (newposx >= WIND_Width*MAP_ChipSize/2)) && 
-            (newposx <= (WIND_Width-1)*MAP_ChipSize)&& hitx != 1) { // マップの端なら
-		
-		//newposx -= 4;
-		}
-		
 		if(jumpflag == 1)
 			jump_LR = 1;
 	}
 	if(key[SDLK_LEFT] == SDL_PRESSED){	//左移動
 		newposx -= 4;
-		
-		/*画面スクロール*/
-		if(gameRect.x >=0 && newposx <= WIND_Width*MAP_ChipSize/2 && hitx != 1) { // マップが端でないなら
-            gameRect.x -= 4;
-            newposx += 4;
-            
-            }
-            
-            	if( ((gameRect.x <= 0) &&		(newposx<=WIND_Width*MAP_ChipSize/2)) || 
-            ((gameRect.x <= (MAP_Width-WIND_Width)*MAP_ChipSize) &&
-             (newposx >= WIND_Width*MAP_ChipSize/2))&& hitx != 1) { // マップが端なら
-            
-            //newposx -= 4;
-            
-            }
-            
-	 
 		if(jumpflag == 1)
 			jump_LR = -1;
 	}
@@ -159,7 +126,15 @@ jumpflag = 1;
 }
 
 
+void scroll(void){
 
+	shiftdef = P.x - (screensizex/2-30);
+
+	if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
+		gameRect.x += shiftdef;
+		P.x -= shiftdef;
+	}
+}
 
 
 

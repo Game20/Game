@@ -18,6 +18,7 @@ void setstart(void);
 void eventdisp(void);
 void keycont(void);
 void hitjudge(void);
+void scroll(void);
 void exepaste(void);
 void EXITsetting(void);
 
@@ -45,6 +46,7 @@ int newposx = 0, newposy = 0;	//新規位置　まだ実装できてない
 int hitx = 0, hity = 0;
 int timekey = 0;
 int hithold = 0;
+int shiftdef = 0;
 
 int bit = 60; //ビットサイズ
 
@@ -106,6 +108,8 @@ title();
 	keycont();	/*キーボード操作*/
 
 	newpositionjadge(); /*当たり判定　後でサーバに移行*/
+
+	scroll(); //画面スクロール
 
 	exepaste(); /*貼り付け設定 & 実行*/
 
