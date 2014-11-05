@@ -15,6 +15,7 @@ then
 fi
 
 if [ ${answer} != y ];
+then
     echo "ファイルを個別にコミット及びプッシュしますか？(推奨) y/n"
     echo -n ">> "
     read answer2
