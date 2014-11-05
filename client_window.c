@@ -117,16 +117,16 @@ int MapLayout()
 
 
 
-//追加 当たり判定
+// 当たり判定
 void hitjudge(void){
 
 hitx = 0;
 hity = 0;
 
 //左右
-if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+20)/bit] == 1 || 
+if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+15)/bit] == 1 || 
 	gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 || 
-	gMaps[(newposx+gameRect.x+45)/bit][(P.y+20)/bit] == 1 || 
+	gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 || 
 	gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	)
 
 	hitx = 1;
@@ -145,7 +145,6 @@ if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit+1] == 1 ||
 	jumpflag = 0;
 	}
 
-
 }
 
 
@@ -157,9 +156,9 @@ void exepaste(void){
 	// 向きの管理
 	if(UD != 0)
 	PA.y = (bit / 4 * 5) * 3; //後ろ
-	else if(LR == -1 || jump_LR == -1)
+	else if(LR == -1 || jump_LR <= -1)
 	PA.y = (bit / 4 * 5) * 2; //左
-	else if(LR == 1 || jump_LR == 1)
+	else if(LR == 1 || jump_LR >= 1)
 	PA.y = (bit / 4 * 5) * 1; //右
 	else
 	PA.y = (bit / 4 * 5) * 0; //正面
@@ -175,12 +174,19 @@ void exepaste(void){
 	if(jumpflag == 1 || UD == -1)
 	PA.x = bit; //アニメーション固定
 
-
-	if(hitx - hithold == -1){
-	timekey = time;
+	if(hitx != hithold){
 	PA.x = 0;
-	PA.y = 0;
+	hithold = hitx; //ヒットホールドの更新
 	}
+	else if(hithold != 0 && UD != 0){
+		if(timekey == 0){
+		PA.x = 0;
+		timekey++;
+		}
+	}
+	else if(hithold != 0 && timekey != 0)
+	timekey = 0;
+
 
 	SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
 

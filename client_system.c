@@ -93,7 +93,7 @@ newposy = P.y;
 
 /*その他詳細設定*/
 
-	if(key[SDLK_RIGHT] != SDL_PRESSED && key[SDLK_LEFT] != SDL_PRESSED && jump_LR != 0)
+	if(key[SDLK_RIGHT] != SDL_PRESSED && key[SDLK_LEFT] != SDL_PRESSED && (jump_LR == 1 || jump_LR == -1))
 		newposx += 4 * jump_LR; //空中なら静止しない
 
 	if(jumpflag == 1 && jump_a > -8)	
@@ -112,13 +112,13 @@ hitjudge();
 
 if(hitx == 0)
 P.x = newposx;
-
-hithold = hitx;
+else if(jump_LR != 0)
+jump_LR *= 2;
 
 if(hity == 0)
 P.y = newposy;
 else if(hity == -1)
-P.y = ((P.y + 10) / bit + 1) * bit - 15; //マスの上に調整
+P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 
 if(hity != -1 && UD == 0)
 jumpflag = 1;
