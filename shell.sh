@@ -6,4 +6,4 @@ echo "push.shを起動します"
 
 echo "pull.shを起動します"
 
-.shell/pull.sh
+./shell/pull.sh
