@@ -1,13 +1,13 @@
 #!/bin/sh
 
+echo "reflesh.shを起動します"
+
+./Shell/reflesh.sh
+
 echo "push.shを起動します"
 
-./shell/push.sh
+./Shell/push.sh
 
 echo "pull.shを起動します"
 
-./shell/pull.sh
-
-echo "reflesh.shを起動します"
-
-./shell/reflesh.sh
+./Shell/pull.sh
