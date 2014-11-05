@@ -5,9 +5,26 @@ echo "reflesh.shを起動します"
 
 ./Shell/reflesh.sh
 
-echo "push.shを起動します"
 
-./Shell/push.sh
+echo "全ファイルをコミット及びプッシュしますか？(非推奨) y/n"
+echo -n ">> "
+read answer
+if [ ${answer} = y ];
+then
+    ./Shell/push_all.sh
+fi
+
+echo "ファイルを個別にコミット及びプッシュしますか？(推奨) y/n"
+echo -n ">> "
+read answer2
+if [ ${answer2} = y ];
+then
+    echo "ファイル名を入力してください"
+    echo -n ">> "
+    read file_name
+    ./Shell/push_single.sh ${file_name}
+fi
+
 
 echo "pull.shを起動します"
 

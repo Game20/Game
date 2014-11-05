@@ -18,19 +18,26 @@ git commit -m $comment
 
 echo "ファイルのコミットが完了しました"
 
+
+
 echo "ローカルリポジトリのファイルをリモートリポジトリにプッシュします"
 echo "リモートリポジトリの名前を入力してください"
 echo -n ">>"
 read name
 
-echo "${name}へプッシュしますか？ y/n"
-echo -n ">>"
+echo "リモートリポジトリへプッシュしますか？ y/n"
+echo -n ">> "
 read answer
 
 if [ ${answer} = y ];
 then
+    echo "ローカルリポジトリのファイルをリモートリポジトリにプッシュします"
+    echo "リモートリポジトリの名前を入力してください"
+    echo -n ">>"
+    read name
+    echo "${name}へプッシュします"
     echo "自分のアカウントのIDとパスワードを入力してください"
-    git push -u $name master
+    git push -u ${name} master
     echo "リモートリポジトリへのプッシュが多分完了しました"
     echo "念のためにリモートリポジトリの内容を確認してください"
 else

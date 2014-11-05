@@ -15,6 +15,4 @@ then
     read name
     git pull $name
     echo "プルが完了しました"
-else
-    "プルはキャンセルされました"
 fi
