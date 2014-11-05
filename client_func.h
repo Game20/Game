@@ -84,6 +84,7 @@ extern int hitx;
 extern int hity;
 extern int timekey;
 extern int hithold;
+extern int shiftdef;
 
 
 extern SDL_Rect PA;

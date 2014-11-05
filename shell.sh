@@ -1,5 +1,4 @@
 #!/bin/sh
-#バルスする
 
 echo "reflesh.shを起動します"
 
