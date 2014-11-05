@@ -7,3 +7,7 @@ echo "push.shを起動します"
 echo "pull.shを起動します"
 
 ./shell/pull.sh
+
+echo "reflesh.shを起動します"
+
+./shell/reflesh.sh
