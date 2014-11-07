@@ -11,6 +11,7 @@
 
 /*****************************構造体**********************************/
 /*
+<<<<<<< HEAD
   typedef struct{
   int x; // 座標
   int y;
@@ -29,6 +30,20 @@
   int y;
   int status; // 状態
   } object[]; // オブジェクトの構造体
+=======
+typedef struct{
+    int x; // 座標
+    int y;
+    int x_anim; // アニメーション
+    int y_anim;
+    int jumpf; // ジャンプフラグ
+    int jump_a; // jump acceleration
+    int LR; // 右左
+    int UD; // 上下
+    int status; // ステータス
+    int deadf; // 生死フラグ0=生存 1=死
+} player; // プレイヤーの構造体
+>>>>>>> 9f111d1ff32bd89630a634bbf667cac83ebac0de
 
 /********************************************************************/
 
@@ -53,6 +68,14 @@ typedef enum {
     MT_Needle4 = 6,
     MT_Fruit = 7
 } MapType;
+
+typedef struct{
+	int gimmick;	// 1==岩 2==スイッチ 3==
+    int status; // 状態
+	SDL_Rect rect;	//読み込み座標
+	SDL_Rect dst;	//貼り付け座標
+} Object; // オブジェクトの構造体
+
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 
@@ -87,6 +110,8 @@ extern int hity;
 extern int timekey;
 extern int hithold;
 extern int shiftdef;
+extern int objecttouchflag;
+extern int SUM_object;
 
 
 extern SDL_Rect PA;

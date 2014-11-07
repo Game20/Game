@@ -35,9 +35,10 @@ void eventdisp(){
 
 			case SDLK_SPACE: //スペースキーを押した時
 			if(jumpflag == 0){
-			jumpflag = 1;}
-			jump_a = 12; //初速
-				
+				jumpflag = 1;
+				jump_a = 12; //初速
+				} //←{}を消したら無限ジャンプ
+
 			break;
 
 			case SDLK_ESCAPE:	// エスケープキー
@@ -110,7 +111,7 @@ newposy = P.y;
 
 hitjudge();
 
-if(hitx == 0)
+if(hitx != 1)
 P.x = newposx;
 else if(jump_LR != 0)
 jump_LR *= 2;
@@ -138,6 +139,20 @@ void scroll(void){
 	}
 }
 
+/*
+void mapobject(void){
+
+//object[].gimmick = {1, 2, 1};
+
+object[0].gimmick = 1; //岩
+object[0].status = 0; //押されてない状態
+object[0].rect.x = 180;
+object[0].rect.y = 225;
+object[0].dst.x = 18 * bit - gameRect.x;
+object[0].dst.y = 13 * bit - gameRect.x;
+
+}
+*/
 
 
 void EXIT(void){
