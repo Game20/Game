@@ -19,8 +19,10 @@ MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
 //SDL_Rect gameRect = { 0,0, WIND_Width*MAP_ChipSize, WIND_Height*MAP_ChipSize }; // ゲームウィンドウの座標
 
+SDL_Rect Player2; // 2Pの座標
 Object object[3]; //構造体の配列化
 int o = 1;
+
 
 SDL_Rect Player2; // 2Pの座標
 
@@ -378,6 +380,9 @@ void DrawChara(int x, int y)
 
 
 }
+
+
+
 
 
 

@@ -10,6 +10,26 @@
 
 /*****************************構造体**********************************/
 /*
+<<<<<<< HEAD
+  typedef struct{
+  int x; // 座標
+  int y;
+  int x_anim; // アニメーション
+  int y_anim;
+  int jumpf; // ジャンプフラグ
+  int jump_a; // jump acceleration
+  int LR; // 右左
+  int UD; // 上下
+  int status; // ステータス
+  int deadf; // 生死フラグ0=生存 1=死
+  } player[]; // プレイヤーの構造体
+
+  typedef struct{
+  int x; // 座標
+  int y;
+  int status; // 状態
+  } object[]; // オブジェクトの構造体
+=======
 typedef struct{
     int x; // 座標
     int y;
@@ -22,6 +42,7 @@ typedef struct{
     int status; // ステータス
     int deadf; // 生死フラグ0=生存 1=死
 } player; // プレイヤーの構造体
+>>>>>>> 9f111d1ff32bd89630a634bbf667cac83ebac0de
 
 /********************************************************************/
 
@@ -127,3 +148,4 @@ extern void DrawChara(int x, int y); //他プレイヤー描画
 extern int ExecuteCommand(char command);
 extern void SendEndCommand(void);
 extern void SendMoveCommand(int x, int y); //追加
+
