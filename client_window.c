@@ -19,6 +19,9 @@ MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
 //SDL_Rect gameRect = { 0,0, WIND_Width*MAP_ChipSize, WIND_Height*MAP_ChipSize }; // ゲームウィンドウの座標
 
+Object object[3]; //構造体の配列化
+int o = 1;
+
 /*初期設定*/
 void setstart(){
 
@@ -145,6 +148,63 @@ if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit+1] == 1 ||
 	jumpflag = 0;
 	}
 
+
+//オブジェクトの当たり判定
+////////////あとで消す///////////////////
+if(o == 1){
+object[0].gimmick = 1; //岩
+object[0].status = 0; //押されてない状態
+
+object[0].rect.x = 180;
+object[0].rect.y = 240;
+object[0].rect.w = 60;
+object[0].rect.h = 60;
+
+object[0].dst.x = 2 * bit - gameRect.x;
+object[0].dst.y = 12 * bit;
+o = 0;
+}
+////////////////////////////////////////
+if(objecttouchflag == 1)
+objecttouchflag = 0;
+
+int i;
+for(i=0; i<SUM_object+1; i++){
+	if( (newposx >= object[i].dst.x - 50 && newposx <= object[i].dst.x + 50) && 
+		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 60)   ) {
+		objecttouchflag = 1;
+		break; //
+	}
+}
+
+if(objecttouchflag == 1){
+	if(object[i].gimmick == 1){	//岩のとき
+
+	if( (P.x >= object[i].dst.x - 50 && P.x <= object[i].dst.x + 60) && 
+		(newposy >= object[i].dst.y - 74 && newposy <= object[i].dst.y + 60)   ) {
+	hity = -1;
+	jumpflag = 0;
+	}
+
+		//岩とマップのx座標当たり判定があったとき
+		if( 	gMaps[(object[i].dst.x+gameRect.x)/bit-1][object[i].dst.y/bit] == 1 || 
+				gMaps[(object[i].dst.x+gameRect.x)/bit+1][object[i].dst.y/bit] == 1	)
+			hitx = 1;
+		else if(P.y == object[i].dst.y - 15){
+			hitx = 2;
+			if(LR == -1){
+				newposx += 3;
+				object[i].dst.x = newposx - 53;
+			}
+			if(LR == 1){
+				newposx -= 3;
+				object[i].dst.x = newposx + 53;
+			}
+		}
+	}
+}
+
+
 }
 
 
@@ -190,10 +250,12 @@ void exepaste(void){
 
 	SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
 
+	SDL_BlitSurface(usa, &object[0].rect, window, &object[0].dst); // マップ貼り付け
+
 	SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P); //キャラ貼り付け
 
 	
-	/*
+/*
 	SDL_BlitSurface(Player[paste0], &PA[paste0], SDL_GetVideoSurface(), &P[paste0]);
 	SDL_BlitSurface(Player[paste1], &PA[paste1], SDL_GetVideoSurface(), &P[paste1]);
 	SDL_BlitSurface(Player[paste2], &PA[paste2], SDL_GetVideoSurface(), &P[paste2]);

@@ -19,6 +19,7 @@ void eventdisp(void);
 void keycont(void);
 void hitjudge(void);
 void scroll(void);
+void mapobject(void);
 void exepaste(void);
 void EXITsetting(void);
 
@@ -47,6 +48,8 @@ int hitx = 0, hity = 0;
 int timekey = 0;
 int hithold = 0;
 int shiftdef = 0;
+int objecttouchflag = 0;
+int SUM_object = 3;
 
 int bit = 60; //ビットサイズ
 
