@@ -93,12 +93,12 @@ SDL_Surface *gMessages[ 100 ];
 int main(int argc, char* argv[]) {
 
 /*初期設定*/
-setstart();
+    setstart();
 
-title();
+    title();
 
-	// 無限ループ
-	while(1){
+    // 無限ループ
+    while(1){
 
 	SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
@@ -106,7 +106,7 @@ title();
 
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
-		eventdisp();	// イベント処理
+            eventdisp();	// イベント処理
 
 	keycont();	/*キーボード操作*/
 
@@ -120,70 +120,70 @@ title();
 	DisplayStatus();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
-	break;
+            break;
 
     } //whileループ
 
 /*終了設定*/
-EXITsetting();
-return 0;
+    EXITsetting();
+    return 0;
 } //main
 
 //ステータス初期化
 void SS(void){
-P.x = 200;
-P.y = 400;
-PA.y = 0;
-time = 0;
+    P.x = 200;
+    P.y = 400;
+    PA.y = 0;
+    time = 0;
 
-exit_p = 0;
+    exit_p = 0;
 
-titlep = 1;
-titlep2 = 0;
+    titlep = 1;
+    titlep2 = 0;
 
 }
 
 
 
 
-	/*貼り付け順*/
+/*貼り付け順*/
 //	pasteorder();
 
 /*貼り付け順決定（y軸上から）*/
 /*
-int paste0 = 0 paste1 = 1, paste2 = 2, paste3 = 3;
-int pasten = 0;
+  int paste0 = 0 paste1 = 1, paste2 = 2, paste3 = 3;
+  int pasten = 0;
 
-if(P[0].y > P[1].y){
-pasten = paste0;
-paste0 = paste1;
-paste1 = pasten;
-}
-if(P[0].y > P[2].y){
-pasten = paste0;
-paste0 = paste2;
-paste2 = pasten;
-}
-if(P[0].y > P[3].y){
-pasten = paste0;
-paste0 = paste3;
-paste3 = pasten;
-}
-if(P[1].y > P[2].y){
-pasten = paste1;
-paste1 = paste2;
-paste2 = paste1;
-}
-if(P[1].y > P[3].y){
-pasten = paste1;
-paste1 = paste3;
-paste3 = paste1;
-}
-if(P[2].y > P[3].y){
-pasten = paste2;
-paste2 = paste3;
-paste3 = paste2;
-}
+  if(P[0].y > P[1].y){
+  pasten = paste0;
+  paste0 = paste1;
+  paste1 = pasten;
+  }
+  if(P[0].y > P[2].y){
+  pasten = paste0;
+  paste0 = paste2;
+  paste2 = pasten;
+  }
+  if(P[0].y > P[3].y){
+  pasten = paste0;
+  paste0 = paste3;
+  paste3 = pasten;
+  }
+  if(P[1].y > P[2].y){
+  pasten = paste1;
+  paste1 = paste2;
+  paste2 = paste1;
+  }
+  if(P[1].y > P[3].y){
+  pasten = paste1;
+  paste1 = paste3;
+  paste3 = paste1;
+  }
+  if(P[2].y > P[3].y){
+  pasten = paste2;
+  paste2 = paste3;
+  paste3 = paste2;
+  }
 */
 
 

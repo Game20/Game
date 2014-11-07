@@ -45,24 +45,24 @@ int SetUpServer(int num)
 
     /* ソケットを作成する */
     if((request_soc = socket(AF_INET,SOCK_STREAM,0)) < 0){
-		fprintf(stderr,"Socket allocation failed\n");
-		return -1;
+        fprintf(stderr,"Socket allocation failed\n");
+        return -1;
     }
     setsockopt(request_soc,SOL_SOCKET,SO_REUSEADDR,&val,sizeof(val));
 
     /* ソケットに名前をつける */
     if(bind(request_soc,(struct sockaddr*)&server,sizeof(server))==-1){
-		fprintf(stderr,"Cannot bind\n");
-		close(request_soc);
-		return -1;
+        fprintf(stderr,"Cannot bind\n");
+        close(request_soc);
+        return -1;
     }
     fprintf(stderr,"Successfully bind!\n");
     
     /* クライアントからの接続要求を待つ */
     if(listen(request_soc, gClientNum) == -1){
-		fprintf(stderr,"Cannot listen\n");
-		close(request_soc);
-		return -1;
+        fprintf(stderr,"Cannot listen\n");
+        close(request_soc);
+        return -1;
     }
     fprintf(stderr,"Listen OK\n");
 
@@ -102,14 +102,14 @@ int SendRecvManager(void)
     }
 
     for(i=0;i<gClientNum;i++){
-		if(FD_ISSET(gClients[i].fd,&readOK)){
-	    	/* クライアントからデータが届いていた */
-	    	/* コマンドを読み込む */
-			RecvData(i,&command,sizeof(char));
-	    	/* コマンドに対する処理を行う */
-	    	endFlag = ExecuteCommand(command,i);
-	    	if(endFlag == 0)break;
-		}
+        if(FD_ISSET(gClients[i].fd,&readOK)){
+            /* クライアントからデータが届いていた */
+            /* コマンドを読み込む */
+            RecvData(i,&command,sizeof(char));
+            /* コマンドに対する処理を行う */
+            endFlag = ExecuteCommand(command,i);
+            if(endFlag == 0)break;
+        }
     }
     return endFlag;
 }
@@ -155,12 +155,12 @@ void SendData(int pos,void *data,int dataSize)
 
     if(pos == ALL_CLIENTS){
     	/* 全クライアントにデータを送る */
-		for(i=0;i<gClientNum;i++){
-			write(gClients[i].fd,data,dataSize);
-		}
+        for(i=0;i<gClientNum;i++){
+            write(gClients[i].fd,data,dataSize);
+        }
     }
     else{
-		write(gClients[pos].fd,data,dataSize);
+        write(gClients[pos].fd,data,dataSize);
     }
 }
 
@@ -179,7 +179,7 @@ void Ending(void)
 }
 
 /*****
-static
+      static
 *****/
 /*****************************************************************
 関数名	: MultiAccept
@@ -194,12 +194,12 @@ static int MultiAccept(int request_soc,int num)
     int	fd;
     
     for(i=0;i<num;i++){
-		if((fd = accept(request_soc,NULL,NULL)) == -1){
-			fprintf(stderr,"Accept error\n");
-			for(j=i-1;j>=0;j--)close(gClients[j].fd);
-			return -1;
-		}
-		Enter(i,fd);
+        if((fd = accept(request_soc,NULL,NULL)) == -1){
+            fprintf(stderr,"Accept error\n");
+            for(j=i-1;j>=0;j--)close(gClients[j].fd);
+            return -1;
+        }
+        Enter(i,fd);
     }
     return fd;
 }
@@ -213,12 +213,12 @@ static int MultiAccept(int request_soc,int num)
 *****************************************************************/
 static void Enter(int pos, int fd)
 {
-	/* クライアントのユーザー名を受信する */
-	read(fd,gClients[pos].name,MAX_NAME_SIZE);
+    /* クライアントのユーザー名を受信する */
+    read(fd,gClients[pos].name,MAX_NAME_SIZE);
 #ifndef NDEBUG
-	printf("%s is accepted\n",gClients[pos].name);
+    printf("%s is accepted\n",gClients[pos].name);
 #endif
-	gClients[pos].fd = fd;
+    gClients[pos].fd = fd;
 }
 
 /*****************************************************************
@@ -245,17 +245,17 @@ static void SetMask(int maxfd)
 *****************************************************************/
 static void SendAllName(void)
 {
-  int	i,j,tmp1,tmp2;
+    int	i,j,tmp1,tmp2;
 
     tmp2 = htonl(gClientNum);
     for(i=0;i<gClientNum;i++){
-		tmp1 = htonl(i);
-		SendData(i,&tmp1,sizeof(int));
-		SendData(i,&tmp2,sizeof(int));
-		for(j=0;j<gClientNum;j++){
-			SendData(i,gClients[j].name,MAX_NAME_SIZE);
-		}
-	}
+        tmp1 = htonl(i);
+        SendData(i,&tmp1,sizeof(int));
+        SendData(i,&tmp2,sizeof(int));
+        for(j=0;j<gClientNum;j++){
+            SendData(i,gClients[j].name,MAX_NAME_SIZE);
+        }
+    }
 }
 
 /*****************************************************************

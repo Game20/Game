@@ -26,13 +26,13 @@ int ExecuteCommand(char command)
     printf("command = %c\n",command);
 #endif
     switch(command){
-	case END_COMMAND:
+    case END_COMMAND:
         endFlag = 0;
         break;
         
-	case MOVE_COMMAND: //移動コマンド
-		RecvMoveData();
-		break;
+    case MOVE_COMMAND: //移動コマンド
+        RecvMoveData();
+        break;
     }
     return endFlag;
 }
@@ -87,7 +87,7 @@ void SendEndCommand(void)
 
 
 /*****
-static
+      static
 *****/
 /*****************************************************************
 関数名	: SetIntData2DataBlock
@@ -138,12 +138,12 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvMoveData(void)
 {
-	int x, y;
+    int x, y;
 
-	RecvIntData(&x);
-	RecvIntData(&y);
+    RecvIntData(&x);
+    RecvIntData(&y);
 
-	DrawChara(x,y);
+    DrawChara(x,y);
 
 }
 

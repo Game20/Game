@@ -36,34 +36,34 @@ int ExecuteCommand(char command,int pos)
     printf("Get command %c\n",command);
 #endif
     switch(command){
-	    case END_COMMAND:
-			dataSize = 0;
-			/* コマンドのセット */
-			SetCharData2DataBlock(data,command,&dataSize);
+    case END_COMMAND:
+        dataSize = 0;
+        /* コマンドのセット */
+        SetCharData2DataBlock(data,command,&dataSize);
 
-			/* 全ユーザーに送る */
-			SendData(ALL_CLIENTS,data,dataSize);
-			endFlag = 0;
-			break;
+        /* 全ユーザーに送る */
+        SendData(ALL_CLIENTS,data,dataSize);
+        endFlag = 0;
+        break;
 		
-		case MOVE_COMMAND: //クライアントの移動後座標を送信
+    case MOVE_COMMAND: //クライアントの移動後座標を送信
 			
-			SetCharData2DataBlock(data, command, &dataSize);
-			SetIntData2DataBlock(data, x, &dataSize);
-			SetIntData2DataBlock(data, y, &dataSize);
-			SendData(ALL_CLIENTS, data, dataSize);
-			break;
+        SetCharData2DataBlock(data, command, &dataSize);
+        SetIntData2DataBlock(data, x, &dataSize);
+        SetIntData2DataBlock(data, y, &dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
+        break;
 
 	    
-		default:
-			/* 未知のコマンドが送られてきた */
-			fprintf(stderr,"0x%02x is not command!\n",command);
+    default:
+        /* 未知のコマンドが送られてきた */
+        fprintf(stderr,"0x%02x is not command!\n",command);
     }
     return endFlag;
 }
 
 /*****
-static
+      static
 *****/
 /*****************************************************************
 関数名	: SetIntData2DataBlock

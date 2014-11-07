@@ -13,9 +13,9 @@
 /* 追加 */
 /* クライアントを表す構造体 */
 typedef struct{
-	int		fd;
-	char	name[MAX_NAME_SIZE];
-	char	command;
+    int		fd;
+    char	name[MAX_NAME_SIZE];
+    char	command;
 }CLIENT;
 
 CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
