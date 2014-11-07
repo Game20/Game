@@ -6,27 +6,29 @@
 //#include <SDL/SDL_gfxPrimitives.h>	// gfxによる図形処理をするために必要なヘッダファイルをインクルード
 #include <SDL/SDL_ttf.h>	// TrueTypeフォントを表示するために必要なヘッダファイルをインクルード
 //#include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
+#include"common.h"
+
 
 /*****************************構造体**********************************/
 /*
-typedef struct{
-    int x; // 座標
-    int y;
-    int x_anim; // アニメーション
-    int y_anim;
-    int jumpf; // ジャンプフラグ
-    int jump_a; // jump acceleration
-    int LR; // 右左
-    int UD; // 上下
-    int status; // ステータス
-    int deadf; // 生死フラグ0=生存 1=死
-} player[]; // プレイヤーの構造体
+  typedef struct{
+  int x; // 座標
+  int y;
+  int x_anim; // アニメーション
+  int y_anim;
+  int jumpf; // ジャンプフラグ
+  int jump_a; // jump acceleration
+  int LR; // 右左
+  int UD; // 上下
+  int status; // ステータス
+  int deadf; // 生死フラグ0=生存 1=死
+  } player[]; // プレイヤーの構造体
 
-typedef struct{
-    int x; // 座標
-    int y;
-    int status; // 状態
-} object[]; // オブジェクトの構造体
+  typedef struct{
+  int x; // 座標
+  int y;
+  int status; // 状態
+  } object[]; // オブジェクトの構造体
 
 /********************************************************************/
 
@@ -103,3 +105,25 @@ extern int titlep, titlep2;
 extern int fm;
 
 extern int screensizex;
+
+
+/* client_net.c */
+extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
+extern void CloseSoc(void);
+extern int RecvIntData(int *intData);
+extern void SendData(void *data,int dataSize);
+extern int SendRecvManager(void);
+
+/* client_win.c */
+extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
+extern void DestroyWindow(void);
+extern void WindowEvent(int num);
+extern void DrawChara(int x, int y); //他プレイヤー描画
+
+/* client_command.c */
+extern int ExecuteCommand(char command);
+extern void SendEndCommand(void);
+extern void SendMoveCommand(int x, int y); //追加
+
+
+
