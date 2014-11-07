@@ -124,6 +124,8 @@ P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 if(hity != -1 && UD == 0)
 jumpflag = 1;
 
+SendMoveCommand(P.x, P.y);
+
 }
 
 

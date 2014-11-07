@@ -22,6 +22,8 @@ SDL_Surface *gMapImage; // マップ
 Object object[3]; //構造体の配列化
 int o = 1;
 
+SDL_Rect Player2; // 2Pの座標
+
 /*初期設定*/
 void setstart(){
 
@@ -364,5 +366,18 @@ SDL_Flip(window);// 画面に図形を表示（反映）
 	}
 P.y = 640;
 }
+
+/************他プレイヤー表示関数**********************/
+void DrawChara(int x, int y)
+{
+	Player2.x = x;
+	Player2.y = y;
+	
+	SDL_BlitSurface(usa, &PA, mapwindow, &Player2); //キャラ貼り付け
+	SDL_Flip(mapwindow);
+
+
+}
+
 
 
