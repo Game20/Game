@@ -389,9 +389,9 @@ void GameOver(void){
 
     SDL_Delay(1000);
     SDL_BlitSurface(go_img, NULL, window, &gameRect);
-
-
-
+    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Delay(1000);
+    SS();
 
 
 }
