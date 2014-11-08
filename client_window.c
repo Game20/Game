@@ -4,7 +4,7 @@
 
 #define MSG_NUM 5           /* メッセージの数 */
 
-// static 
+// static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる"};
 static SDL_Color black = {0x00, 0x00, 0x00};
@@ -42,7 +42,7 @@ void setstart(){
         printf("failed to initialize videomode.\n");
         exit(-1);
     }
-	
+
     /* マップ画面(フィールドバッファ)の作成 */
     if((mapwindow = SDL_CreateRGBSurface(SDL_HWSURFACE, MAP_Width*MAP_ChipSize, MAP_Height*MAP_ChipSize, 32, 0, 0, 0, 0)) == NULL) {
         printf("Error.");
@@ -64,18 +64,18 @@ void setstart(){
     usa = IMG_Load("images/usa60.png"); //pngの読み込み
 
 
-    // フォントからメッセージ作成 
-    // 初期化 
+    // フォントからメッセージ作成
+    // 初期化
     if(TTF_Init() < 0){
         printf("error");
     }
-    // フォントを開く 
+    // フォントを開く
     gTTF = TTF_OpenFont( gFontFile, 48 );
     if( gTTF == NULL ){
         printf("error");
     }
 
-    // メッセージ作成 
+    // メッセージ作成
     int h;
     for(h=0; h<MSG_NUM; h++){
         gMessages[h] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[h], black);
@@ -131,9 +131,9 @@ void hitjudge(void){
     hity = 0;
 
 //左右
-    if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+15)/bit] == 1 || 
-	gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 || 
-	gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 || 
+    if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+15)/bit] == 1 ||
+	gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 ||
+	gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 ||
 	gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	)
 
 	hitx = 1;
@@ -174,7 +174,7 @@ void hitjudge(void){
 
     int i;
     for(i=0; i<SUM_object+1; i++){
-	if( (newposx >= object[i].dst.x - 50 && newposx <= object[i].dst.x + 50) && 
+	if( (newposx >= object[i].dst.x - 50 && newposx <= object[i].dst.x + 50) &&
             (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 60)   ) {
             objecttouchflag = 1;
             break; //
@@ -184,14 +184,14 @@ void hitjudge(void){
     if(objecttouchflag == 1){
 	if(object[i].gimmick == 1){	//岩のとき
 
-            if( (P.x >= object[i].dst.x - 50 && P.x <= object[i].dst.x + 60) && 
+            if( (P.x >= object[i].dst.x - 50 && P.x <= object[i].dst.x + 60) &&
 		(newposy >= object[i].dst.y - 74 && newposy <= object[i].dst.y + 60)   ) {
                 hity = -1;
                 jumpflag = 0;
             }
-            
+
             //岩とマップのx座標当たり判定があったとき
-            if( 	gMaps[(object[i].dst.x+gameRect.x)/bit-1][object[i].dst.y/bit] == 1 || 
+            if( 	gMaps[(object[i].dst.x+gameRect.x)/bit-1][object[i].dst.y/bit] == 1 ||
                         gMaps[(object[i].dst.x+gameRect.x)/bit+1][object[i].dst.y/bit] == 1	)
                 hitx = 1;
             else if(P.y == object[i].dst.y - 15){
@@ -258,7 +258,7 @@ void exepaste(void){
 
     SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P); //キャラ貼り付け
 
-	
+
 /*
   SDL_BlitSurface(Player[paste0], &PA[paste0], SDL_GetVideoSurface(), &P[paste0]);
   SDL_BlitSurface(Player[paste1], &PA[paste1], SDL_GetVideoSurface(), &P[paste1]);
@@ -309,7 +309,7 @@ void title(void){
                     P.y -= 100;
                     if(P.y == 300)
                         P.y = 600;
-                    break;	
+                    break;
                 case SDLK_DOWN:
                     P.y += 100;
                     if(P.y == 700)
@@ -334,7 +334,7 @@ void title(void){
                 //スティック(左の十字キーも)
             case SDL_JOYAXISMOTION:
                 //上下の動き
-                if(event.jaxis.axis == 1) 
+                if(event.jaxis.axis == 1)
                 {
                     if(event.jaxis.value < -0x7000)
                         P.y -= 100;
@@ -358,7 +358,7 @@ void title(void){
 
             srcRect.w = gMessages[fm]->w;
             srcRect.h = gMessages[fm]->h;
- 
+
             SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
             dstRect.y += 100;
         }
@@ -374,7 +374,7 @@ void DrawChara(int x, int y)
 {
     Player2.x = x;
     Player2.y = y;
-	
+
     SDL_BlitSurface(usa, &PA, mapwindow, &Player2); //キャラ貼り付け
     SDL_Flip(mapwindow);
 
@@ -382,7 +382,19 @@ void DrawChara(int x, int y)
 }
 
 
+void GameOver(void){
 
+    SDL_Surface *go_img; // gameover_image
+    go_img = IMG_Load("images/game_over.png");
+
+    SDL_Delay(1000);
+    SDL_BlitSurface(go_img, NULL, window, &gameRect);
+
+
+
+
+
+}
 
 
 
