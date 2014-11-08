@@ -16,7 +16,7 @@
 typedef struct{
     int x;
     int y;
-}Pos;
+}Plc;
 
 
 /* 追加 */
@@ -25,9 +25,9 @@ typedef struct{
     int		fd;
     char	name[MAX_NAME_SIZE];
     char	command;
-    Pos pos;//x座標y座標
+    Plc plc;//x座標y座標
 }CLIENT;
 
-CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
+extern CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
 
 #endif
