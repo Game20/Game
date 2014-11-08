@@ -249,6 +249,10 @@ void newpositionjadge(){
         P.x = screensizex-100;
     if(P.x <= 0)
         P.x = 0;//画面外に出ない
+        
+    if(P.y >= screensizey)//画面下にいけば
+    	GameOver();
+    	    
 
 }
 
