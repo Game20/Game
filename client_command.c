@@ -145,7 +145,7 @@ static void RecvMoveData(void)
     int x1, y1, x2, y2;
 
     RecvIntData(&x1);
-    RecvIntData(&y2);
+    RecvIntData(&y1);
     RecvIntData(&x2);
     RecvIntData(&y2);
 

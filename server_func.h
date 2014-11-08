@@ -16,8 +16,8 @@ extern void SendData(int pos,void *data,int dataSize);
 extern int SendRecvManager(void);
 
 /* server_command.c */
-extern void SetIntData2DataBlock(void *data,int intData,int *dataSize);
-extern void SetCharData2DataBlock(void *data,char charData,int *dataSize);
+//extern void SetIntData2DataBlock(void *data,int intData,int *dataSize);
+//extern void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 
 extern int ExecuteCommand(char command,int pos);
 
