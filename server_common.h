@@ -10,12 +10,22 @@
 
 #define ALL_CLIENTS	-1   /* 全クライアントにデータを送る時に使用する */
 
+
+
+//x座標，y座標を表す構造体
+typedef struct{
+    int x;
+    int y;
+}Pos;
+
+
 /* 追加 */
 /* クライアントを表す構造体 */
 typedef struct{
     int		fd;
     char	name[MAX_NAME_SIZE];
     char	command;
+    Pos pos;//x座標y座標
 }CLIENT;
 
 CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
