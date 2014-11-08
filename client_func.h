@@ -129,7 +129,7 @@ extern int titlep, titlep2;
 extern int fm;
 
 extern int screensizex;
-
+extern int screensizey;
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
