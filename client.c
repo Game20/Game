@@ -89,10 +89,35 @@ SDL_Surface *gMessages[ 100 ];
 
 
 
-// メイン関数 /////////////////////////////////////////////////////////////////////////
+///////////////// メイン数 ///////////////////////
 int main(int argc, char* argv[]) {
 
-/*初期設定*/
+    int		num;
+    char	name[MAX_CLIENTS][MAX_NAME_SIZE];
+    int		endFlag=1;
+    char	localHostName[]="localhost";
+    char	*serverName;
+    int		clientID;
+
+    /* 引き数チェック */
+    if(argc == 1){
+    	serverName = localHostName;
+    }
+    else if(argc == 2){
+    	serverName = argv[1];
+    }
+    else{
+		fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
+		return -1;
+    }
+    
+    /* サーバーとの接続 */
+    if(SetUpClient(serverName,&clientID,&num,name)==-1){
+	fprintf(stderr,"setup failed : SetUpClient\n");
+	return -1;
+    } 
+
+    /* 初期設定 */
     setstart();
 
     title();

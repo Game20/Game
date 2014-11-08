@@ -6,8 +6,9 @@
 #include"common.h"
 #include"client_func.h"
 
+static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
-static void RecvMoveData(void);
+static void RecvMoveData();
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -49,13 +50,16 @@ void SendMoveCommand(int x, int y)
     unsigned char	data[MAX_DATA];
     int			dataSize;
 
+//    x = 100;
+//    y = 100;
+
     dataSize = 0;
     /* コマンドのセット */
     SetCharData2DataBlock(data,MOVE_COMMAND,&dataSize);
     
     /* データセット */
-//    SetIntData2DataBlock(data, x, &dataSize);
-//    SetIntData2DataBlock(data, y, &dataSize);
+    SetIntData2DataBlock(data, x, &dataSize);
+    SetIntData2DataBlock(data, y, &dataSize);
     
     /* データの送信 */
     SendData(data,dataSize);
@@ -87,7 +91,7 @@ void SendEndCommand(void)
 
 
 /*****
-      static
+static
 *****/
 /*****************************************************************
 関数名	: SetIntData2DataBlock
@@ -138,12 +142,14 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvMoveData(void)
 {
-    int x, y;
+    int x1, y1, x2, y2;
 
-    RecvIntData(&x);
-    RecvIntData(&y);
+    RecvIntData(&x1);
+    RecvIntData(&y2);
+    RecvIntData(&x2);
+    RecvIntData(&y2);
 
-    DrawChara(x,y);
-
+    DrawChara(x1,y1);
+    DrawChara(x2,y2);
 }
 
