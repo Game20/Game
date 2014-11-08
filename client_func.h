@@ -48,7 +48,7 @@
 
 
 /* マップ，ウインドウサイズ */
-enum { 
+enum {
     MAP_Width    = 38, // マップ全体
     MAP_Height   = 14,
     WIND_Width   = 25, // ウィンドウの大きさ
@@ -143,6 +143,7 @@ extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
 extern void DestroyWindow(void);
 extern void WindowEvent(int num);
 extern void DrawChara(int x, int y); //他プレイヤー描画
+extern void GameOver(void);
 
 /* client_command.c */
 extern int ExecuteCommand(char command);
