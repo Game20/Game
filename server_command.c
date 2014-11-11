@@ -6,8 +6,6 @@
 #include"server_common.h"
 #include"server_func.h"
 
-static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
-static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 
 int x = 200;
 int y = 200;
@@ -45,16 +43,24 @@ int ExecuteCommand(char command,int pos)
         SendData(ALL_CLIENTS,data,dataSize);
         endFlag = 0;
         break;
-		
+
     case MOVE_COMMAND: //クライアントの移動後座標を送信
-			
-        SetCharData2DataBlock(data, command, &dataSize);
-        SetIntData2DataBlock(data, x, &dataSize);
-        SetIntData2DataBlock(data, y, &dataSize);
-        SendData(ALL_CLIENTS, data, dataSize);
+
+        CalcPos(pos, &intData);
+
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, command, &dataSize);
+    SetIntData2DataBlock(data, gClients[0].plc.x, &dataSize);
+    SetIntData2DataBlock(data, gClients[0].plc.y, &dataSize);
+    SetIntData2DataBlock(data, gClients[1].plc.x, &dataSize);
+    SetIntData2DataBlock(data, gClients[1].plc.y, &dataSize);
+    SendData(ALL_CLIENTS, data, dataSize);
+
+
         break;
 
-	    
+
     default:
         /* 未知のコマンドが送られてきた */
         fprintf(stderr,"0x%02x is not command!\n",command);
@@ -73,7 +79,7 @@ int ExecuteCommand(char command,int pos)
 		  int		*dataSize	: 送信用データの現在のサイズ
 出力	: なし
 *****************************************************************/
-static void SetIntData2DataBlock(void *data,int intData,int *dataSize)
+void SetIntData2DataBlock(void *data,int intData,int *dataSize)
 {
     int tmp;
 
@@ -97,7 +103,7 @@ static void SetIntData2DataBlock(void *data,int intData,int *dataSize)
 		  int		*dataSize	: 送信用データの現在のサイズ
 出力	: なし
 *****************************************************************/
-static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
+void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 {
     /* 引き数チェック */
     assert(data!=NULL);

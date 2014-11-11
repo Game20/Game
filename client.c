@@ -89,7 +89,7 @@ SDL_Surface *gMessages[ 100 ];
 
 
 
-///////////////// メイン数 ///////////////////////
+// メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
 
     int		num;
@@ -110,14 +110,14 @@ int main(int argc, char* argv[]) {
 		fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
 		return -1;
     }
-    
+
     /* サーバーとの接続 */
     if(SetUpClient(serverName,&clientID,&num,name)==-1){
-	fprintf(stderr,"setup failed : SetUpClient\n");
-	return -1;
-    } 
+		fprintf(stderr,"setup failed : SetUpClient\n");
+		return -1;
+	}
 
-    /* 初期設定 */
+    /*初期設定*/
     setstart();
 
     title();
@@ -143,6 +143,8 @@ int main(int argc, char* argv[]) {
 
 	SDL_Flip(window);// 画面に図形を表示（反映）
 	DisplayStatus();
+
+        endFlag = SendRecvManager();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
             break;
