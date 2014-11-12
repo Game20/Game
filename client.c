@@ -6,35 +6,27 @@
 #include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
 #include "client_func.h"
 
-void DisplayStatus(void);
-void checkhit(void);
-void SS(void);//Start Stetas 初期化
-void title(void);
-void EXIT(void);
-void story(void);
-void result(void);
-void setstart(void);
+//void DisplayStatus(void);
+//void checkhit(void);
+//void InitStatus(void); // キャラのステータスの初期化
 
-void eventdisp(void);
-void keycont(void);
-void hitjudge(void);
-void scroll(void);
-void mapobject(void);
-void exepaste(void);
-void EXITsetting(void);
+//void eventdisp(void);
+//void keycont(void);
+//void hitjudge(void);
+//void scroll(void);
+//void mapobject(void);
+//void exepaste(void);
+//void EXITsetting(void);
 
 /*サーバ移行予定の関数*/
-void newpositionjadge(void);
+//void newpositionjadge(void);
 
 
 //SDL_Surface *window; // ウィンドウ（画像）データへのポインタ（グローバル）
 
 //変数などの宣言(main外)
 
-int screensizex = 1500; // max1535 / 60*60 25マス / 80*80 19マス 
-int screensizey = 840;  // max846  / 60*60 14マス / 80*80 10マス
-
-SDL_Rect gameRect = { 0,0, WIND_Width*MAP_ChipSize, WIND_Height*MAP_ChipSize }; // ゲームウィンドウの座標
+SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
 
 int time = 0;	//時間
 int LR = 0;		//左右入力
@@ -52,10 +44,8 @@ int gimmickflag = 0;
 int G_flaghold = 0;
 int SUM_object = 3;
 
-int bit = 60; //ビットサイズ
-
 int fm = 0;		//
-int titlep = 1, titlep2 = 0;//
+//int titlep = 1, titlep2 = 0;//
 int exit_p = 0;	//
 
 int i;
@@ -121,10 +111,10 @@ int main(int argc, char* argv[]) {
 	}
 
     /*初期設定*/
-    setstart();
+    InitWindow();
 
     title();
-
+    InitStatus(); // キャラのステータスの初期化 
     // 無限ループ
     while(1){
 
@@ -159,33 +149,6 @@ int main(int argc, char* argv[]) {
     return 0;
 } //main
 
-//ステータス初期化
-void SS(void){
-    P.x = 180;
-    P.y = 630;
-    PA.y = 0;
-    time = 0;
-	newposx = 180;
-	newposy = 630;
-	jumpflag = 0;
-
-        object[0].gimmick = 1; //岩
-        object[0].status = 0; //押されてない状態
-
-        object[0].rect.x = 180;
-        object[0].rect.y = 240;
-        object[0].rect.w = 60;
-        object[0].rect.h = 60;
-
-        object[0].dst.x = 2 * bit - gameRect.x;
-        object[0].dst.y = 1 * bit;
-
-    exit_p = 0;
-
-    titlep = 1;
-    titlep2 = 0;
-
-}
 
 
 
