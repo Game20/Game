@@ -109,14 +109,17 @@ extern int hity;
 extern int timekey;
 extern int hithold;
 extern int shiftdef;
-extern int objecttouchflag;
+extern int gimmickflag;
 extern int SUM_object;
-
+extern SDL_Rect rect;
+extern SDL_Rect dst;
+extern int G_flaghold;
 
 extern SDL_Rect PA;
 extern SDL_Rect P;
 extern SDL_Rect PMR;
 extern SDL_Rect PM;
+
 
 extern int time;	//時間
 extern int LR;		//左右入力
@@ -130,6 +133,8 @@ extern int fm;
 
 extern int screensizex;
 extern int screensizey;
+
+extern int i;
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
