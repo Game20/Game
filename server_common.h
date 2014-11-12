@@ -28,6 +28,6 @@ typedef struct{
     Plc plc;//x座標y座標
 }CLIENT;
 
-extern CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
+CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
 
 #endif
