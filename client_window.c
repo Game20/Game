@@ -9,15 +9,14 @@ static char gFontFile[] = "images/APJapanesefontT.ttf";
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
-int screensizex;
-int screensizey;
+
 TTF_Font* sTTF;
 //SDL_Surface *usa;  // 画像データへのポインタ
 
 char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
-//SDL_Rect gameRect = { 0,0, WIND_Width*MAP_ChipSize, WIND_Height*MAP_ChipSize }; // ゲームウィンドウの座標
+//SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
 
 SDL_Rect Player2; // 2Pの座標
 int o = 1;
@@ -26,7 +25,7 @@ int o = 1;
 SDL_Rect Player2; // 2Pの座標
 
 /*初期設定*/
-void setstart(){
+void InitWindow(){
 
     // SDL初期化
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
@@ -37,13 +36,13 @@ void setstart(){
     SDL_WM_SetCaption("こころぴょんぴょん", NULL);	// ウィンドウ名などを指定
 
     // ウィンドウ生成
-    if((window = SDL_SetVideoMode(screensizex, screensizey, 32, SDL_SWSURFACE/* | SDL_FULLSCREEN*/)) == NULL) {
+    if((window = SDL_SetVideoMode(WIND_Width * bit, WIND_Height * bit, 32, SDL_SWSURFACE/* | SDL_FULLSCREEN*/)) == NULL) {
         printf("failed to initialize videomode.\n");
         exit(-1);
     }
 
     /* マップ画面(フィールドバッファ)の作成 */
-    if((mapwindow = SDL_CreateRGBSurface(SDL_HWSURFACE, MAP_Width*MAP_ChipSize, MAP_Height*MAP_ChipSize, 32, 0, 0, 0, 0)) == NULL) {
+    if((mapwindow = SDL_CreateRGBSurface(SDL_HWSURFACE, MAP_Width*bit, MAP_Height*bit, 32, 0, 0, 0, 0)) == NULL) {
         printf("Error.");
         exit(-1);
     }
@@ -106,17 +105,17 @@ int MapLayout()
     }
     fclose( fp );
 
-    SDL_Rect srcRect = { 0,0, MAP_ChipSize,MAP_ChipSize };
+    SDL_Rect srcRect = { 0,0, bit,bit };
     SDL_Rect dstRect = { 0 };
 
     for(i=0; i<MAP_Width; i++){
         dstRect.y = 0;
         for(j=0; j<MAP_Height; j++){
-            srcRect.x = gMaps[i][j] * MAP_ChipSize ;
+            srcRect.x = gMaps[i][j] * bit ;
             ret += SDL_BlitSurface(gMapImage, &srcRect, mapwindow, &dstRect );
-            dstRect.y += MAP_ChipSize;
+            dstRect.y += bit;
         }
-        dstRect.x += MAP_ChipSize;
+        dstRect.x += bit;
     }
     return 0;
 }
@@ -311,8 +310,9 @@ void title(void){
     P.y = 400;
     PA.x = 0;
     PA.y = 0;
+    
+    int titlep, titlep2; // ループ条件 
 
-    titlep = 1;//ループ条件
     // 無限ループ
     while(titlep){
         SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
@@ -411,7 +411,7 @@ void GameOver(void){
     SDL_BlitSurface(go_img, NULL, window, &gameRect);
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(1000);
-    SS();
+    InitStatus();
 
 
 }
