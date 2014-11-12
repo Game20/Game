@@ -75,6 +75,7 @@ typedef struct{
     SDL_Rect dst;	//貼り付け座標
 } Object; // オブジェクトの構造体
 
+Object object[3]; //構造体の配列化
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 
@@ -154,4 +155,3 @@ extern void GameOver(void);
 extern int ExecuteCommand(char command);
 extern void SendEndCommand(void);
 extern void SendMoveCommand(int x, int y); //追加
-
