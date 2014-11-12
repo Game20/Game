@@ -169,43 +169,50 @@ void hitjudge(void){
         o = 0;
     }
 ////////////////////////////////////////
-    if(objecttouchflag == 1)
-        objecttouchflag = 0;
+    if(gimmickflag == 1 && G_flaghold == 0)
+        gimmickflag = 0;
 
-    int i;
     for(i=0; i<SUM_object+1; i++){
-	if( (newposx >= object[i].dst.x - 50 && newposx <= object[i].dst.x + 50) &&
+	if( (newposx >= object[i].dst.x - 45 && newposx <= object[i].dst.x + 45) &&
             (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 60)   ) {
-            objecttouchflag = 1;
+            gimmickflag = 1;
             break; //
 	}
     }
 
-    if(objecttouchflag == 1){
-	if(object[i].gimmick == 1){	//岩のとき
+    if(gimmickflag == 1){
+		if(object[i].gimmick == 1){	//岩のとき
 
-            if( (P.x >= object[i].dst.x - 50 && P.x <= object[i].dst.x + 60) &&
-		(newposy >= object[i].dst.y - 74 && newposy <= object[i].dst.y + 60)   ) {
+            if( (P.x >= object[i].dst.x - 45 && P.x <= object[i].dst.x + 45) &&
+		(newposy >= object[i].dst.y - 75 && P.y <= object[i].dst.y - 75 )   ) {
                 hity = -1;
                 jumpflag = 0;
             }
 
             //岩とマップのx座標当たり判定があったとき
-            if( 	gMaps[(object[i].dst.x+gameRect.x)/bit-1][object[i].dst.y/bit] == 1 ||
-                        gMaps[(object[i].dst.x+gameRect.x)/bit+1][object[i].dst.y/bit] == 1	)
+            if((gMaps[(object[i].dst.x+gameRect.x)/bit][object[i].dst.y/bit] == 1 ||
+                gMaps[(object[i].dst.x+gameRect.x)/bit+1][object[i].dst.y/bit] == 1	||
+				jumpflag == 1) && P.y > object[i].dst.y - 75)
                 hitx = 1;
-            else if(P.y == object[i].dst.y - 15){
-                hitx = 2;
-                if(LR == -1){
-                    newposx += 3;
-                    object[i].dst.x = newposx - 53;
-                }
-                if(LR == 1){
-                    newposx -= 3;
-                    object[i].dst.x = newposx + 53;
-                }
+            else if(P.y == object[i].dst.y - 15 && jumpflag == 0){
+				hitx = 2;
+				if(PA.x >= bit * 2){
+				newposx = P.x + ((newposx - P.x) / 4);
+				object[i].dst.x  += newposx - P.x;
+				}
+				else{
+				newposx = P.x;
+				}
             }
-	}
+			//岩の下にマップがなにもなかった場合
+		    if(gMaps[(object[i].dst.x+gameRect.x)/bit][object[i].dst.y/bit+1] == 0 &&
+			   gMaps[(object[i].dst.x+gameRect.x+59)/bit][object[i].dst.y/bit+1] == 0){
+				object[i].dst.y += 4;
+				G_flaghold = 1;
+			}
+			else
+			G_flaghold = 0;
+		}
     }
 
 

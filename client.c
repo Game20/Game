@@ -48,7 +48,8 @@ int hitx = 0, hity = 0;
 int timekey = 0;
 int hithold = 0;
 int shiftdef = 0;
-int objecttouchflag = 0;
+int gimmickflag = 0;
+int G_flaghold = 0;
 int SUM_object = 3;
 
 int bit = 60; //ビットサイズ
@@ -56,6 +57,8 @@ int bit = 60; //ビットサイズ
 int fm = 0;		//
 int titlep = 1, titlep2 = 0;//
 int exit_p = 0;	//
+
+int i;
 
 
 SDL_Rect PA = { 0, 0, 60, 75 }; //プレイヤーキャラ座標読み取り　あとで構造体化
@@ -92,7 +95,32 @@ SDL_Surface *gMessages[ 100 ];
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
 
-/*初期設定*/
+/*    int		num;
+    char	name[MAX_CLIENTS][MAX_NAME_SIZE];
+    int		endFlag=1;
+    char	localHostName[]="localhost";
+    char	*serverName;
+    int		clientID;
+
+    /* 引き数チェック */
+/*    if(argc == 1){
+    	serverName = localHostName;
+    }
+    else if(argc == 2){
+    	serverName = argv[1];
+    }
+    else{
+		fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
+		return -1;
+    }
+
+    /* サーバーとの接続 */
+/*    if(SetUpClient(serverName,&clientID,&num,name)==-1){
+		fprintf(stderr,"setup failed : SetUpClient\n");
+		return -1;
+	}
+
+    /*初期設定*/
     setstart();
 
     title();
@@ -118,6 +146,8 @@ int main(int argc, char* argv[]) {
 
 	SDL_Flip(window);// 画面に図形を表示（反映）
 	DisplayStatus();
+
+//        endFlag = SendRecvManager();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
             break;
