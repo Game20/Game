@@ -171,7 +171,8 @@ void hitjudge(void){
 ////////////////////////////////////////
     if(gimmickflag == 1 && G_flaghold == 0)
         gimmickflag = 0;
-
+        
+    if(gimmickflag == 0)
     for(i=0; i<SUM_object+1; i++){
 	if( (newposx >= object[i].dst.x - 45 && newposx <= object[i].dst.x + 45) &&
             (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 60)   ) {
