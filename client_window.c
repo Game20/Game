@@ -447,10 +447,8 @@ void DrawChara(int x, int y)
     Player2.x = x;
     Player2.y = y;
 
-    SDL_BlitSurface(usa, &PA, mapwindow, &Player2); //キャラ貼り付け
-    SDL_Flip(mapwindow);
-
-
+    SDL_BlitSurface(usa, &PA, window, &Player2); //キャラ貼り付け
+    SDL_Flip(window);
 }
 
 
