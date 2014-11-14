@@ -85,7 +85,7 @@ SDL_Surface *gMessages[ 100 ];
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
 
-/*    int		num;
+    int		num;
     char	name[MAX_CLIENTS][MAX_NAME_SIZE];
     int		endFlag=1;
     char	localHostName[]="localhost";
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
     int		clientID;
 
     /* 引き数チェック */
-/*    if(argc == 1){
+    if(argc == 1){
     	serverName = localHostName;
     }
     else if(argc == 2){
@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
     }
 
     /* サーバーとの接続 */
-/*    if(SetUpClient(serverName,&clientID,&num,name)==-1){
+    if(SetUpClient(serverName,&clientID,&num,name)==-1){
 		fprintf(stderr,"setup failed : SetUpClient\n");
 		return -1;
 	}
