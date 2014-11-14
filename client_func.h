@@ -12,8 +12,9 @@
 
   typedef struct{
   SDL_Rect pos; // 座標
-  SDL_Rect newpos; // 新規位置
   SDL_Rect anime; // アニメーション
+/*
+  SDL_Rect newpos; // 新規位置
   int jumpflag; // ジャンプフラグ　空中にいるか否か
   int jump_a; // ジャンプにおける加速度
   int jump_LR; //ジャンプ中の移動フラグ保持
@@ -23,6 +24,7 @@
   int deadf; // 生死フラグ0=生存 1=死
   int hitx;
   int hity;//当たり判定(xのと yのと)
+*/
   } Player; // プレイヤーの構造体
 
 

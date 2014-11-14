@@ -250,8 +250,8 @@ void EXIT(void){
             dstRect.x += 300;
         }
 
-        SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
-        SDL_Flip(window);// 画面に図形を表示（反映）
+        //SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
+        //SDL_Flip(window);// 画面に図形を表示（反映）
     }
 
     P.x = a;
