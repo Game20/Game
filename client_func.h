@@ -10,31 +10,9 @@
 
 /*****************************構造体**********************************/
 /*
-  <<<<<<< HEAD
   typedef struct{
-  int x; // 座標
-  int y;
-  int x_anim; // アニメーション
-  int y_anim;
-  int jumpf; // ジャンプフラグ
-  int jump_a; // jump acceleration
-  int LR; // 右左
-  int UD; // 上下
-  int status; // ステータス
-  int deadf; // 生死フラグ0=生存 1=死
-  } player[]; // プレイヤーの構造体
-
-  typedef struct{
-  int x; // 座標
-  int y;
-  int status; // 状態
-  } object[]; // オブジェクトの構造体
-  =======
-  typedef struct{
-  int x; // 座標
-  int y;
-  int x_anim; // アニメーション
-  int y_anim;
+  SDL_Rect pos; // 座標
+  SDL_Rect anime; // アニメーション
   int jumpf; // ジャンプフラグ
   int jump_a; // jump acceleration
   int LR; // 右左
@@ -42,7 +20,6 @@
   int status; // ステータス
   int deadf; // 生死フラグ0=生存 1=死
   } player; // プレイヤーの構造体
-  >>>>>>> 9f111d1ff32bd89630a634bbf667cac83ebac0de
 
 /********************************************************************/
 
@@ -53,8 +30,9 @@ enum {
     MAP_Height   = 14,
     WIND_Width   = 25, // ウィンドウの大きさ
     WIND_Height  = 14,
-    MAP_ChipSize = 60 // マップチップ60*60
+    bit = 60 // マップチップ60*60
 };
+//ゲームウィンドウの最大は1535*846
 
 /* マップの種類 */
 typedef enum {
@@ -102,7 +80,6 @@ extern TTF_Font* sTTF;
 extern int jumpflag;
 extern int jump_LR;
 
-extern int bit;
 extern int newposx;
 extern int newposy;
 extern int hitx;
@@ -129,13 +106,15 @@ extern int UD;		//上下入力
 extern int exit_p;
 extern int jump_a;
 
-extern int titlep, titlep2;
+extern int titlep;
+extern int titlep2;
+
 extern int fm;
 
-extern int screensizex;
-extern int screensizey;
-
 extern int i;
+
+/* client_system.c */
+void EXIT(void);
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
@@ -144,10 +123,11 @@ extern int RecvIntData(int *intData);
 extern void SendData(void *data,int dataSize);
 extern int SendRecvManager(void);
 
-/* client_win.c */
-extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
-extern void DestroyWindow(void);
-extern void WindowEvent(int num);
+/* client_window.c */
+extern void title(void);
+//extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
+//extern void DestroyWindow(void);
+//extern void WindowEvent(int num);
 extern void DrawChara(int x, int y); //他プレイヤー描画
 extern void GameOver(void);
 
@@ -155,4 +135,12 @@ extern void GameOver(void);
 extern int ExecuteCommand(char command);
 extern void SendEndCommand(void);
 extern void SendMoveCommand(int x, int y); //追加
+
+
+
+
+
+/* 未定 */
+void story(void);
+void result(void);
 

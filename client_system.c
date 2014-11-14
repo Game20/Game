@@ -3,6 +3,33 @@
 void EXIT();
 
 
+//ステータス初期化
+void InitStatus(void){ // キャラのステータスの初期化
+    P.x = 180;
+    P.y = 630;
+    PA.y = 0;
+    time = 0;
+	newposx = 180;
+	newposy = 630;
+	jumpflag = 0;
+
+        object[0].gimmick = 1; //岩
+        object[0].status = 0; //押されてない状態
+
+        object[0].rect.x = 180;
+        object[0].rect.y = 240;
+        object[0].rect.w = 60;
+        object[0].rect.h = 60;
+
+        object[0].dst.x = 2 * bit - gameRect.x;
+        object[0].dst.y = 1 * bit;
+
+    exit_p = 0;
+
+    titlep = 1;
+    titlep2 = 0;
+
+}
 
 
 
@@ -132,7 +159,7 @@ void keycont(void){
 
 void scroll(void){
 
-    shiftdef = P.x - (screensizex/2-30);
+    shiftdef = P.x - (WIND_Width * bit/2-30);
 
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
@@ -166,7 +193,7 @@ void EXIT(void){
     P.y = 350;
     PA.x = 0;
     PA.y = 0;
-
+    
     titlep2 = 1;//ループ条件
     // 無限ループ
     while(titlep2){
@@ -241,7 +268,7 @@ void EXITsetting(){
 
     SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SS();
+    InitStatus();
 }
 
 
@@ -249,14 +276,13 @@ void EXITsetting(){
 
 void newpositionjadge(){
 
-    if(P.x >= screensizex-100)
-        P.x = screensizex-100;
+    if(P.x >= WIND_Width * bit-100)
+        P.x = WIND_Width * bit-100;
     if(P.x <= 0)
         P.x = 0;//画面外に出ない
         
-    if(P.y >= screensizey)//画面下にいけば
+    if(P.y >= WIND_Height * bit)//画面下にいけば
     	GameOver();
     	    
 
 }
-
