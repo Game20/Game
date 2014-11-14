@@ -45,7 +45,7 @@ int G_flaghold = 0;
 int SUM_object = 3;
 
 int fm = 0;		//
-//int titlep = 1, titlep2 = 0;//
+int titlep = 1, titlep2 = 0;//
 int exit_p = 0;	//
 
 int i;
@@ -114,6 +114,7 @@ int main(int argc, char* argv[]) {
     InitWindow();
 
     title();
+    
     InitStatus(); // キャラのステータスの初期化 
     // 無限ループ
     while(1){

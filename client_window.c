@@ -17,7 +17,6 @@ char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
 //SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
-
 SDL_Rect Player2; // 2Pの座標
 int o = 1;
 
@@ -311,8 +310,8 @@ void title(void){
     PA.x = 0;
     PA.y = 0;
     
-    int titlep, titlep2; // ループ条件 
-
+    
+    titlep = 1;//ループ条件
     // 無限ループ
     while(titlep){
         SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
