@@ -7,7 +7,9 @@ echo "Call reflesh"
 echo "_______________________________"
 
 git pull game master
-echo "Pull Complete"
+
+echo ""
+echo "Git Pull Complete!"
 echo "_______________________________"
 
 
@@ -64,5 +66,6 @@ echo "_______________________________"
 echo "Push Now. If you don't push, Ctr_C or Ctr_Z"
 git push game master
 
+echo "_______________________________"
 echo "Push Complete!"
 echo "_______________________________"
