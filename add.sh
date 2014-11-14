@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ~ のついたファイル， 拡張子.oのファイルを削除する
+# ~ のついたファイル， 拡張子.o, client server のファイルを削除する
 echo "Call reflesh"
 ./shell/reflesh.sh
 #echo "Exit reflesh.sh"
