@@ -8,15 +8,15 @@
 #include"server_common.h"
 #include"server_func.h"
 
-void CalcPos(int pos, int *intData){
+void CalcPos(int pos){
 
-    gClients[pos].plc.x = RecvIntData(pos, &intData);
-    gClients[pos].plc.y = RecvIntData(pos, &intData);
-
+    RecvIntData(pos, &gClients[pos].plc.x);
+    RecvIntData(pos, &gClients[pos].plc.y);
 
 //HitJudge(
         /*当たり判定*/
 
 
 }
+
 

@@ -7,8 +7,8 @@
 #include"server_func.h"
 
 
-int x = 200;
-int y = 200;
+//int x = 200;
+//int y = 200;
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -46,8 +46,11 @@ int ExecuteCommand(char command,int pos)
 
     case MOVE_COMMAND: //クライアントの移動後座標を送信
 
-        CalcPos(pos, &intData);
-
+        CalcPos(pos);
+        int k;
+	//for(k=0;k<2;k++)
+//		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
+//		printf("(x,y) = (%d,%d)",gClients[1].plc.x,gClients[1].plc.y);
 
     dataSize = 0;
     SetCharData2DataBlock(data, command, &dataSize);
