@@ -2,6 +2,7 @@
 
 void EXIT();
 
+
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
     P.x = 180;
@@ -163,9 +164,9 @@ void scroll(void){
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
-		for(i=0; i<SUM_object+1; i++){
-			object[i].dst.x -= shiftdef;
-		}
+//		for(i=0; i<SUM_object+1; i++){
+//			object[i].dst.x -= shiftdef;
+//		}
     }
 }
 

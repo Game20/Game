@@ -150,6 +150,33 @@ int main(int argc, char* argv[]) {
     return 0;
 } //main
 
+//ステータス初期化
+void SS(void){
+    P.x = 180;
+    P.y = 630;
+    PA.y = 0;
+    time = 0;
+	newposx = 180;
+	newposy = 630;
+	jumpflag = 0;
+
+        object[0].gimmick = 1; //岩
+        object[0].status = 0; //押されてない状態
+
+        object[0].rect.x = 180;
+        object[0].rect.y = 240;
+        object[0].rect.w = 60;
+        object[0].rect.h = 60;
+
+        object[0].dst.x = 2 * bit - gameRect.x;
+        object[0].dst.y = 1 * bit;
+
+    exit_p = 0;
+
+    titlep = 1;
+    titlep2 = 0;
+
+}
 
 
 

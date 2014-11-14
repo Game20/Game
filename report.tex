@@ -1,0 +1,125 @@
+\documentclass{jarticle}
+\usepackage[dvipdfmx]{graphicx}
+
+\title{グループ開発個人レポート}
+\author{5013060131　氏名 坪井正夢}
+\date{\today 提出}
+
+\begin{document}
+\maketitle
+
+\section{開発期間2014年10月24日〜11月6日の進捗状況}
+\subsection{進展事項}
+今回個人で開発した部分
+\begin{itemize}
+  \item キャラメイク・キャラデザイン
+  \item キャラの貼付け、基本操作全般
+  \item キャラのアニメーション
+  \item キャラとマップの当たり判定
+  \item マップのスクロール
+\end{itemize}
+を行った.以下にその詳細を示す.
+
+\subsection{キャラメイク・キャラデザイン}
+このゲーム開発において使用するキャラは完全オリジナルキャラを使用する。
+
+故、キャラメイクはラフから始め、CGとして描き起こした。
+
+ひとまずプレイキャラが１体完成し、キャラ操作全般のプログラミングが
+
+進められるようになったので、2P〜4P用のキャラは後日に回す。
+
+作成したキャラデザインを最下に添付する。
+
+
+\begin{figure}[hb]
+\begin{minipage}{0.5\hsize}
+\begin{center}
+\includegraphics[scale=0.5]{fig1.eps}
+\caption{キャラデザイン}
+\end{center}
+\end{minipage}
+\begin{minipage}{0.5\hsize}
+\begin{center}
+\includegraphics[scale=0.5]{fig2.eps}
+\caption{キャラ　アニメーション差分込み}
+\end{center}
+\end{minipage}
+\end{figure}
+
+
+\subsection{キャラの貼付け、基本操作全般}
+このあたりのプログラムは自分が前期に開発したゲームのものを修正し、
+
+マップ表示に適応した操作と貼り付けを実現した。
+
+サーバーを介したネットワークプログラミングはまだ未実装。
+
+ネットワーク基盤が整ってから試行する予定。
+
+\subsection{キャラのアニメーション}
+こちらも同じく前期のプログラムを修正して使用した。
+
+しかし今回は向きだけでなくキャラの状態も含んだアニメーションなので
+
+開発が進むにつれまだまだ修正が必要になってくると思われる。
+
+\subsection{キャラとマップの当たり判定とマップスクロール}
+こちらは森がつくった前期ゲーム開発のプログラムを参考に
+
+キャラのマップに対する当たり判定・
+
+マップのスクロールを作成、実装した。\\
+
+あらかたのバグも取り除き、ほぼキャラ操作の基盤は完成した。
+
+
+\section{開発期間11月7日〜11月13日の予定}
+\subsection{計画}
+次週の予定は,
+\begin{itemize}
+ \item ギミックの作成
+ \item Wiiリモコンによる操作の導入
+ \item マップの拡張
+\end{itemize}
+の開発に取り組む。
+
+\subsection{ガントチャート}
+ガントチャートを表\ref{gun}に示す.
+\begin{table}[hbtp]
+\caption{ガントチャート}
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|c|c|}
+
+\hline
+開発項目 & ☆10/24-11/6 & 11/7-11/13 & 11/14-11/20 & 11/21-11/27 & 11/28-12/4 & 12/5-12/11 \\
+\hline \hline
+企画書 & ● & & & & & \\ \hline
+ゲーム設計 & ● & ○& & & & \\ \hline
+ライブラリ作成 &● & ○ &○ & ○& & \\ \hline  
+UI & ●& ○  & ○& ○& ○& ○\\ \hline
+ネットワーク & & ○ &○ & ○& ○&○ \\ \hline
+ゲームの拡張 & &  & & & & \\ \hline
+
+\end{tabular}
+\end{center}
+\label{gun}
+\end{table}
+
+\begin{table}[hbtp]
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|c|}
+\hline
+開発項目 & 12/12-12/18 & 12/19-1/8 & 1/9-1/22 & 1/23-1/29 & 1/30-2/5 \\
+\hline \hline
+ゲームの拡張 & & ○  & & & \\ \hline
+デバッグ & &   & ○& ○ & \\ \hline
+最終調整 & & & & ○&○ \\ \hline
+パワーポイント & & & & ○ & \\ \hline
+
+\end{tabular}
+\end{center}
+\label{gun}
+\end{table}
+
+\end{document}
