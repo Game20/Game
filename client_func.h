@@ -106,6 +106,8 @@ extern int UD;		//上下入力
 extern int exit_p;
 extern int jump_a;
 
+extern int titlep;
+extern int titlep2;
 
 extern int fm;
 

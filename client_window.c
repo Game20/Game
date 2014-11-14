@@ -17,12 +17,11 @@ char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
 //SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
-
 SDL_Rect Player2; // 2Pの座標
 int o = 1;
 
-
-SDL_Rect Player2; // 2Pの座標
+SDL_Rect white = {0, 0, 60, 60}; 
+int j;
 
 /*初期設定*/
 void InitWindow(){
@@ -178,8 +177,10 @@ void hitjudge(void){
     }
 
     if(gimmickflag == 1){
-		if(object[i].gimmick == 1){	//岩のとき
+	
+	SDL_BlitSurface(mapwindow, &white, mapwindow, &object[i].dst); // object貼り準備
 
+		if(object[i].gimmick == 1){	//岩のとき
             //岩とマップのx座標当たり判定があったとき
             if((gMaps[(object[i].dst.x+gameRect.x)/bit][object[i].dst.y/bit] == 1 ||
                 gMaps[(object[i].dst.x+gameRect.x)/bit+1][object[i].dst.y/bit] == 1	||
@@ -225,8 +226,14 @@ void hitjudge(void){
 		newposy = object[i].dst.y - 75;
 		}
 		}
+
     }
 
+
+	//object貼り付けの実行
+    for(j=0; j<SUM_object+1; j++){
+    SDL_BlitSurface(usa, &object[j].rect, mapwindow, &object[j].dst); // object貼り付け
+	}
 
 }
 
@@ -273,7 +280,7 @@ void exepaste(void){
 
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
 
-    SDL_BlitSurface(usa, &object[0].rect, window, &object[0].dst); // マップ貼り付け
+//    SDL_BlitSurface(usa, &object[0].rect, mapwindow, &object[0].dst); // object貼り付け
 
     SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P); //キャラ貼り付け
 
@@ -311,8 +318,8 @@ void title(void){
     PA.x = 0;
     PA.y = 0;
     
-    int titlep, titlep2; // ループ条件 
-
+    
+    titlep = 1;//ループ条件
     // 無限ループ
     while(titlep){
         SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化

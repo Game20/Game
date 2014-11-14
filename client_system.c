@@ -26,8 +26,8 @@ void InitStatus(void){ // キャラのステータスの初期化
 
     exit_p = 0;
 
-    //titlep = 1;
-    //titlep2 = 0;
+    titlep = 1;
+    titlep2 = 0;
 
 }
 
@@ -164,9 +164,9 @@ void scroll(void){
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
-		for(i=0; i<SUM_object+1; i++){
-			object[i].dst.x -= shiftdef;
-		}
+//		for(i=0; i<SUM_object+1; i++){
+//			object[i].dst.x -= shiftdef;
+//		}
     }
 }
 
@@ -193,8 +193,8 @@ void EXIT(void){
     P.y = 350;
     PA.x = 0;
     PA.y = 0;
-    int titlep;
-    int titlep2 = 1;//ループ条件
+    
+    titlep2 = 1;//ループ条件
     // 無限ループ
     while(titlep2){
         SDL_FillRect(window, NULL, 0x00808080);	// ウィンドウ背景初期化

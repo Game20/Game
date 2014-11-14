@@ -12,13 +12,12 @@ LFLAG = -lm
 .c.o:
 	$(CC) -c -DNDEBUG $<
 
-all: $(TARGET1) $(TARGET2)
+all:  $(TARGET2)
 
-$(TARGET1):	$(OBJS1)
-	gcc -o $(TARGET1) $(OBJS1) -lm -lSDL
+
 
 $(TARGET2): $(OBJS2)
 	$(CC) -o $(TARGET2) $(OBJS2) $(LSDL) $(GFX) $(TTF) $(IMAGE) $(LIB) $(LFLAG)  $(LDFLAGS)
 
 clean:
-	rm *.o $(TARGET1) $(TARGET2)
+	rm *.o 
