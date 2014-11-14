@@ -29,20 +29,20 @@
 SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
 
 int time = 0;	//時間
+
+
 int LR = 0;		//左右入力
 int UD = 0;		//上下入力
-int jumpflag = 0;	//
-int jump_a = 0;	//
-int jump_LR = 0;//
-int LR_sift = 0;//
-int newposx = 0, newposy = 0;	//新規位置　まだ実装できてない
-int hitx = 0, hity = 0;
+int jumpflag = 0;//ジャンプフラグ　空中にいるか否か
+int jump_a = 0;	//ジャンプにおける加速度
+int jump_LR = 0;//ジャンプ中の移動フラグ保持
+int newposx = 0, newposy = 0;	//新規位置
+int hitx = 0, hity = 0;　//当たり判定(xのと yのと)
+
+
 int timekey = 0;
 int hithold = 0;
 int shiftdef = 0;
-int gimmickflag = 0;
-int G_flaghold = 0;
-int SUM_object = 3;
 
 int fm = 0;		//
 int titlep = 1, titlep2 = 0;//
