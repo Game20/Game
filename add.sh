@@ -6,6 +6,11 @@ echo "Call reflesh"
 #echo "Exit reflesh.sh"
 echo "_______________________________"
 
+git pull game master
+echo "Pull Complete"
+echo "_______________________________"
+
+
 
 
 if [ "$1" != "" ]; then
