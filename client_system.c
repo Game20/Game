@@ -2,7 +2,6 @@
 
 void EXIT();
 
-Object object[3]; //構造体の配列化
 
 
 
@@ -34,10 +33,10 @@ void eventdisp(){
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
-                if(jumpflag == 0){
+                if(jumpflag == 0)//{
                     jumpflag = 1;
                     jump_a = 12; //初速
-                } //←{}を消したら無限ジャンプ
+                //} //←{}を消したら無限ジャンプ
 
                 break;
 
@@ -118,10 +117,12 @@ void keycont(void){
 
     if(hity == 0)
         P.y = newposy;
-    else if(hity == -1)
-        P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
+    else if(hity == -1){
+		jumpflag = 0;
+		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
+	}
 
-    if(hity != -1 && UD == 0)
+    if(hity == 0 && UD == 0)
         jumpflag = 1;
 
     SendMoveCommand(P.x, P.y);
