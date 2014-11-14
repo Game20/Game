@@ -21,6 +21,7 @@
 
 #define MAX_DATA		200				/* 送受信するデータの最大値 */
 
+#define START_COMMAND 'S'
 #define END_COMMAND 'E' /* プログラム終了コマンド */
 
 #define MOVE_COMMAND 'M' /*移動コマンド*/
