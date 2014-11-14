@@ -21,4 +21,4 @@ $(TARGET2): $(OBJS2)
 	$(CC) -o $(TARGET2) $(OBJS2) $(LSDL) $(GFX) $(TTF) $(IMAGE) $(LIB) $(LFLAG)  $(LDFLAGS)
 
 clean:
-	rm *.o $(TARGET1) $(TARGET2)
+	rm *.o 
