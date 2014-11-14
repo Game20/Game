@@ -1,6 +1,9 @@
 #!/bin/sh
 
-echo "~がついたファイルを削除します"
+
 rm -f *~
+echo "rm -f *~"
 rm -f *.o
-echo "~がついたファイルが削除されました"
+echo "rm -f *.o"
+
+
