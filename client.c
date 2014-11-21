@@ -31,13 +31,13 @@ SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィ
 int time = 0;	//時間
 
 
-int LR = 0;		//左右入力
-int UD = 0;		//上下入力
+int LR = 0;//左右入力
+int UD = 0;//上下入力
 int jumpflag = 0;//ジャンプフラグ　空中にいるか否か
 int jump_a = 0;	//ジャンプにおける加速度
 int jump_LR = 0;//ジャンプ中の移動フラグ保持
-int newposx = 0, newposy = 0;	//新規位置
-int hitx = 0, hity = 0;　//当たり判定(xのと yのと)
+int newposx = 0, newposy = 0;//新規位置
+int hitx = 0, hity = 0;//当たり判定(xのと yのと)
 
 
 int timekey = 0;
@@ -154,6 +154,15 @@ int main(int argc, char* argv[]) {
 
 //ステータス初期化
 void SS(void){
+
+    LR = 0;//左右入力
+    UD = 0;//上下入力
+    jumpflag = 0;//ジャンプフラグ　空中にいるか否か
+    jump_a = 0;	//ジャンプにおける加速度
+    jump_LR = 0;//ジャンプ中の移動フラグ保持
+    newposx = 0, newposy = 0;//新規位置
+    hitx = 0, hity = 0;//当たり判定(xのと yのと)
+
     P.x = 180;
     P.y = 630;
     PA.y = 0;
