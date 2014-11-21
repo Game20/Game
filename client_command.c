@@ -8,6 +8,7 @@
 
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 static void RecvMoveData(void);
+static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -54,8 +55,8 @@ void SendMoveCommand(int x, int y)
     SetCharData2DataBlock(data,MOVE_COMMAND,&dataSize);
     
     /* データセット */
-//    SetIntData2DataBlock(data, x, &dataSize);
-//    SetIntData2DataBlock(data, y, &dataSize);
+    SetIntData2DataBlock(data, x, &dataSize);
+    SetIntData2DataBlock(data, y, &dataSize);
     
     /* データの送信 */
     SendData(data,dataSize);
