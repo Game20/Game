@@ -18,5 +18,3 @@ void CalcPos(int pos){
 
 
 }
-
-
