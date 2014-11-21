@@ -5,6 +5,7 @@ void EXIT();
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
+int i;
     P.x = 180;
     P.y = 630;
     PA.y = 0;
@@ -13,7 +14,7 @@ void InitStatus(void){ // キャラのステータスの初期化
 	newposy = 630;
 	jumpflag = 0;
 
-    for(int i = 0; i < MAX_CLIENTS; i++){
+    for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.w = 60;
         player[i].pos.h = 75;
     }

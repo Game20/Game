@@ -63,7 +63,7 @@ SDL_Surface *usa;  // 画像データへのポインタ
 
 //SDL_TimerID timer_id;	//タイマ割り込みを行うためのタイマのID
 
-
+Player player[MAX_CLIENTS];
 
 
 /* フォント関連 */

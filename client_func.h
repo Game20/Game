@@ -57,7 +57,7 @@ typedef enum {
 
 #define SUM_object 3
 
-extern Player player[MAX_CLIENTS]; 
+extern Player player[MAX_CLIENTS];
 
 
 

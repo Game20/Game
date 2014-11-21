@@ -139,7 +139,8 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvMoveData(void)
 {
-    for(int i = 0; i < MAX_CLIENTS; i++) {
+    int i;
+    for(i = 0; i < MAX_CLIENTS; i++) {
         RecvIntData(&player[i].pos.x);
         RecvIntData(&player[i].pos.y);
 

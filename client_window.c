@@ -451,8 +451,8 @@ void title(void){
 /************他プレイヤー表示関数**********************/
 void DrawChara(void)
 {
-
-    for(int i = 0; i < MAX_CLIENTS; i++){
+int i;
+    for(i = 0; i < MAX_CLIENTS; i++){
         SDL_BlitSurface(usa, &PA, window, &player[i].pos); //キャラ貼り付け
     }
 
