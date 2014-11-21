@@ -9,19 +9,27 @@
 #include"common.h"
 
 /*****************************構造体**********************************/
-/*
-  typedef struct{
-  SDL_Rect pos; // 座標
-  SDL_Rect anime; // アニメーション
-  int jumpf; // ジャンプフラグ
-  int jump_a; // jump acceleration
-  int LR; // 右左
-  int UD; // 上下
-  int status; // ステータス
-  int deadf; // 生死フラグ0=生存 1=死
-  } player; // プレイヤーの構造体
 
+typedef struct{
+    SDL_Rect pos; // 座標
+    //SDL_Rect anime; // アニメーション
+    //int jumpf; // ジャンプフラグ
+    //int jump_a; // jump acceleration
+    //int LR; // 右左
+    //int UD; // 上下
+    //int status; // ステータス
+    //int deadf; // 生死フラグ0=生存 1=死
+} Player; // プレイヤーの構造体
+
+
+typedef struct{
+    int gimmick;	// 1==岩 2==スイッチ 3==
+    int status; // 状態
+    SDL_Rect src;	//読み込み座標
+    SDL_Rect dst;	//貼り付け座標
+} Object; // オブジェクトの構造体
 /********************************************************************/
+
 
 
 /* マップ，ウインドウサイズ */
@@ -49,12 +57,9 @@ typedef enum {
 
 #define SUM_object 3
 
-typedef struct{
-    int gimmick;	// 1==岩 2==スイッチ 3==
-    int status; // 状態
-    SDL_Rect src;	//読み込み座標
-    SDL_Rect dst;	//貼り付け座標
-} Object; // オブジェクトの構造体
+extern Player player[MAX_CLIENTS]; 
+
+
 
 Object object[SUM_object]; //構造体の配列化
 
