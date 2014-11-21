@@ -3,7 +3,7 @@
 #include "client_func.h"
 
 #define MSG_NUM 5           /* メッセージの数 */
-#define SUM_object 3
+//#define SUM_object 4
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
@@ -171,27 +171,27 @@ void hitjudge(void){
 //	object[1] = {1, 0, {4, 1}, {180, 240, 60, 60}};
 
 
-
-
-
-
 	object[0].gimmick = 1; //岩
 	object[0].status = 0; //押されてない状態
-	object[0].dst.x = 2;
-	object[0].dst.y = 1;
+	object[0].dst.x = 38;
+	object[0].dst.y = 12;
 
 	object[1].gimmick = 1; //岩
 	object[1].status = 0; //押されてない状態
-	object[1].dst.x = 3;
-	object[1].dst.y = 12;
+	object[1].dst.x = 63;
+	object[1].dst.y = 11;
+
+	object[2].gimmick = 1; //岩
+	object[2].status = 0; //押されてない状態
+	object[2].dst.x = 71;
+	object[2].dst.y = 5;
 
 
-	for(j=0; j<SUM_object-1; j++){
+	for(j=0; j<SUM_object; j++){
 	object[j].src.x = 180;
 	object[j].src.y = 240;
 	object[j].src.w = 60;
 	object[j].src.h = 60;
-//	object[j].src = {180, 240, 60, 60};
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
 	SDL_BlitSurface(usa, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
@@ -211,7 +211,7 @@ void hitjudge(void){
 		}
     }
 
-
+	//ギミック動作発生
     if(gimmickflag == 1){
 	
 	SDL_BlitSurface(mapwindow, &white, mapwindow, &object[i].dst); // object貼り準備
@@ -244,8 +244,8 @@ void hitjudge(void){
 
 			//Player on 岩
 			if( G_flaghold == 1 &&
-				(P.x+gameRect.x >= object[i].dst.x - 40 && P.x+gameRect.x <= object[i].dst.x + 40) &&
-				(P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 45))
+				(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
+				(P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 43) && jump_a != -8)
 			GameOver();
 		}
 
@@ -259,14 +259,14 @@ void hitjudge(void){
 		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43) ){
 			if(newposy >= object[i].dst.y && G_flaghold == 0)
 			hity = 1;//上にヒット
-		if(newposy <= object[i].dst.y && G_flaghold == 0){
+		if(newposy <= object[i].dst.y && G_flaghold == 0)
 			hity = -1;//下にヒット
-				if(G_flaghold == 1){
+				if(G_flaghold == 1 && newposy <= object[i].dst.y + 20){
 				jumpflag = 0;
 				jump_LR = 0;
 				newposy = object[i].dst.y - 75;
 				}
-			}
+			
 		}
 	SDL_BlitSurface(usa, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
     }
