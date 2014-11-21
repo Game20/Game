@@ -3,7 +3,7 @@
 #include "client_func.h"
 
 #define MSG_NUM 5           /* メッセージの数 */
-//#define SUM_object 4
+#define SUM_object 2
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
@@ -172,22 +172,20 @@ void hitjudge(void){
 
 
 	object[0].gimmick = 1; //岩
-	object[0].status = 0; //押されてない状態
 	object[0].dst.x = 38;
 	object[0].dst.y = 12;
 
 	object[1].gimmick = 1; //岩
-	object[1].status = 0; //押されてない状態
-	object[1].dst.x = 63;
-	object[1].dst.y = 11;
+	object[1].dst.x = 71;
+	object[1].dst.y = 5;
 
-	object[2].gimmick = 1; //岩
-	object[2].status = 0; //押されてない状態
-	object[2].dst.x = 71;
-	object[2].dst.y = 5;
+	object[2].gimmick = 2; //岩
+	object[2].dst.x = 7;
+	object[2].dst.y = 12;
 
 
 	for(j=0; j<SUM_object; j++){
+	object[j].status = 0;
 	object[j].src.x = 180;
 	object[j].src.y = 240;
 	object[j].src.w = 60;
@@ -250,7 +248,14 @@ void hitjudge(void){
 		}
 
 
+//		if(object[i].gimmick == 2){	//スイッチのとき
+//		object[i].gimmick = 1;
+//		}
+
+
+
 	//オブジェクト全体の当たり判定
+//	if(object[i].gimmick == 2 && object[i].stats != 1){
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
 		(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 25) )
 		hitx = 1;
@@ -268,6 +273,7 @@ void hitjudge(void){
 				}
 			
 		}
+//	}
 	SDL_BlitSurface(usa, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
     }
 
@@ -275,6 +281,11 @@ void hitjudge(void){
  //   for(j=0; j<SUM_object+1; j++){
  //   SDL_BlitSurface(usa, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
 //	}
+
+
+//デバッグ用処理　速度2倍
+//newposx += (newposx - P.x) * 5; 
+
 
 }
 
