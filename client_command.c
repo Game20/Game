@@ -30,7 +30,7 @@ int ExecuteCommand(char command)
     case END_COMMAND:
         endFlag = 0;
         break;
-        
+
     case MOVE_COMMAND: //移動コマンド
         RecvMoveData();
         break;
@@ -46,18 +46,18 @@ int ExecuteCommand(char command)
 出力	: なし
 *****************************************************************/
 void SendMoveCommand(int x, int y)
-{   
+{
     unsigned char	data[MAX_DATA];
     int			dataSize;
 
     dataSize = 0;
     /* コマンドのセット */
     SetCharData2DataBlock(data,MOVE_COMMAND,&dataSize);
-    
+
     /* データセット */
     SetIntData2DataBlock(data, x, &dataSize);
     SetIntData2DataBlock(data, y, &dataSize);
-    
+
     /* データの送信 */
     SendData(data,dataSize);
 }
@@ -139,12 +139,14 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvMoveData(void)
 {
-    int x, y;
+    for(int i = 0; i < MAX_CLIENTS; i++) {
+        RecvIntData(&player[i].pos.x);
+        RecvIntData(&player[i].pos.y);
 
-    RecvIntData(&x);
-    RecvIntData(&y);
-
-    DrawChara(x,y);
+        if(player[i].pos.x == NULL)
+            break;
+    }
+//    DrawChara(x,y);
 
 }
 
