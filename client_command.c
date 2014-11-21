@@ -23,7 +23,7 @@ int ExecuteCommand(char command)
 #ifndef NDEBUG
     printf("#####\n");
     printf("ExecuteCommand()\n");
-//    printf("command = %c\n",command);
+    printf("command = %c\n",command);
 #endif
     switch(command){
     case END_COMMAND:
@@ -138,13 +138,12 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvMoveData(void)
 {
-    int x1, y1, x2, y2;
+    int x, y;
 
-    RecvIntData(&x1);
-    RecvIntData(&y1);
-    RecvIntData(&x2);
-    RecvIntData(&y2);
-    DrawChara(x1,y1);
-    DrawChara(x2,y2);
+    RecvIntData(&x);
+    RecvIntData(&y);
+
+    DrawChara(x,y);
+
 }
 

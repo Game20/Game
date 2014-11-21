@@ -16,10 +16,10 @@ void InitStatus(void){ // キャラのステータスの初期化
         object[0].gimmick = 1; //岩
         object[0].status = 0; //押されてない状態
 
-        object[0].rect.x = 180;
-        object[0].rect.y = 240;
-        object[0].rect.w = 60;
-        object[0].rect.h = 60;
+        object[0].src.x = 180;
+        object[0].src.y = 240;
+        object[0].src.w = 60;
+        object[0].src.h = 60;
 
         object[0].dst.x = 2 * bit - gameRect.x;
         object[0].dst.y = 1 * bit;
@@ -144,7 +144,7 @@ void keycont(void){
 
     if(hity == 0)
         P.y = newposy;
-    else if(hity == -1){
+    else if(hity == -1 || (hitx == 1 && hity == 1)){
 		jumpflag = 0;
 		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 	}
@@ -164,9 +164,6 @@ void scroll(void){
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
-//		for(i=0; i<SUM_object+1; i++){
-//			object[i].dst.x -= shiftdef;
-//		}
     }
 }
 
@@ -177,8 +174,8 @@ void scroll(void){
 
 object[0].gimmick = 1; //岩
 object[0].status = 0; //押されてない状態
-object[0].rect.x = 180;
-object[0].rect.y = 225;
+object[0].src.x = 180;
+object[0].src.y = 225;
 object[0].dst.x = 18 * bit - gameRect.x;
 object[0].dst.y = 13 * bit - gameRect.x;
 
@@ -250,8 +247,8 @@ void EXIT(void){
             dstRect.x += 300;
         }
 
-        //SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
-        //SDL_Flip(window);// 画面に図形を表示（反映）
+        SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
+        SDL_Flip(window);// 画面に図形を表示（反映）
     }
 
     P.x = a;

@@ -9,29 +9,24 @@
 #include"common.h"
 
 /*****************************構造体**********************************/
-
+/*
   typedef struct{
   SDL_Rect pos; // 座標
   SDL_Rect anime; // アニメーション
-/*
-  SDL_Rect newpos; // 新規位置
-  int jumpflag; // ジャンプフラグ　空中にいるか否か
-  int jump_a; // ジャンプにおける加速度
-  int jump_LR; //ジャンプ中の移動フラグ保持
+  int jumpf; // ジャンプフラグ
+  int jump_a; // jump acceleration
   int LR; // 右左
   int UD; // 上下
   int status; // ステータス
   int deadf; // 生死フラグ0=生存 1=死
-  int hitx;
-  int hity;//当たり判定(xのと yのと)
-*/
-  } Player; // プレイヤーの構造体
+  } player; // プレイヤーの構造体
 
+/********************************************************************/
 
 
 /* マップ，ウインドウサイズ */
 enum {
-    MAP_Width    = 38, // マップ全体
+    MAP_Width    = 100, // マップ全体
     MAP_Height   = 14,
     WIND_Width   = 25, // ウィンドウの大きさ
     WIND_Height  = 14,
@@ -51,17 +46,17 @@ typedef enum {
     MT_Fruit = 7
 } MapType;
 
+
+#define SUM_object 3
+
 typedef struct{
     int gimmick;	// 1==岩 2==スイッチ 3==
     int status; // 状態
-    SDL_Rect rect;	//読み込み座標
+    SDL_Rect src;	//読み込み座標
     SDL_Rect dst;	//貼り付け座標
 } Object; // オブジェクトの構造体
 
-
-Player player[MAX_CLIENTS]; // プレイヤーの構造体
-
-Object object[MAX_OBJECT]; //構造体の配列化
+Object object[SUM_object]; //構造体の配列化
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 
@@ -96,10 +91,9 @@ extern int timekey;
 extern int hithold;
 extern int shiftdef;
 extern int gimmickflag;
-extern int SUM_object;
+extern int G_flaghold;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
-extern int G_flaghold;
 
 extern SDL_Rect PA;
 extern SDL_Rect P;

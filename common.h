@@ -17,11 +17,9 @@
 
 #define MAX_CLIENTS	    4				/* クライアント数の最大値 */
 #define MAX_NAME_SIZE	10 				/* ユーザー名の最大値*/
-#define MAX_OBJECT 3
 
 #define MAX_DATA		200				/* 送受信するデータの最大値 */
 
-#define START_COMMAND 'S'
 #define END_COMMAND 'E' /* プログラム終了コマンド */
 
 #define MOVE_COMMAND 'M' /*移動コマンド*/

@@ -171,16 +171,8 @@ void hitjudge(void){
 //	object[1] = {1, 0, {4, 1}, {180, 240, 60, 60}};
 
 
-/* client_func.hでの宣言
-typedef struct{
-    int gimmick;	// 1==岩 2==スイッチ 3==
-    int status; // 状態
-    SDL_Rect dst;	//貼り付け座標
-    SDL_Rect rect;	//読み込み座標
-} Object; // オブジェクトの構造体
 
-Object object[3]; //構造体の配列化
-*/
+
 
 
 	object[0].gimmick = 1; //岩
@@ -195,14 +187,14 @@ Object object[3]; //構造体の配列化
 
 
 	for(j=0; j<SUM_object-1; j++){
-	object[j].rect.x = 180;
-	object[j].rect.y = 240;
-	object[j].rect.w = 60;
-	object[j].rect.h = 60;
-//	object[j].rect = {180, 240, 60, 60};
+	object[j].src.x = 180;
+	object[j].src.y = 240;
+	object[j].src.w = 60;
+	object[j].src.h = 60;
+//	object[j].src = {180, 240, 60, 60};
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
-	SDL_BlitSurface(usa, &object[j].rect, mapwindow, &object[j].dst); // object貼り付け
+	SDL_BlitSurface(usa, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
 	}
     o = 0;
     }
@@ -213,7 +205,7 @@ Object object[3]; //構造体の配列化
 	if(gimmickflag == 0)
     for(i=0; i<SUM_object+1; i++){
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
-        (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 60)   ) {
+        (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 45)   ) {
             gimmickflag = 1;
             break; //
 		}
@@ -243,7 +235,7 @@ Object object[3]; //構造体の配列化
 			//岩の下にマップがなにもなかった場合
 		    if(gMaps[(object[i].dst.x)/bit][object[i].dst.y/bit+1] == 0 &&
 			   gMaps[(object[i].dst.x+59)/bit][object[i].dst.y/bit+1] == 0 &&
-				object[i].dst.y <= WIND_Height * 60){
+				object[i].dst.y <= 20 * 60){
 				object[i].dst.y += 4;
 				G_flaghold = 1;
 			}
@@ -253,31 +245,35 @@ Object object[3]; //構造体の配列化
 			//Player on 岩
 			if( G_flaghold == 1 &&
 				(P.x+gameRect.x >= object[i].dst.x - 40 && P.x+gameRect.x <= object[i].dst.x + 40) &&
-				(P.y >= object[i].dst.y + 50 && P.y <= object[i].dst.y + 60))
+				(P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 45))
 			GameOver();
 		}
 
+
+	//オブジェクト全体の当たり判定
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
-		(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 60) )
+		(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 25) )
 		hitx = 1;
 
 	if( (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
-		(newposy >= object[i].dst.y - 75 && P.y <= object[i].dst.y + 60) ){
-		if(G_flaghold == 0)
-		hity = -1;
-		if(G_flaghold == 1){
-		jumpflag = 0;
-		jump_LR = 0;
-		newposy = object[i].dst.y - 75;
+		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43) ){
+			if(newposy >= object[i].dst.y && G_flaghold == 0)
+			hity = 1;//上にヒット
+		if(newposy <= object[i].dst.y && G_flaghold == 0){
+			hity = -1;//下にヒット
+				if(G_flaghold == 1){
+				jumpflag = 0;
+				jump_LR = 0;
+				newposy = object[i].dst.y - 75;
+				}
+			}
 		}
-		}
-	SDL_BlitSurface(usa, &object[i].rect, mapwindow, &object[i].dst); // object貼り付け
+	SDL_BlitSurface(usa, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
     }
-
 
 	//object貼り付けの実行
  //   for(j=0; j<SUM_object+1; j++){
- //   SDL_BlitSurface(usa, &object[j].rect, mapwindow, &object[j].dst); // object貼り付け
+ //   SDL_BlitSurface(usa, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
 //	}
 
 }
@@ -325,7 +321,7 @@ void exepaste(void){
 
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
 
-//    SDL_BlitSurface(usa, &object[0].rect, mapwindow, &object[0].dst); // object貼り付け
+//    SDL_BlitSurface(usa, &object[0].src, mapwindow, &object[0].dst); // object貼り付け
 
     SDL_BlitSurface(usa, &PA, window, &P); //キャラ貼り付け
 
@@ -447,8 +443,10 @@ void DrawChara(int x, int y)
     Player2.x = x;
     Player2.y = y;
 
-    SDL_BlitSurface(usa, &PA, window, &Player2); //キャラ貼り付け
-    SDL_Flip(window);
+    SDL_BlitSurface(usa, &PA, mapwindow, &Player2); //キャラ貼り付け
+    SDL_Flip(mapwindow);
+
+
 }
 
 
