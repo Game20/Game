@@ -24,7 +24,7 @@ SDL_Rect Player2; // 2Pの座標
 int o = 1;
 int gimmickflag = 0;
 int G_flaghold = 0;
-SDL_Rect white = {0, 0, 60, 60}; 
+SDL_Rect white = {0, 0, 60, 60};
 int j;
 
 
@@ -211,7 +211,7 @@ void hitjudge(void){
 
 	//ギミック動作発生
     if(gimmickflag == 1){
-	
+
 	SDL_BlitSurface(mapwindow, &white, mapwindow, &object[i].dst); // object貼り準備
 
 		if(object[i].gimmick == 1){	//岩のとき
@@ -271,7 +271,7 @@ void hitjudge(void){
 				jump_LR = 0;
 				newposy = object[i].dst.y - 75;
 				}
-			
+
 		}
 //	}
 	SDL_BlitSurface(usa, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
@@ -284,7 +284,7 @@ void hitjudge(void){
 
 
 //デバッグ用処理　速度2倍
-//newposx += (newposx - P.x) * 5; 
+//newposx += (newposx - P.x) * 5;
 
 
 }
@@ -369,8 +369,8 @@ void title(void){
     P.y = 400;
     PA.x = 0;
     PA.y = 0;
-    
-    
+
+
     titlep = 1;//ループ条件
     // 無限ループ
     while(titlep){
@@ -451,13 +451,13 @@ void title(void){
 /************他プレイヤー表示関数**********************/
 void DrawChara(int x, int y)
 {
-    Player2.x = x;
-    Player2.y = y;
 
-    SDL_BlitSurface(usa, &PA, mapwindow, &Player2); //キャラ貼り付け
-    SDL_Flip(mapwindow);
+    for(int i = 0; i < MAX_CLIENTS; i++){
+        SDL_BlitSurface(usa, &PA, window, &player[i].pos); //キャラ貼り付け
+    }
 
-
+//    SDL_Flip(mapwindow);
+    SDL_Flip(window);
 }
 
 

@@ -13,6 +13,12 @@ void InitStatus(void){ // キャラのステータスの初期化
 	newposy = 630;
 	jumpflag = 0;
 
+    for(int i = 0; i < MAX_CLIENTS; i++){
+        player[i].pos.w = 60;
+        player[i].pos.h = 75;
+    }
+
+
         object[0].gimmick = 1; //岩
         object[0].status = 0; //押されてない状態
 
@@ -41,7 +47,7 @@ void eventdisp(){
         exit_p = 1; //終了フラグ
         break;
 
-        if (event.type == SDL_KEYDOWN ){ 
+        if (event.type == SDL_KEYDOWN ){
         case SDL_KEYDOWN:// キーボードのキーが押された時
             switch(event.key.keysym.sym){
 
@@ -55,7 +61,7 @@ void eventdisp(){
             case SDLK_UP:
                 UD = 1;
                 break;
-            case SDLK_DOWN:  
+            case SDLK_DOWN:
                 UD = -1;
                 break;
 
@@ -70,7 +76,7 @@ void eventdisp(){
             case SDLK_ESCAPE:	// エスケープキー
                 EXIT();
                 break;
-	
+
             default:
                 break;        //それ以外のイベントは無視する
             }
@@ -99,7 +105,7 @@ void keycont(void){
 
     Uint8 *key = SDL_GetKeyState(NULL);
     if(key[SDLK_RIGHT] == SDL_PRESSED){	//右移動
-        newposx += 4; 
+        newposx += 4;
         if(jumpflag == 1)
             jump_LR = 1;
     }
@@ -123,10 +129,10 @@ void keycont(void){
     if(key[SDLK_RIGHT] != SDL_PRESSED && key[SDLK_LEFT] != SDL_PRESSED && (jump_LR == 1 || jump_LR == -1))
         newposx += 4 * jump_LR; //空中なら静止しない
 
-    if(jumpflag == 1 && jump_a > -8)	
+    if(jumpflag == 1 && jump_a > -8)
         jump_a -= 1; //重力加速　
 
-    if(jumpflag == 0){		
+    if(jumpflag == 0){
         jump_a = 0;	//ジャンプフラグないとき重力ない
         jump_LR = 0;//LR判定もない
     }
@@ -190,7 +196,7 @@ void EXIT(void){
     P.y = 350;
     PA.x = 0;
     PA.y = 0;
-    
+
     titlep2 = 1;//ループ条件
     // 無限ループ
     while(titlep2){
@@ -210,7 +216,7 @@ void EXIT(void){
                     P.x += 300;
                     if(P.x >= 700)
                         P.x = 100;
-                    break;	
+                    break;
                 case SDLK_LEFT:
                     P.x -= 300;
                     if(P.x <= 0)
@@ -230,7 +236,7 @@ void EXIT(void){
                     titlep = 0;
                     titlep2 = 0;
                     break;
-                }	
+                }
             }
 	}
 
@@ -242,7 +248,7 @@ void EXIT(void){
             srcRect.x = srcRect.y = 0;
             srcRect.w = gMessages[fm]->w;
             srcRect.h = gMessages[fm]->h;
- 
+
             SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
             dstRect.x += 300;
         }
@@ -259,7 +265,7 @@ void EXIT(void){
 
 /*終了設定*/
 void EXITsetting(){
-    // フォントを閉じる 
+    // フォントを閉じる
     TTF_CloseFont(gTTF);  gTTF=NULL;
     TTF_CloseFont(sTTF);  gTTF=NULL;
 
@@ -277,9 +283,9 @@ void newpositionjadge(){
         P.x = WIND_Width * bit-100;
     if(P.x <= 0)
         P.x = 0;//画面外に出ない
-        
+
     if(P.y >= WIND_Height * bit)//画面下にいけば
     	GameOver();
-    	    
+
 
 }
