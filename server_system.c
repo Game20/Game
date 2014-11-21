@@ -18,6 +18,6 @@ void CalcPos(int pos){
         /*当たり判定*/
 
 
-}
+}//
 
 
