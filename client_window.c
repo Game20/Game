@@ -449,7 +449,7 @@ void title(void){
 }
 
 /************他プレイヤー表示関数**********************/
-void DrawChara(int x, int y)
+void DrawChara(void)
 {
 
     for(int i = 0; i < MAX_CLIENTS; i++){

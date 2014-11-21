@@ -135,7 +135,7 @@ extern void title(void);
 //extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
 //extern void DestroyWindow(void);
 //extern void WindowEvent(int num);
-extern void DrawChara(int x, int y); //他プレイヤー描画
+extern void DrawChara(void); //他プレイヤー描画
 extern void GameOver(void);
 
 /* client_command.c */
