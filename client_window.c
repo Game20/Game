@@ -3,7 +3,7 @@
 #include "client_func.h"
 
 #define MSG_NUM 5           /* メッセージの数 */
-#define SUM_object 2
+#define SUM_object 3
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
@@ -175,11 +175,11 @@ void hitjudge(void){
 	object[0].dst.x = 38;
 	object[0].dst.y = 12;
 
-	object[1].gimmick = 1; //岩
+	object[1].gimmick = 1;
 	object[1].dst.x = 71;
 	object[1].dst.y = 5;
 
-	object[2].gimmick = 2; //岩
+	object[2].gimmick = 2; //スイッチ
 	object[2].dst.x = 7;
 	object[2].dst.y = 12;
 
@@ -214,7 +214,8 @@ void hitjudge(void){
 	
 	SDL_BlitSurface(mapwindow, &white, mapwindow, &object[i].dst); // object貼り準備
 
-		if(object[i].gimmick == 1){	//岩のとき
+		//岩のとき
+		if(object[i].gimmick == 1){	
             //岩とマップのx座標当たり判定があったとき
             if((gMaps[(object[i].dst.x-3)/bit][object[i].dst.y/bit] == 1 ||
                 gMaps[(object[i].dst.x)/bit+1][object[i].dst.y/bit] == 1	||
@@ -247,21 +248,36 @@ void hitjudge(void){
 			GameOver();
 		}
 
-
-//		if(object[i].gimmick == 2){	//スイッチのとき
-//		object[i].gimmick = 1;
-//		}
+		//スイッチのとき
+		if(object[i].gimmick == 2){	
+			if(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45 &&
+			  P.y+75 >= object[i].dst.y && P.y <= object[i].dst.y - 35){
+				object[i].status = 1; //押されてる
+			if(newposy+75 >= object[i].dst.y+35){
+				jumpflag = 0;//下にヒット
+				jump_LR = 0;
+				newposy = object[i].dst.y - 35;
+				object[i].src.x = 600;
+				G_flaghold = 1;
+			}
+			}
+			else{
+				object[i].status = 0;
+				object[i].src.x = 180;
+				G_flaghold = 0;
+			}
+		}
 
 
 
 	//オブジェクト全体の当たり判定
-//	if(object[i].gimmick == 2 && object[i].stats != 1){
+	if(object[i].status != 1){
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
 		(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 25) )
 		hitx = 1;
 
 	if( (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
-		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43) ){
+		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43) && object[i].gimmick != 2){
 			if(newposy >= object[i].dst.y && G_flaghold == 0)
 			hity = 1;//上にヒット
 		if(newposy <= object[i].dst.y && G_flaghold == 0)
@@ -273,7 +289,7 @@ void hitjudge(void){
 				}
 			
 		}
-//	}
+	}
 	SDL_BlitSurface(usa, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
     }
 

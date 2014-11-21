@@ -148,6 +148,8 @@ void keycont(void){
 		jumpflag = 0;
 		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 	}
+	else if(hity == -2)
+	 	jumpflag = 0;
 
     if(hity == 0 && UD == 0)
         jumpflag = 1;
@@ -273,8 +275,8 @@ void EXITsetting(){
 
 void newpositionjadge(){
 
-    if(P.x >= WIND_Width * bit-100)
-        P.x = WIND_Width * bit-100;
+    if(P.x >= WIND_Width * bit-60)
+        P.x = WIND_Width * bit-60;
     if(P.x <= 0)
         P.x = 0;//画面外に出ない
         
