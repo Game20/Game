@@ -21,11 +21,11 @@ static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
 int ExecuteCommand(char command)
 {
     int	endFlag = 1;
-#ifndef NDEBUG
+/*#ifndef NDEBUG
     printf("#####\n");
     printf("ExecuteCommand()\n");
     printf("command = %c\n",command);
-#endif
+#endif*/
     switch(command){
     case END_COMMAND:
         endFlag = 0;
@@ -74,10 +74,10 @@ void SendEndCommand(void)
     unsigned char	data[MAX_DATA];
     int			dataSize;
 
-#ifndef NDEBUG
+/*#ifndef NDEBUG
     printf("#####\n");
     printf("SendEndCommand()\n");
-#endif
+#endif*/
     dataSize = 0;
     /* コマンドのセット */
     SetCharData2DataBlock(data,END_COMMAND,&dataSize);

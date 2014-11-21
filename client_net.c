@@ -181,13 +181,13 @@ static void GetAllName(int *clientID,int *num,char clientNames[][MAX_NAME_SIZE])
     for(i=0;i<(*num);i++){
         RecvData(clientNames[i],MAX_NAME_SIZE);
     }
-#ifndef NDEBUG
+/*#ifndef NDEBUG
     printf("#####\n");
     printf("client number = %d\n",(*num));
     for(i=0;i<(*num);i++){
         printf("%d:%s\n",i,clientNames[i]);
     }
-#endif
+#endif*/
 }
 
 /*****************************************************************
