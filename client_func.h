@@ -26,7 +26,7 @@
 
 /* マップ，ウインドウサイズ */
 enum {
-    MAP_Width    = 100, // マップ全体
+    MAP_Width    = 200, // マップ全体
     MAP_Height   = 14,
     WIND_Width   = 25, // ウィンドウの大きさ
     WIND_Height  = 14,
