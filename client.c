@@ -53,7 +53,7 @@ int i;
 
 SDL_Rect PA = { 0, 0, 60, 75 }; //プレイヤーキャラ座標読み取り　あとで構造体化
 SDL_Rect P = { 200, 705 };
-SDL_Rect PMR = { 0, 0, 60, 100 }; 
+SDL_Rect PMR = { 0, 0, 60, 100 };
 SDL_Rect PM = { 0, 0 };//Player_Message(_Read) 1Pとかの表示 あとで構造体化
 
 SDL_Event event; // SDLによるイベントを検知するための構造体
@@ -73,7 +73,7 @@ SDL_Surface *usa;  // 画像データへのポインタ
 SDL_Color black = {0x00, 0x00, 0x00};
 SDL_Color Yellow = {0xff, 0xff, 0x00};
 TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
-extern TTF_Font* sTTF;	
+extern TTF_Font* sTTF;
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる", "1P"};
@@ -86,7 +86,7 @@ SDL_Surface *gMessages[ 100 ];
 int main(int argc, char* argv[]) {
 
 //サーバーつなぐなら外して*********************/
-/*    int		num;
+    int		num;
     char	name[MAX_CLIENTS][MAX_NAME_SIZE];
     int		endFlag=1;
     char	localHostName[]="localhost";
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
     int		clientID;
 
     /* 引き数チェック */
-/*    if(argc == 1){
+    if(argc == 1){
     	serverName = localHostName;
     }
     else if(argc == 2){
@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
     }
 
     /* サーバーとの接続 */
-/*    if(SetUpClient(serverName,&clientID,&num,name)==-1){
+    if(SetUpClient(serverName,&clientID,&num,name)==-1){
 		fprintf(stderr,"setup failed : SetUpClient\n");
 		return -1;
 	}
@@ -115,8 +115,8 @@ int main(int argc, char* argv[]) {
     InitWindow();
 
     title();
-    
-    InitStatus(); // キャラのステータスの初期化 
+
+    InitStatus(); // キャラのステータスの初期化
     // 無限ループ
     while(1){
 
@@ -136,11 +136,13 @@ int main(int argc, char* argv[]) {
 
 	exepaste(); /*貼り付け設定 & 実行*/
 
+    DrawChara();
+
 	SDL_Flip(window);// 画面に図形を表示（反映）
 	DisplayStatus();
 
 //サーバーつなぐなら外して*********************/
-//    endFlag = SendRecvManager();
+    endFlag = SendRecvManager();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
             break;
