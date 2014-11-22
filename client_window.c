@@ -354,9 +354,12 @@ void hitjudge(void){
 /*
 git branch
 git checkout masayume
-git checkout master
 git add client_window.c map.data client_func.h client_system.c 
-git commit -m "スイッチ未完成"
+git commit -m "スイッチブロック完成版　デバッグモード実装"
+git checkout master
+git branch
+git merge masayume 
+./shell.sh client_window.c map.data client_func.h client_system.c 
 */
 
 
