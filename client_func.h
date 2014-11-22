@@ -55,13 +55,18 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 3
+#define SUM_object 4
+#define SUM_swichblock 6
 
 extern Player player[MAX_CLIENTS];
 
 
 
 Object object[SUM_object]; //構造体の配列化
+
+Object swichblock[SUM_swichblock];//スイッチ効果のブロック配列
+
+
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 
@@ -99,6 +104,7 @@ extern int gimmickflag;
 extern int G_flaghold;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
+extern int DEBAG;
 
 extern SDL_Rect PA;
 extern SDL_Rect P;
