@@ -18,7 +18,6 @@ char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
 //SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
-SDL_Rect Player2; // 2Pの座標
 
 
 int gimmickflag = 0;
@@ -562,7 +561,7 @@ void title(void){
     P.y = 640;
 }
 
-/************他プレイヤー表示関数**********************/
+/************プレイヤー表示関数**********************/
 void DrawChara(void)
 {
 //int i;
@@ -571,7 +570,7 @@ void DrawChara(void)
     }
 
 //    SDL_Flip(mapwindow);
-    SDL_Flip(window);
+//    SDL_Flip(window);
 }
 
 

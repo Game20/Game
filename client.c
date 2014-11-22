@@ -63,7 +63,7 @@ SDL_Surface *usa;  // 画像データへのポインタ
 
 //SDL_TimerID timer_id;	//タイマ割り込みを行うためのタイマのID
 
-Player player[MAX_CLIENTS];
+Player player[MAX_CLIENTS]; // プレイヤーの状態を格納
 
 
 /* フォント関連 */
@@ -118,11 +118,11 @@ int main(int argc, char* argv[]) {
 
     InitStatus(); // キャラのステータスの初期化
     // 無限ループ
-    while(1){
+    while(endFlag){
 
-	SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
+	//SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
-	time++;
+	//time++;
 
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
@@ -136,13 +136,15 @@ int main(int argc, char* argv[]) {
 
 	exepaste(); /*貼り付け設定 & 実行*/
 
-    DrawChara();
-
-	SDL_Flip(window);// 画面に図形を表示（反映）
-	DisplayStatus();
+        //DrawChara();
 
 //サーバーつなぐなら外して*********************/
 //    endFlag = SendRecvManager();
+    
+    DrawChara();
+
+SDL_Flip(window);// 画面に図形を表示（反映）
+	DisplayStatus();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
             break;

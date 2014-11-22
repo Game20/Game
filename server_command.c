@@ -54,12 +54,13 @@ int ExecuteCommand(char command,int pos)
 
     dataSize = 0;
     SetCharData2DataBlock(data, command, &dataSize);
-    SetIntData2DataBlock(data, gClients[0].plc.x, &dataSize);
-    SetIntData2DataBlock(data, gClients[0].plc.y, &dataSize);
-    SetIntData2DataBlock(data, gClients[1].plc.x, &dataSize);
-    SetIntData2DataBlock(data, gClients[1].plc.y, &dataSize);
-    SendData(ALL_CLIENTS, data, dataSize);
 
+    int i;
+    for(i=0; i< MAX_CLIENTS ; i++){
+    SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
+    SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
+    SendData(pos, data, dataSize);
+    }
 
         break;
 

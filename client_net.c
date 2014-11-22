@@ -96,11 +96,13 @@ int SendRecvManager(void)
 
     /* select()の待ち時間を設定する */
     timeout.tv_sec = 0;
-    timeout.tv_usec = 20;
+    timeout.tv_usec = 1;
 
     readOK = gMask;
     /* サーバーからデータが届いているか調べる */
+//    while(FD_ISSET(gSocket,&readOK) == 0) {
     select(gWidth,&readOK,NULL,NULL,&timeout);
+//}
     if(FD_ISSET(gSocket,&readOK)){
         /* サーバーからデータが届いていた */
     	/* コマンドを読み込む */
