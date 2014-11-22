@@ -26,7 +26,7 @@
 
 /* マップ，ウインドウサイズ */
 enum {
-    MAP_Width    = 100, // マップ全体
+    MAP_Width    = 200, // マップ全体
     MAP_Height   = 14,
     WIND_Width   = 25, // ウィンドウの大きさ
     WIND_Height  = 14,
@@ -47,7 +47,8 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 3
+#define SUM_object 4
+#define SUM_swichblock 6
 
 typedef struct{
     int gimmick;	// 1==岩 2==スイッチ 3==
@@ -57,6 +58,10 @@ typedef struct{
 } Object; // オブジェクトの構造体
 
 Object object[SUM_object]; //構造体の配列化
+
+Object swichblock[SUM_swichblock];//スイッチ効果のブロック配列
+
+
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 
@@ -94,6 +99,7 @@ extern int gimmickflag;
 extern int G_flaghold;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
+extern int DEBAG;
 
 extern SDL_Rect PA;
 extern SDL_Rect P;

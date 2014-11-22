@@ -148,25 +148,16 @@ void keycont(void){
 		jumpflag = 0;
 		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 	}
-	else if(hity == -2)
+	else if(hity == -2){
 	 	jumpflag = 0;
+		jump_LR = 0;
+	}
 
     if(hity == 0 && UD == 0)
         jumpflag = 1;
 
     SendMoveCommand(P.x, P.y);
 
-}
-
-
-void scroll(void){
-
-    shiftdef = P.x - (WIND_Width * bit/2-30);
-
-    if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
-        gameRect.x += shiftdef;
-        P.x -= shiftdef;
-    }
 }
 
 /*
