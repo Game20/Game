@@ -24,17 +24,11 @@ SDL_Rect Player2; // 2Pの座標
 int o = 1;
 int gimmickflag = 0;
 int G_flaghold = 0;
-<<<<<<< HEAD
 SDL_Rect white = {0, 0, 60, 60};
-int j;
 
-
-=======
-SDL_Rect white = {0, 0, 60, 60}; 
 int swichON = 0;//サーバにも送なきゃかも
 int swichhold = 0;
 int j, k, l;
->>>>>>> masayume
 
 int DEBAG = 0;
 
@@ -372,12 +366,12 @@ git merge masayume
 
 
 //デバッグ用処理　速度2倍
-<<<<<<< HEAD
+
 //newposx += (newposx - P.x) * 5;
-=======
+
 if(gameRect.x <= 105 * bit)
 newposx += (newposx - P.x) * DEBAG; 
->>>>>>> masayume
+
 
 
 }
