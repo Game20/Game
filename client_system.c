@@ -2,6 +2,7 @@
 
 void EXIT();
 
+int j;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
@@ -13,26 +14,21 @@ int i;
 	newposx = 180;
 	newposy = 630;
 	jumpflag = 0;
+	objectinit = 1;
+
+	for(j=0; j<SUM_object; j++){
+	if(object[j].gimmick == 0 && object[j].status == 1)
+	gameRect.x = object[j].dst.x-420;
+	else
+	gameRect.x = 0;
+	}
 
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.w = 60;
         player[i].pos.h = 75;
     }
 
-
-        object[0].gimmick = 1; //岩
-        object[0].status = 0; //押されてない状態
-
-        object[0].src.x = 180;
-        object[0].src.y = 240;
-        object[0].src.w = 60;
-        object[0].src.h = 60;
-
-        object[0].dst.x = 2 * bit - gameRect.x;
-        object[0].dst.y = 1 * bit;
-
     exit_p = 0;
-
     titlep = 1;
     titlep2 = 0;
 

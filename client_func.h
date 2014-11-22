@@ -55,7 +55,7 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 4
+#define SUM_object 5
 #define SUM_swichblock 6
 
 extern Player player[MAX_CLIENTS];
@@ -102,6 +102,7 @@ extern int hithold;
 extern int shiftdef;
 extern int gimmickflag;
 extern int G_flaghold;
+extern int objectinit;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
 extern int DEBAG;

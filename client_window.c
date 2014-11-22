@@ -21,10 +21,11 @@ SDL_Surface *gMapImage; // マップ
 SDL_Rect Player2; // 2Pの座標
 
 
-int o = 1;
 int gimmickflag = 0;
 int G_flaghold = 0;
+int objectinit = 1;
 SDL_Rect white = {0, 0, 60, 60};
+SDL_Rect revivalflag = {0, 900};
 
 int swichON = 0;//サーバにも送なきゃかも
 int swichhold = 0;
@@ -161,7 +162,7 @@ void hitjudge(void){
 
 //オブジェクトの当たり判定
 ////////////あとで消す///////////////////
-    if(o == 1){
+    if(objectinit == 1){
 
 	object[0].gimmick = 1; //岩
 	object[0].dst.x = 38;
@@ -175,11 +176,16 @@ void hitjudge(void){
 	object[2].dst.x = 122;
 	object[2].dst.y = 3;
 
-	object[3].gimmick = 2; //スイッチ
+	object[3].gimmick = 2;
 	object[3].dst.x = 141;
 	object[3].dst.y = 3;
 
+	object[4].gimmick = 0; //中間ポイント
+	object[4].dst.x = 85;
+	object[4].dst.y = 10;
+
 	for(j=0; j<SUM_object; j++){
+	if(object[j].gimmick != 0 || object[j].status != 1)
 	object[j].status = 0;
 	object[j].src.x = 180;
 	object[j].src.y = 240;
@@ -189,6 +195,7 @@ void hitjudge(void){
 	object[j].dst.y *= bit;
 	SDL_BlitSurface(usa, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
 	}
+
 
 	swichblock[0].gimmick = 1;//縦幅
 	swichblock[0].status = 10;//横幅
@@ -212,7 +219,7 @@ void hitjudge(void){
 	swichblock[j].dst.x -= l*60;
 	swichblock[j].dst.y -= k*60;
 	}
-    o = 0;
+    objectinit = 0;
     }
 
 ////////////////////////////////////////
@@ -232,6 +239,17 @@ void hitjudge(void){
     if(gimmickflag == 1){
 
 	SDL_BlitSurface(mapwindow, &white, mapwindow, &object[i].dst); // object貼り準備
+
+		//中間ポイントのとき
+		if(object[i].gimmick == 0){	
+			if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
+			   P.y >= object[i].dst.y+20 && newposy <= object[i].dst.y+40 && object[i].status == 0){
+				object[i].status = 1;
+				revivalflag.x = object[i].dst.x;
+				revivalflag.y = object[i].dst.y - 60;
+				SDL_BlitSurface(usa, &object[j].src, mapwindow, &revivalflag); // object貼り付け		
+			}
+		}
 
 		//岩のとき
 		if(object[i].gimmick == 1){	
@@ -272,6 +290,9 @@ void hitjudge(void){
 
 		//スイッチのとき
 		if(object[i].gimmick == 2){
+			if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
+				(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 25) && object[i].status != 1)
+				hitx = 1;
 			if(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45 &&
 			  P.y+75 >= object[i].dst.y && P.y <= object[i].dst.y - 35){
 				if(newposy+75 >= object[i].dst.y+35){
@@ -284,7 +305,7 @@ void hitjudge(void){
 				}
 			}
 			else{
-	//			swichON = 0;
+////			swichON = 0;
 				object[i].status = 0;
 				object[i].src.x = 180;
 				G_flaghold = 0;
@@ -310,13 +331,12 @@ void hitjudge(void){
 
 
 	//オブジェクト全体の当たり判定
-	if(object[i].status != 1){
+	if(object[i].gimmick != 2){
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
 		(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 25) )
 		hitx = 1;
-
 	if( (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
-		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43) && object[i].gimmick != 2){
+		(newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43)){
 			if(newposy >= object[i].dst.y && G_flaghold == 0)
 			hity = 1;//上にヒット
 		if(newposy <= object[i].dst.y && G_flaghold == 0)
@@ -326,7 +346,6 @@ void hitjudge(void){
 				jump_LR = 0;
 				newposy = object[i].dst.y - 75;
 				}
-
 		}
 	}
 
@@ -350,6 +369,12 @@ void hitjudge(void){
 		}
 	}
 
+//デバッグ用処理　速度10倍
+if(gameRect.x <= 120 * bit)
+newposx += (newposx - P.x) * DEBAG*2; 
+
+}
+
 
 
 /*
@@ -361,21 +386,9 @@ git checkout master
 git branch
 git merge masayume 
 ./shell.sh client_window.c map.data client_func.h client_system.c 
+git branch -d masayume
+git checkout -b masayume
 */
-
-
-
-//デバッグ用処理　速度2倍
-
-//newposx += (newposx - P.x) * 5;
-
-if(gameRect.x <= 105 * bit)
-newposx += (newposx - P.x) * DEBAG; 
-
-
-
-}
-
 
 void scroll(void){
 
@@ -552,9 +565,9 @@ void title(void){
 /************他プレイヤー表示関数**********************/
 void DrawChara(void)
 {
-int i;
-    for(i = 0; i < MAX_CLIENTS; i++){
-        SDL_BlitSurface(usa, &PA, window, &player[i].pos); //キャラ貼り付け
+//int i;
+    for(j = 0; j < MAX_CLIENTS; j++){
+        SDL_BlitSurface(usa, &PA, window, &player[j].pos); //キャラ貼り付け
     }
 
 //    SDL_Flip(mapwindow);
@@ -574,7 +587,6 @@ void GameOver(void){
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(1400);
     InitStatus();
-
 
 }
 
