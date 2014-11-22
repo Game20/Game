@@ -381,7 +381,7 @@ newposx += (newposx - P.x) * DEBAG*2;
 git branch
 git checkout masayume
 git add client_window.c map.data client_func.h client_system.c 
-git commit -m "スイッチブロック完成版　デバッグモード実装"
+git commit -m "中間ポイントも完成　もうそれなりのゲームはできるかも"
 git checkout master
 git branch
 git merge masayume 
