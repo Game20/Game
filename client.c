@@ -27,7 +27,7 @@
 //変数などの宣言(main外)
 
 SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
-
+SDL_Rect whitedisplay = { 200,0, 60, 75 };
 int time = 0;	//時間
 
 
@@ -85,10 +85,11 @@ SDL_Surface *gMessages[ 100 ];
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
 
+    int i, j; //forループで使用
+    int		endFlag=1;
 //サーバーつなぐなら外して*********************/
 /*    int		num;
     char	name[MAX_CLIENTS][MAX_NAME_SIZE];
-    int		endFlag=1;
     char	localHostName[]="localhost";
     char	*serverName;
     int		clientID;
@@ -122,7 +123,7 @@ int main(int argc, char* argv[]) {
 
 	//SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
-	//time++;
+	time++;
 
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
@@ -139,11 +140,18 @@ int main(int argc, char* argv[]) {
         //DrawChara();
 
 //サーバーつなぐなら外して*********************/
-//    endFlag = SendRecvManager();
+    for(j = 0; j < MAX_CLIENTS; j++){ // キャラクターの描画を消す
+        SDL_BlitSurface(mapwindow, &whitedisplay, mapwindow, &player[j].pos);
+    }
     
-    DrawChara();
-
-SDL_Flip(window);// 画面に図形を表示（反映）
+/*    for(i = 0; i <= 30; i++) { // データの受信
+        endFlag = SendRecvManager();
+    }
+    
+    /**/
+        DrawChara(); // キャラの描画
+        SDL_Flip(window); // 画面に図形を表示（反映）
+	
 	DisplayStatus();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
