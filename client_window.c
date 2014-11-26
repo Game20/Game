@@ -240,18 +240,18 @@ void hitjudge(void){
 	SDL_BlitSurface(mapwindow, &white, mapwindow, &object[i].dst); // object貼り準備
 
 		//中間ポイントのとき
-		if(object[i].gimmick == 0){	
+		if(object[i].gimmick == 0){
 			if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
 			   P.y >= object[i].dst.y+20 && newposy <= object[i].dst.y+40 && object[i].status == 0){
 				object[i].status = 1;
 				revivalflag.x = object[i].dst.x;
 				revivalflag.y = object[i].dst.y - 60;
-				SDL_BlitSurface(usa, &object[j].src, mapwindow, &revivalflag); // object貼り付け		
+				SDL_BlitSurface(usa, &object[j].src, mapwindow, &revivalflag); // object貼り付け
 			}
 		}
 
 		//岩のとき
-		if(object[i].gimmick == 1){	
+		if(object[i].gimmick == 1){
             //岩とマップのx座標当たり判定があったとき
             if((gMaps[(object[i].dst.x-3)/bit][object[i].dst.y/bit] == 1 ||
                 gMaps[(object[i].dst.x)/bit+1][object[i].dst.y/bit] == 1	||
@@ -370,7 +370,7 @@ void hitjudge(void){
 
 //デバッグ用処理　速度10倍
 if(gameRect.x <= 120 * bit)
-newposx += (newposx - P.x) * DEBAG*2; 
+newposx += (newposx - P.x) * DEBAG*2;
 
 }
 
@@ -379,12 +379,12 @@ newposx += (newposx - P.x) * DEBAG*2;
 /*
 git branch
 git checkout masayume
-git add client_window.c map.data client_func.h client_system.c 
+git add client_window.c map.data client_func.h client_system.c
 git commit -m "中間ポイントも完成　もうそれなりのゲームはできるかも"
 git checkout master
 git branch
-git merge masayume 
-./shell.sh client_window.c map.data client_func.h client_system.c 
+git merge masayume
+./shell.sh client_window.c map.data client_func.h client_system.c
 git branch -d masayume
 git checkout -b masayume
 */
@@ -566,7 +566,7 @@ void DrawChara(void)
 {
 //int i;
     for(j = 0; j < MAX_CLIENTS; j++){
-        SDL_BlitSurface(usa, &PA, window, &player[j].pos); //キャラ貼り付け
+        SDL_BlitSurface(usa, &PA, mapwindow, &player[j].pos); //キャラ貼り付け
     }
 
 //    SDL_Flip(mapwindow);
