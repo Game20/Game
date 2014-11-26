@@ -55,16 +55,17 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 5
-#define SUM_swichblock 6
+#define SUM_object 6
+#define SUM_swichblock 1
+#define SUM_steps 2
 
 extern Player player[MAX_CLIENTS];
 
 
 
 Object object[SUM_object]; //構造体の配列化
-
 Object swichblock[SUM_swichblock];//スイッチ効果のブロック配列
+Object steps[SUM_steps];//ハシゴの配列
 
 
 
@@ -103,6 +104,7 @@ extern int shiftdef;
 extern int gimmickflag;
 extern int G_flaghold;
 extern int objectinit;
+extern int stepflag;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
 extern int DEBAG;
