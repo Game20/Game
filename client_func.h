@@ -46,12 +46,7 @@ enum {
 typedef enum {
     MT_sky = 0,
     MT_Wall = 1,
-    MT_goal = 2,
-    MT_Needle1 = 3,
-    MT_Needle2 = 4,
-    MT_Needle3 = 5,
-    MT_Needle4 = 6,
-    MT_Fruit = 7
+    MT_needle = 2,
 } MapType;
 
 
