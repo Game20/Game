@@ -81,9 +81,9 @@ SDL_Surface *gMessages[ 100 ];
 
 
 
-
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
+    int		endFlag=1;
 
 //サーバーつなぐなら外して*********************/
 /*    int		num;
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
 
 	//SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
-	//time++;
+	time++;
 
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
