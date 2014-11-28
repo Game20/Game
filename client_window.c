@@ -9,9 +9,7 @@
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる"};
 static SDL_Color black = {0x00, 0x00, 0x00};
-static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 int setstartp;
-
 
 TTF_Font* sTTF;
 //SDL_Surface *usa;  // 画像データへのポインタ
@@ -371,7 +369,7 @@ void hitjudge(void){
 			if(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45 &&
 			  P.y+75 >= object[i].dst.y && P.y <= object[i].dst.y - 35)
 				if(newposy+75 >= object[i].dst.y+35)
-					jump_a = 6 * object[i].status;
+					jump_a = 6 * object[i].status;			
 			}
 
 
@@ -410,7 +408,7 @@ void hitjudge(void){
 			}
 		}
 	}}
-
+	
 	SDL_BlitSurface(usa, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
     }
 
@@ -462,7 +460,7 @@ git branch
 git checkout masayume
 git add client_window.c map.data client_func.h client_system.c
 git commit -m "中間ポイントも完成　もうそれなりのゲームはできるかも"
-git add client_window.c map.data client_func.h client_system.c
+git add client_window.c map.data client_func.h client_system.c 
 git commit -m "ハシゴ バネ 共に完成　もっと褒めてもええんやで"
 git checkout master
 git branch
@@ -560,8 +558,8 @@ void title(void){
     P.y = 400;
     PA.x = 0;
     PA.y = 0;
-    int dataSize;//送信するデータの数
-    unsigned char	data[MAX_DATA];//データのいれもん
+
+
     titlep = 1;//ループ条件
     // 無限ループ
     while(titlep){
@@ -588,12 +586,8 @@ void title(void){
 
                 case SDLK_RETURN: //エンターを押した時
                     if(P.y == 400){
-/* サーバに接続するならtitlep = 0をコメントアウト */
                         titlep = 0;
                         titlep2 = 0;
-                        dataSize = 0;
-                        SetCharData2DataBlock(data, START_COMMAND, &dataSize);
-                        SendData(data, dataSize);
                     }
 ///*
                     if(P.y == 500){
@@ -644,8 +638,6 @@ void title(void){
 
         SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
         SDL_Flip(window);// 画面に図形を表示（反映）
-/* サーバに接続するなら外す */
-        //titlep = SendRecvManager();
     }
     P.y = 640;
 }
@@ -676,27 +668,6 @@ void GameOver(void){
     SDL_Delay(1400);
     InitStatus();
 
-}
-
-
-/*****************************************************************
-関数名	: SetCharData2DataBlock
-機能	: char 型のデータを送信用データの最後にセットする
-引数	: void		*data		: 送信用データ
-		  int		intData		: セットするデータ
-		  int		*dataSize	: 送信用データの現在のサイズ
-出力	: なし
-*****************************************************************/
-static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
-{
-    /* 引き数チェック */
-    assert(data!=NULL);
-    assert(0<=(*dataSize));
-
-    /* char 型のデータを送信用データの最後にコピーする */
-    *(char *)(data + (*dataSize)) = charData;
-    /* データサイズを増やす */
-    (*dataSize) += sizeof(char);
 }
 
 

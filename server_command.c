@@ -9,9 +9,6 @@
 
 //int x = 200;
 //int y = 200;
-static int cnt;//スタートフラグのカウント
-int gClientNum;
-
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -37,17 +34,6 @@ int ExecuteCommand(char command,int pos)
     printf("Get command %c\n",command);
 #endif
     switch(command){
-    case START_COMMAND:
-        ++cnt;
-        printf("aaaaa%d\n\n", gClientNum);
-        if(cnt == gClientNum)
-        {
-            dataSize = 0;
-            SetCharData2DataBlock(data, command, &dataSize);
-            SendData(ALL_CLIENTS,data,dataSize);
-            cnt = 0;
-        }
-        break;
     case END_COMMAND:
         dataSize = 0;
         /* コマンドのセット */
@@ -66,15 +52,16 @@ int ExecuteCommand(char command,int pos)
 //		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
 //		printf("(x,y) = (%d,%d)",gClients[1].plc.x,gClients[1].plc.y);
 
-        dataSize = 0;
-        SetCharData2DataBlock(data, command, &dataSize);
+    dataSize = 0;
+    SetCharData2DataBlock(data, command, &dataSize);
 
-        int i;
-        for(i=0; i< MAX_CLIENTS ; i++){
-            SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
-            SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
-        }
-        SendData(pos, data, dataSize);
+    int i;
+    for(i=0; i< MAX_CLIENTS ; i++){
+    SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
+    SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
+    SendData(pos, data, dataSize);
+    }
+
         break;
 
 

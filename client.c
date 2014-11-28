@@ -142,15 +142,15 @@ int main(int argc, char* argv[]) {
     for(j = 0; j < MAX_CLIENTS; j++){ // キャラクターの描画を消す
         SDL_BlitSurface(mapwindow, &whitedisplay, mapwindow, &player[j].pos);
     }
-
+    
 /*    for(i = 0; i <= 30; i++) { // データの受信
         endFlag = SendRecvManager();
     }
-
+    
     /**/
         DrawChara(); // キャラの描画
         SDL_Flip(window); // 画面に図形を表示（反映）
-
+	
 	DisplayStatus();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak

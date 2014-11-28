@@ -24,7 +24,7 @@
 
 #define MOVE_COMMAND 'M' /*移動コマンド*/
 
-#define START_COMMAND 'S' /* スタートコマンド */
+
 
 
 

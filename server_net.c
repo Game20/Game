@@ -9,6 +9,7 @@
 #include<netinet/in.h>
 #include<netdb.h>
 
+static int	gClientNum;					/* クライアント数 */
 
 static fd_set	gMask;					/* select()用のマスク */
 static int	gWidth;						/* gMask中のチェックすべきビット数 */
@@ -32,7 +33,7 @@ int SetUpServer(int num)
     int			request_soc;
     int                 maxfd;
     int			val = 1;
-
+ 
     /* 引き数チェック */
     assert(0<num && num<=MAX_CLIENTS);
 
@@ -56,7 +57,7 @@ int SetUpServer(int num)
         return -1;
     }
     fprintf(stderr,"Successfully bind!\n");
-
+    
     /* クライアントからの接続要求を待つ */
     if(listen(request_soc, gClientNum) == -1){
         fprintf(stderr,"Cannot listen\n");
@@ -123,14 +124,14 @@ int SendRecvManager(void)
 int RecvIntData(int pos,int *intData)
 {
     int n,tmp;
-
+    
     /* 引き数チェック */
     assert(0<=pos && pos<gClientNum);
     assert(intData!=NULL);
 
     n = RecvData(pos,&tmp,sizeof(int));
     (*intData) = ntohl(tmp);
-
+    
     return n;
 }
 
@@ -146,7 +147,7 @@ int RecvIntData(int pos,int *intData)
 void SendData(int pos,void *data,int dataSize)
 {
     int	i;
-
+   
     /* 引き数チェック */
     assert(0<=pos && pos<gClientNum || pos==ALL_CLIENTS);
     assert(data!=NULL);
@@ -191,7 +192,7 @@ static int MultiAccept(int request_soc,int num)
 {
     int	i,j;
     int	fd;
-
+    
     for(i=0;i<num;i++){
         if((fd = accept(request_soc,NULL,NULL)) == -1){
             fprintf(stderr,"Accept error\n");
@@ -232,7 +233,7 @@ static void SetMask(int maxfd)
 
     gWidth = maxfd+1;
 
-    FD_ZERO(&gMask);
+    FD_ZERO(&gMask);    
     for(i=0;i<gClientNum;i++)FD_SET(gClients[i].fd,&gMask);
 }
 
@@ -268,13 +269,13 @@ static void SendAllName(void)
 static int RecvData(int pos,void *data,int dataSize)
 {
     int n;
-
+    
     /* 引き数チェック */
     assert(0<=pos && pos<gClientNum);
     assert(data!=NULL);
     assert(0<dataSize);
 
     n = read(gClients[pos].fd,data,dataSize);
-
+    
     return n;
 }

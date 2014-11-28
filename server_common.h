@@ -30,6 +30,4 @@ typedef struct{
 
 CLIENT	gClients[MAX_CLIENTS];	/* クライアント */
 
-extern int	gClientNum;					/* クライアント数 */
-
 #endif
