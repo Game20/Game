@@ -2,26 +2,40 @@
 
 void EXIT();
 
-int j;
+int j, k, l;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
 int i;
-    P.x = 180;
-    P.y = 630;
+    P.x = 3*bit;
+    P.y = 12*bit;
+	newposx = P.x;
+	newposy = P.y;
     PA.y = 0;
-    time = 0;
-	newposx = 180;
-	newposy = 630;
 	jumpflag = 0;
-	objectinit = 1;
+	jump_LR = 0;
+	jump_a = 0;
+	hitx = 0;
+	hity = 0;
+	timekey = 0;
+	hithold = 0;
+	shiftdef = 0;
+	gimmickflag = 0;
+//	G_flaghold = 0;
+	stepflag = 0;
+	LR = 0;
+	UD = 0;
 
 	for(j=0; j<SUM_object; j++){
-	if(object[j].gimmick == 0 && object[j].status == 1)
-	gameRect.x = object[j].dst.x-420;
+	if(object[j].gimmick == 0 && object[j].status == 1){
+	P.x = object[j].dst.x-420;
+	P.y = object[j].dst.y+60;
+	}
 	else
 	gameRect.x = 0;
 	}
+
+	objectinit();
 
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.w = 60;
@@ -34,6 +48,98 @@ int i;
 
 }
 
+
+void objectinit(void){
+
+	object[0].gimmick = 1; //岩
+	object[0].dst.x = 38;
+	object[0].dst.y = 12;
+
+	object[1].gimmick = 1;
+	object[1].dst.x = 71;
+	object[1].dst.y = 5;
+
+	object[2].gimmick = 2; //スイッチ
+	object[2].dst.x = 122;
+	object[2].dst.y = 3;
+
+	object[3].gimmick = 2;
+	object[3].dst.x = 141;
+	object[3].dst.y = 3;
+
+	object[4].gimmick = 0; //中間ポイント
+	object[4].dst.x = 85;
+	object[4].dst.y = 10;
+
+	object[5].gimmick = 3; //バネ
+	object[5].status = 6;
+	object[5].dst.x = 5;
+	object[5].dst.y = 6;
+/*
+	object[6].gimmick = 3; //バネ
+	object[6].status = 5;
+	object[6].dst.x = 4;
+	object[6].dst.y = 5;
+*/
+	for(j=0; j<SUM_object; j++){
+	object[j].movex = 0;
+	object[j].movey = 0;
+	object[j].flaghold = 0;
+	object[j].src.x = object[j].gimmick*bit;
+	object[j].src.y = 0;
+	object[j].src.w = 60;
+	object[j].src.h = 60;
+	object[j].dst.x *= bit;
+	object[j].dst.y *= bit;
+	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
+	}
+
+
+	swichblock[0].gimmick = 1;//縦幅
+	swichblock[0].status = 10;//横幅
+	swichblock[0].dst.x = 127;
+	swichblock[0].dst.y = 12;
+
+	for(j=0; j<SUM_swichblock; j++){
+	swichblock[j].src.x = 0;
+	swichblock[j].src.y = 0;
+	swichblock[j].src.w = 60;
+	swichblock[j].src.h = 60;
+	swichblock[j].dst.x *= bit;
+	swichblock[j].dst.y *= bit;
+		for(k=0; k<swichblock[j].gimmick; k++){
+			for(l=0; l<swichblock[j].status; l++){
+			SDL_BlitSurface(blockimage, &swichblock[j].src, mapwindow, &swichblock[j].dst); // swichblock貼り付け
+			swichblock[j].dst.x += bit;
+			}
+		swichblock[j].dst.y += bit;
+		}
+	swichblock[j].dst.x -= l*60;
+	swichblock[j].dst.y -= k*60;
+	}
+
+	steps[0].status = 9;//長さ
+	steps[0].dst.x = 120;
+	steps[0].dst.y = 3;
+
+	steps[1].status = 9;//長さ
+	steps[1].dst.x = 143;
+	steps[1].dst.y = 3;
+
+	for(j=0; j<SUM_steps; j++){
+	steps[j].src.x = 60;
+	steps[j].src.y = 60;
+	steps[j].src.w = 60;
+	steps[j].src.h = 60;
+	steps[j].dst.x *= bit;
+	steps[j].dst.y *= bit;
+		for(k=0; k<steps[j].status; k++){
+		SDL_BlitSurface(objectimage, &steps[j].src, mapwindow, &steps[j].dst);
+		steps[j].dst.y += bit;
+		}
+		steps[j].dst.y -= (k+1)*60;
+	}
+}
 
 
 
@@ -59,6 +165,9 @@ void eventdisp(){
             case SDLK_DOWN:
                 stepflag = 1;
                 break;
+            case SDLK_RETURN:
+                DEBAG = 5;
+                break;
 
             case SDLK_SPACE: //スペースキーを押した時
                 if(jumpflag == 0)//{
@@ -83,9 +192,13 @@ void eventdisp(){
             case SDLK_RIGHT:
             case SDLK_LEFT:  //左右キーどちらかで
                 LR = 0;
+                break;
             case SDLK_UP:
             case SDLK_DOWN:  //上下キーどちらかで
                 UD = 0;
+                break;
+            case SDLK_RETURN:  //上下キーどちらかで
+                DEBAG = 0;
                 break;
             }
         }

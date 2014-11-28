@@ -23,8 +23,11 @@ typedef struct{
 
 
 typedef struct{
-    int gimmick;	// 1==岩 2==スイッチ 3==
+    int gimmick;	// 0==中間ポイント 1==岩 2==スイッチ 3==バネ
     int status; // 状態
+	int movex; //x座標移動
+	int movey; //y座標移動
+	int flaghold;
     SDL_Rect src;	//読み込み座標
     SDL_Rect dst;	//貼り付け座標
 } Object; // オブジェクトの構造体
@@ -83,6 +86,8 @@ extern SDL_Surface *gMessages[ 100 ];
 extern TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
 
 extern SDL_Surface *usa;  // 画像データへのポインタ
+extern SDL_Surface *objectimage;
+extern SDL_Surface *blockimage;
 
 extern TTF_Font* sTTF;
 
@@ -98,7 +103,6 @@ extern int hithold;
 extern int shiftdef;
 extern int gimmickflag;
 extern int G_flaghold;
-extern int objectinit;
 extern int stepflag;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
@@ -126,6 +130,7 @@ extern int i;
 
 /* client_system.c */
 void EXIT(void);
+void objectinit(void);
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
