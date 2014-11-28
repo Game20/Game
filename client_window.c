@@ -588,7 +588,8 @@ void title(void){
 
                 case SDLK_RETURN: //エンターを押した時
                     if(P.y == 400){
-          //              titlep = 0;
+/* サーバに接続するならtitlep = 0をコメントアウト */
+                        titlep = 0;
                         titlep2 = 0;
                         dataSize = 0;
                         SetCharData2DataBlock(data, START_COMMAND, &dataSize);
@@ -643,8 +644,8 @@ void title(void){
 
         SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
         SDL_Flip(window);// 画面に図形を表示（反映）
-
-                titlep = SendRecvManager();
+/* サーバに接続するなら外す */
+        //titlep = SendRecvManager();
     }
     P.y = 640;
 }

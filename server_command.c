@@ -66,16 +66,15 @@ int ExecuteCommand(char command,int pos)
 //		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
 //		printf("(x,y) = (%d,%d)",gClients[1].plc.x,gClients[1].plc.y);
 
-    dataSize = 0;
-    SetCharData2DataBlock(data, command, &dataSize);
+        dataSize = 0;
+        SetCharData2DataBlock(data, command, &dataSize);
 
-    int i;
-    for(i=0; i< MAX_CLIENTS ; i++){
-    SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
-    SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
-    SendData(pos, data, dataSize);
-    }
-
+        int i;
+        for(i=0; i< MAX_CLIENTS ; i++){
+            SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
+            SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
+        }
+        SendData(pos, data, dataSize);
         break;
 
 
