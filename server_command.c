@@ -59,9 +59,8 @@ int ExecuteCommand(char command,int pos)
     for(i=0; i< MAX_CLIENTS ; i++){
     SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
     SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
-    SendData(pos, data, dataSize);
     }
-
+    SendData(pos, data, dataSize);
         break;
 
 
