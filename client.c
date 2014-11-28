@@ -81,9 +81,9 @@ SDL_Surface *gMessages[ 100 ];
 
 
 
-
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
+    int		endFlag=1;
 
     int i, j; //forループで使用
     int		endFlag=1;

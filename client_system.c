@@ -56,10 +56,8 @@ void eventdisp(){
                 break;
 
             case SDLK_UP:
-                UD = 1;
-                break;
             case SDLK_DOWN:
-                UD = -1;
+                stepflag = 1;
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
@@ -111,6 +109,7 @@ void keycont(void){
         if(jumpflag == 1)
             jump_LR = -1;
     }
+	if(stepflag == 2){
     if(key[SDLK_UP] == SDL_PRESSED){	//上移動
         newposy -= 2;
         UD = 1; //←あとで消す
@@ -118,7 +117,9 @@ void keycont(void){
     }
     if(key[SDLK_DOWN] == SDL_PRESSED){	//下移動
         newposy += 4;
+        UD = -1;
     }
+	}
 
 
 /*その他詳細設定*/
