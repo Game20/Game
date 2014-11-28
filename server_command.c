@@ -9,6 +9,9 @@
 
 //int x = 200;
 //int y = 200;
+static int cnt;//スタートフラグのカウント
+int gClientNum;
+
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -34,6 +37,17 @@ int ExecuteCommand(char command,int pos)
     printf("Get command %c\n",command);
 #endif
     switch(command){
+    case START_COMMAND:
+        ++cnt;
+        printf("aaaaa%d\n\n", gClientNum);
+        if(cnt == gClientNum)
+        {
+            dataSize = 0;
+            SetCharData2DataBlock(data, command, &dataSize);
+            SendData(ALL_CLIENTS,data,dataSize);
+            cnt = 0;
+        }
+        break;
     case END_COMMAND:
         dataSize = 0;
         /* コマンドのセット */

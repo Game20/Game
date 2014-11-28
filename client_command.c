@@ -27,6 +27,9 @@ int ExecuteCommand(char command)
     printf("command = %c\n",command);
 #endif*/
     switch(command){
+    case START_COMMAND:
+            endFlag = 0;
+            break;
     case END_COMMAND:
         endFlag = 0;
         break;
