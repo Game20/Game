@@ -37,7 +37,7 @@ typedef struct{
 
 /* マップ，ウインドウサイズ */
 enum {
-    MAP_Width    = 200, // マップ全体
+    MAP_Width    = 270, // マップ全体
     MAP_Height   = 14,
     WIND_Width   = 25, // ウィンドウの大きさ
     WIND_Height  = 14,
@@ -53,8 +53,8 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 6
-#define SUM_swichblock 1
+#define SUM_object 16
+#define SUM_switchblock 5
 #define SUM_steps 2
 
 extern Player player[MAX_CLIENTS];
@@ -62,7 +62,7 @@ extern Player player[MAX_CLIENTS];
 
 
 Object object[SUM_object]; //構造体の配列化
-Object swichblock[SUM_swichblock];//スイッチ効果のブロック配列
+Object switchblock[SUM_switchblock];//スイッチ効果のブロック配列
 Object steps[SUM_steps];//ハシゴの配列
 
 

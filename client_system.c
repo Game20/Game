@@ -60,30 +60,83 @@ void objectinit(void){
 	object[1].dst.y = 5;
 
 	object[2].gimmick = 2; //スイッチ
+	object[2].flaghold = 0;
 	object[2].dst.x = 122;
 	object[2].dst.y = 3;
 
 	object[3].gimmick = 2;
+	object[3].flaghold = 0;
 	object[3].dst.x = 141;
 	object[3].dst.y = 3;
 
 	object[4].gimmick = 0; //中間ポイント
+	object[4].status = 0;
 	object[4].dst.x = 85;
 	object[4].dst.y = 10;
 
 	object[5].gimmick = 3; //バネ
-	object[5].status = 6;
-	object[5].dst.x = 5;
-	object[5].dst.y = 6;
-/*
+	object[5].status = 5;
+	object[5].dst.x = 155;
+	object[5].dst.y = 9;
+
 	object[6].gimmick = 3; //バネ
 	object[6].status = 5;
-	object[6].dst.x = 4;
-	object[6].dst.y = 5;
-*/
+	object[6].dst.x = 165;
+	object[6].dst.y = 12;
+
+	object[7].gimmick = 3; //バネ
+	object[7].status = 5;
+	object[7].dst.x = 170;
+	object[7].dst.y = 12;
+
+	object[8].gimmick = 3; //バネ
+	object[8].status = 5;
+	object[8].dst.x = 175;
+	object[8].dst.y = 12;
+
+	object[9].gimmick = 3; //バネ
+	object[9].status = 5;
+	object[9].dst.x = 180;
+	object[9].dst.y = 12;
+
+	object[10].gimmick = 0;
+	object[10].status = 0;
+	object[10].flaghold = -1;//不可視
+	object[10].dst.x = 165;
+	object[10].dst.y = 4;
+
+	object[11].gimmick = 2; //スイッチ
+	object[11].flaghold = 1;
+	object[11].dst.x = 197;
+	object[11].dst.y = 11;
+
+
+	object[12].gimmick = 2; //スイッチ
+	object[12].flaghold = 2;
+	object[12].dst.x = 190;
+	object[12].dst.y = 8;
+
+	object[13].gimmick = 2; //スイッチ
+	object[13].flaghold = 3;
+	object[13].dst.x = 197;
+	object[13].dst.y = 6;
+
+	object[14].gimmick = 2; //スイッチ
+	object[14].flaghold = 4;
+	object[14].dst.x = 190;
+	object[14].dst.y = 4;
+
+
+	object[15].gimmick = 2; //スイッチ
+	object[15].flaghold = 4;
+	object[15].dst.x = 197;
+	object[15].dst.y = 2;
+
+
 	for(j=0; j<SUM_object; j++){
 	object[j].movex = 0;
 	object[j].movey = 0;
+	if(object[j].gimmick == 1 || object[j].gimmick == 3)
 	object[j].flaghold = 0;
 	object[j].src.x = object[j].gimmick*bit;
 	object[j].src.y = 0;
@@ -91,33 +144,56 @@ void objectinit(void){
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
+	if(object[j].flaghold != -1)
 	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
 	}
 
+	//スイッチブロック
+	switchblock[0].gimmick = 1;//縦幅
+	switchblock[0].status = 10;//横幅
+	switchblock[0].dst.x = 127;
+	switchblock[0].dst.y = 12;
 
-	swichblock[0].gimmick = 1;//縦幅
-	swichblock[0].status = 10;//横幅
-	swichblock[0].dst.x = 127;
-	swichblock[0].dst.y = 12;
+	switchblock[1].gimmick = 1;//縦幅
+	switchblock[1].status = 3;//横幅
+	switchblock[1].dst.x = 192;
+	switchblock[1].dst.y = 10;
 
-	for(j=0; j<SUM_swichblock; j++){
-	swichblock[j].src.x = 0;
-	swichblock[j].src.y = 0;
-	swichblock[j].src.w = 60;
-	swichblock[j].src.h = 60;
-	swichblock[j].dst.x *= bit;
-	swichblock[j].dst.y *= bit;
-		for(k=0; k<swichblock[j].gimmick; k++){
-			for(l=0; l<swichblock[j].status; l++){
-			SDL_BlitSurface(blockimage, &swichblock[j].src, mapwindow, &swichblock[j].dst); // swichblock貼り付け
-			swichblock[j].dst.x += bit;
+	switchblock[2].gimmick = 1;//縦幅
+	switchblock[2].status = 3;//横幅
+	switchblock[2].dst.x = 193;
+	switchblock[2].dst.y = 8;
+
+	switchblock[3].gimmick = 1;//縦幅
+	switchblock[3].status = 3;//横幅
+	switchblock[3].dst.x = 192;
+	switchblock[3].dst.y = 6;
+
+	switchblock[4].gimmick = 1;//縦幅
+	switchblock[4].status = 3;//横幅
+	switchblock[4].dst.x = 193;
+	switchblock[4].dst.y = 4;
+
+
+	for(j=0; j<SUM_switchblock; j++){
+	switchblock[j].src.x = 0;
+	switchblock[j].src.y = 0;
+	switchblock[j].src.w = 60;
+	switchblock[j].src.h = 60;
+	switchblock[j].dst.x *= bit;
+	switchblock[j].dst.y *= bit;
+		for(k=0; k<switchblock[j].gimmick; k++){
+			for(l=0; l<switchblock[j].status; l++){
+			SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
+			switchblock[j].dst.x += bit;
 			}
-		swichblock[j].dst.y += bit;
+		switchblock[j].dst.y += bit;
 		}
-	swichblock[j].dst.x -= l*60;
-	swichblock[j].dst.y -= k*60;
+	switchblock[j].dst.x -= l*60;
+	switchblock[j].dst.y -= k*60;
 	}
 
+	//ハシゴ
 	steps[0].status = 9;//長さ
 	steps[0].dst.x = 120;
 	steps[0].dst.y = 3;
@@ -174,6 +250,9 @@ void eventdisp(){
                     jumpflag = 1;
                     jump_a = 12; //初速
                 //} //←{}を消したら無限ジャンプ
+//				if(DEBAG == 5)
+//					P.y -= bit;
+
 
                 break;
 
@@ -251,6 +330,10 @@ void keycont(void){
     if(jumpflag == 1 && UD == 0)
 	newposy -= jump_a;//加速度で移動(y軸なのでマイナス)
 
+///*
+//デバッグ用処理　速度10倍
+newposx += (newposx - P.x) * DEBAG*2;
+//*/
 
     hitjudge();
 
