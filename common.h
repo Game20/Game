@@ -24,8 +24,7 @@
 
 #define MOVE_COMMAND 'M' /*移動コマンド*/
 
-
-
+#define OBJECT_COMMAND 'O' //オブジェクトの受け渡しに使うコマンド
 
 
 #endif
