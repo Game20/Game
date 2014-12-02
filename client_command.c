@@ -7,9 +7,9 @@
 #include"client_func.h"
 
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
-static void RecvMoveData(void);
 static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
-
+static void RecvMoveData(void);
+static void RecvObjectData(void);
 /*****************************************************************
 関数名	: ExecuteCommand
 機能	: サーバーから送られてきたコマンドを元に，
@@ -34,6 +34,10 @@ int ExecuteCommand(char command)
     case MOVE_COMMAND: //移動コマンド
         RecvMoveData();
         break;
+
+    case OBJECT_COMMAND:
+        RecvObjectData();
+        break;
     }
     return endFlag;
 }
@@ -56,6 +60,32 @@ void SendMoveCommand(int x, int y)
 
     /* データセット */
     SetIntData2DataBlock(data, x, &dataSize);
+    SetIntData2DataBlock(data, y, &dataSize);
+
+    /* データの送信 */
+    SendData(data,dataSize);
+}
+
+
+/*****************************************************************
+関数名	: SendObjectCommand
+機能	: 移動したことをサーバーに送る
+引数	: なし
+出力	: なし
+*****************************************************************/
+void SendObjectCommand(int num, int status, int x, int y)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    /* コマンドのセット */
+    SetCharData2DataBlock(data,OBJECT_COMMAND,&dataSize);
+
+    /* データセット */
+    SetIntData2DataBlock(data, num, &dataSize);    // オブジェクトナンバー
+    SetIntData2DataBlock(data, status, &dataSize); // オブジェクトのステータス
+    SetIntData2DataBlock(data, x, &dataSize);      // オブジェクトの座標
     SetIntData2DataBlock(data, y, &dataSize);
 
     /* データの送信 */
@@ -151,3 +181,12 @@ static void RecvMoveData(void)
 
 }
 
+static void RecvObjectData(void)
+{
+    int i;
+    RecvIntData(&i);
+    RecvIntData(&object[i].status);
+    RecvIntData(&player[i].dst.x);
+    RecvIntData(&player[i].dst.y);
+
+}
