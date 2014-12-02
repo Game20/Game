@@ -236,30 +236,43 @@ void hitjudge(void){
 				(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 25) && object[i].status != 1)
 				hitx = 1;
 			if(P.x+gameRect.x >= object[i].dst.x - 35 && P.x+gameRect.x <= object[i].dst.x + 35 &&
-			  P.y+60 >= object[i].dst.y && P.y <= object[i].dst.y-35){
+			  P.y+50/**/ >= object[i].dst.y && P.y <= object[i].dst.y-35){
 				if(newposy+75 >= object[i].dst.y+35){
 					switchON = 1;
 					object[i].status = 1; //ステータス：押されてる
 					hity = -2;
 					newposy = object[i].dst.y - 35;
 					object[i].src.y = 60;
-//if(i >= 12 && i <= 14)
-//object[i-1].status = 1;
+					SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
+					SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
+					if(i >= 12 && i <= 14)
+					object[i-1].status = 1;
 
 				}
 			}
 			else{
+//				if( (object[i].flaghold == object[i+1].flaghold && object[i+1].status == 0) || 
+//					(object[i].flaghold == object[i-1].flaghold && object[i-1].status == 0) )
+
+//				for(j=0; j<SUM_object; j++){
+//				if(object[j].status == 1)
+//				break;
+//				}
+//				if(j == SUM_object || object[i].flaghold != object[j].flaghold)
 				switchON = 0;
+				for(j=0; j<SUM_object; j++){
+				if(object[j].status == 1 && object[i].flaghold == object[j].flaghold)
+				switchON = 1;
+				}
 				object[i].status = 0;
 				object[i].src.y = 0;
-//if(i >= 12 && i <= 14)
-//object[i-1].status = 0;
+				SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
+				SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
+				if(i >= 12 && i <= 14)
+				object[i-1].status = 0;
 			}
 
 			if(switchON != switchhold){
-
-				SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
-				SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
 
 				for(j=0; j<SUM_switchblock; j++){
 				switchblock[object[i].flaghold].src.y = switchON*60;
@@ -276,7 +289,6 @@ void hitjudge(void){
 				}
 			switchhold = switchON;
 			}
-
 		}
 
 		//バネのとき
@@ -372,8 +384,8 @@ void hitjudge(void){
 
 	//スイッチブロックの当たり判定
 	if(switchON == 1){
-		for(j=0; j<SUM_switchblock; j++){
-		if(object[j].status == 1){
+	for(j=0; j<SUM_switchblock; j++){
+		if(object[j].gimmick == 2 && object[j].status == 1){
 		if( (newposx+gameRect.x >= switchblock[object[j].flaghold].dst.x-60+20 && newposx+gameRect.x <= switchblock[object[j].flaghold].dst.x+switchblock[object[j].flaghold].status*bit-60 + 40) &&
 			(P.y >= switchblock[object[j].flaghold].dst.y-70 && P.y <= switchblock[object[j].flaghold].dst.y+switchblock[object[j].flaghold].gimmick*bit-60 + 25) )
 			hitx = 1;
@@ -385,7 +397,7 @@ void hitjudge(void){
 			hity = -1;//下にヒット
 			}
 		}
-		}
+	}
 	}
 
 	//ハシゴの判定
