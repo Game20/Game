@@ -8,7 +8,7 @@
 #include"server_common.h"
 #include"server_func.h"
 
-void CalcPos(int pos){
+void CalcPos(int pos){//各プレイヤーの座標を受け取る
 
     RecvIntData(pos, &gClients[pos].plc.x);
     RecvIntData(pos, &gClients[pos].plc.y);

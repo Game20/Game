@@ -22,6 +22,6 @@ extern void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 extern int ExecuteCommand(char command,int pos);
 
 /* server_system.c */
-extern void CalcPos(int pos);/*座標計算*/
+extern void CalcPos(int pos);/*各プレイヤーの座標を受け取る*/
 
 #endif
