@@ -356,7 +356,7 @@ newposx += (newposx - P.x) * DEBAG*2;
     if(hity == 0 && UD == 0)
         jumpflag = 1;
 
-    SendMoveCommand(P.x, P.y);
+    SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y);
 
 }
 
