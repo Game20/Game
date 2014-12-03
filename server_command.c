@@ -9,6 +9,7 @@
 //int x = 200;
 //int y = 200;
 
+
 /*****************************************************************
 関数名	: ExecuteCommand
 機能	: クライアントから送られてきたコマンドを元に，
@@ -25,7 +26,7 @@ int ExecuteCommand(char command,int pos)
     int			endFlag = 1;
     int object_num;//オブジェクト配列の添字
     int object_status;//オブジェクトの状態
-    SDL_Rect object_pos;//オブジェクトの座標
+    Plc object_place;//オブジェクトの座標
     /* 引き数チェック */
     assert(0<=pos && pos<MAX_CLIENTS);
 
@@ -68,15 +69,15 @@ int ExecuteCommand(char command,int pos)
     case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/
         RecvIntData(pos, &object_num);//オブジェクトの添字を受け取る
         RecvIntData(pos, &object_status);//オブジェクトの状態を受け取る
-        RecvIntData(pos, &object_pos.x);//オブジェクトのx座標を受け取る
-        RecvIntData(pos, &object_pos.y);//オブジェクトのy座標を受け取る
+        RecvIntData(pos, &object_place.x);//オブジェクトのx座標を受け取る
+        RecvIntData(pos, &object_place.y);//オブジェクトのy座標を受け取る
 
         dataSize = 0;
         SetCharData2DataBlock(data, command, &dataSize);//コマンドをセット
         SetIntData2DataBlock(data, object_num, &dataSize);//オブジェクトの添字をセット
         SetIntData2DataBlock(data, object_status, &dataSize);//オブジェクトの状態をセット
-        SetIntData2DataBlock(data, object_pos.x, &dataSize);//オブジェクトのx座標をセット
-        SetIntData2DataBlock(data, object_pos.y, &dataSize);//オブジェクトのy座標をセット
+        SetIntData2DataBlock(data, object_place.x, &dataSize);//オブジェクトのx座標をセット
+        SetIntData2DataBlock(data, object_place.y, &dataSize);//オブジェクトのy座標をセット
 
         SendData(ALL_CLIENTS, data, dataSize);
         break;
