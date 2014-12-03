@@ -9,6 +9,7 @@
 //int x = 200;
 //int y = 200;
 
+//int gClientNum;
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -61,9 +62,8 @@ int ExecuteCommand(char command,int pos)
         for(i=0; i< MAX_CLIENTS ; i++){
             SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
             SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
-            SendData(pos, data, dataSize);
         }
-
+           SendData(ALL_CLIENTS, data, dataSize);
         break;
 
     case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/
