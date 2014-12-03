@@ -6,7 +6,6 @@
 #include"server_common.h"
 #include"server_func.h"
 
-
 //int x = 200;
 //int y = 200;
 
@@ -24,7 +23,9 @@ int ExecuteCommand(char command,int pos)
     unsigned char	data[MAX_DATA];
     int			dataSize,intData;
     int			endFlag = 1;
-
+    int object_num;//オブジェクト配列の添字
+    int object_status;//オブジェクトの状態
+    SDL_Rect object_pos;//オブジェクトの座標
     /* 引き数チェック */
     assert(0<=pos && pos<MAX_CLIENTS);
 
@@ -52,16 +53,32 @@ int ExecuteCommand(char command,int pos)
 //		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
 //		printf("(x,y) = (%d,%d)",gClients[1].plc.x,gClients[1].plc.y);
 
-    dataSize = 0;
-    SetCharData2DataBlock(data, command, &dataSize);
+        dataSize = 0;
+        SetCharData2DataBlock(data, command, &dataSize);
 
-    int i;
-    for(i=0; i< MAX_CLIENTS ; i++){
-    SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
-    SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
-    SendData(pos, data, dataSize);
-    }
+        int i;
+        for(i=0; i< MAX_CLIENTS ; i++){
+            SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
+            SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
+            SendData(pos, data, dataSize);
+        }
 
+        break;
+
+    case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/
+        RecvIntData(pos, &object_num);//オブジェクトの添字を受け取る
+        RecvIntData(pos, &object_status);//オブジェクトの状態を受け取る
+        RecvIntData(pos, &object_pos.x);//オブジェクトのx座標を受け取る
+        RecvIntData(pos, &object_pos.y);//オブジェクトのy座標を受け取る
+
+        dataSize = 0;
+        SetCharData2DataBlock(data, command, &dataSize);//コマンドをセット
+        SetIntData2DataBlock(data, object_num, &dataSize);//オブジェクトの添字をセット
+        SetIntData2DataBlock(data, object_status, &dataSize);//オブジェクトの状態をセット
+        SetIntData2DataBlock(data, object_pos.x, &dataSize);//オブジェクトのx座標をセット
+        SetIntData2DataBlock(data, object_pos.y, &dataSize);//オブジェクトのy座標をセット
+
+        SendData(ALL_CLIENTS, data, dataSize);
         break;
 
 
