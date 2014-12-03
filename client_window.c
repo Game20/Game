@@ -193,7 +193,9 @@ void hitjudge(void){
                 if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
                    P.y >= object[i].dst.y+20 && newposy <= object[i].dst.y+40 && object[i].status == 0){
                     object[i].status = 1;
+
                     SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y); // オブジェクトのデータの送信
+
                     if(object[i].flaghold == -1){
                         SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
                         object[i].flaghold = 0;
@@ -244,7 +246,9 @@ void hitjudge(void){
                         hity = -2;
                         newposy = object[i].dst.y - 35;
                         object[i].src.y = 60;
+
                         SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y); // オブジェクトのデータの送信
+
                         SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
                         SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
                         if(i >= 12 && i <= 14)
@@ -268,12 +272,16 @@ void hitjudge(void){
                     }
                     object[i].status = 0;
                     object[i].src.y = 0;
+
                     SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y); // オブジェクトのデータの送信
+
                     SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
                     SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
                     if(i >= 12 && i <= 14)
                         object[i-1].status = 0;
+
                     SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y); // オブジェクトのデータの送信
+
                 }
 
                 if(switchON != switchhold){
