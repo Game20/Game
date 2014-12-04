@@ -8,7 +8,7 @@ int j, k, l;
 void InitStatus(void){ // キャラのステータスの初期化
 int i;
     P.x = 3*bit;
-    P.y = 12*bit;
+    P.y = 10*bit;//12*bit;
 	newposx = P.x;
 	newposy = P.y;
     PA.y = 0;
@@ -70,7 +70,6 @@ void objectinit(void){
 	object[3].dst.y = 3;
 
 	object[4].gimmick = 0; //中間ポイント
-	object[4].status = 0;
 	object[4].dst.x = 85;
 	object[4].dst.y = 10;
 
@@ -100,7 +99,6 @@ void objectinit(void){
 	object[9].dst.y = 12;
 
 	object[10].gimmick = 0;
-	object[10].status = 0;
 	object[10].flaghold = -1;//不可視
 	object[10].dst.x = 165;
 	object[10].dst.y = 4;
@@ -144,7 +142,7 @@ void objectinit(void){
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
-	if(object[j].flaghold != -1)
+	if(object[j].flaghold != -1 || object[j].status == 1)
 	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
 	}
 
@@ -176,6 +174,7 @@ void objectinit(void){
 
 
 	for(j=0; j<SUM_switchblock; j++){
+	switchblock[j].flaghold = 0;
 	switchblock[j].src.x = 0;
 	switchblock[j].src.y = 0;
 	switchblock[j].src.w = 60;

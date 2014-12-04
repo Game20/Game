@@ -191,7 +191,7 @@ void hitjudge(void){
 		//中間ポイントのとき
 		if(object[i].gimmick == 0){
 			if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
-			   P.y >= object[i].dst.y+20 && newposy <= object[i].dst.y+40 && object[i].status == 0){
+			   P.y >= object[i].dst.y+20 && newposy <= object[i].dst.y+40 && object[i].status != 1){
 				object[i].status = 1;
 				if(object[i].flaghold == -1){
 				SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
@@ -238,57 +238,40 @@ void hitjudge(void){
 			if(P.x+gameRect.x >= object[i].dst.x - 35 && P.x+gameRect.x <= object[i].dst.x + 35 &&
 			  P.y+50/**/ >= object[i].dst.y && P.y <= object[i].dst.y-35){
 				if(newposy+75 >= object[i].dst.y+35){
-					switchON = 1;
+	//				switchON = 1;
 					object[i].status = 1; //ステータス：押されてる
+					switchblock[object[i].flaghold].flaghold = 1;
 					hity = -2;
 					newposy = object[i].dst.y - 35;
 					object[i].src.y = 60;
 					SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
 					SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
-					if(i >= 12 && i <= 14)
-					object[i-1].status = 1;
 
 				}
 			}
 			else{
-//				if( (object[i].flaghold == object[i+1].flaghold && object[i+1].status == 0) || 
-//					(object[i].flaghold == object[i-1].flaghold && object[i-1].status == 0) )
 
-//				for(j=0; j<SUM_object; j++){
-//				if(object[j].status == 1)
-//				break;
-//				}
-//				if(j == SUM_object || object[i].flaghold != object[j].flaghold)
-				switchON = 0;
-				for(j=0; j<SUM_object; j++){
-				if(object[j].status == 1 && object[i].flaghold == object[j].flaghold)
-				switchON = 1;
-				}
 				object[i].status = 0;
+				switchblock[object[i].flaghold].flaghold = 0;
 				object[i].src.y = 0;
 				SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
 				SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
-				if(i >= 12 && i <= 14)
-				object[i-1].status = 0;
 			}
 
-			if(switchON != switchhold){
+	for(j=0; j<SUM_object; j++){
+	if(object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].status == 1)
+	switchblock[object[i].flaghold].flaghold = 1;
+	}
 
-				for(j=0; j<SUM_switchblock; j++){
-				switchblock[object[i].flaghold].src.y = switchON*60;
-					for(k=0; k<switchblock[object[i].flaghold].gimmick; k++){
-						for(l=0; l<switchblock[object[i].flaghold].status; l++){
-						SDL_BlitSurface(mapwindow, &switchblock[object[i].flaghold].src, mapwindow, &switchblock[object[i].flaghold].dst); // switchblock再貼り付け
-						SDL_BlitSurface(blockimage, &switchblock[object[i].flaghold].src, mapwindow, &switchblock[object[i].flaghold].dst); // switchblock再貼り付け
-						switchblock[object[i].flaghold].dst.x += bit;
-						}
-					switchblock[object[i].flaghold].dst.y += bit;
-					}
-				switchblock[object[i].flaghold].dst.x -= l*60;
-				switchblock[object[i].flaghold].dst.y -= k*60;
-				}
-			switchhold = switchON;
-			}
+	if(i >= 11 && i <= 14){
+	if(object[i].status == 1)
+	switchblock[object[i-1].flaghold].flaghold = 1;
+
+	if(object[i].status == 0 && object[i-1].status == 0)
+	switchblock[object[i-1].flaghold].flaghold = 0;
+	if(object[i].status == 0 && object[i+1].status == 1)
+	switchblock[object[i].flaghold].flaghold = 1;
+	}
 		}
 
 		//バネのとき
@@ -382,22 +365,34 @@ void hitjudge(void){
 	}
 
 
-	//スイッチブロックの当たり判定
-	if(switchON == 1){
+	//スイッチブロックの当たり判定と描写
 	for(j=0; j<SUM_switchblock; j++){
-		if(object[j].gimmick == 2 && object[j].status == 1){
-		if( (newposx+gameRect.x >= switchblock[object[j].flaghold].dst.x-60+20 && newposx+gameRect.x <= switchblock[object[j].flaghold].dst.x+switchblock[object[j].flaghold].status*bit-60 + 40) &&
-			(P.y >= switchblock[object[j].flaghold].dst.y-70 && P.y <= switchblock[object[j].flaghold].dst.y+switchblock[object[j].flaghold].gimmick*bit-60 + 25) )
+		if(switchblock[j].src.y != switchblock[j].flaghold*60){
+		switchblock[j].src.y = switchblock[j].flaghold*60;
+			for(k=0; k<switchblock[j].gimmick; k++){
+				for(l=0; l<switchblock[j].status; l++){
+				SDL_BlitSurface(mapwindow, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock再貼り付け
+				SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock再貼り付け
+				switchblock[j].dst.x += bit;
+				}
+			switchblock[j].dst.y += bit;
+			}
+		switchblock[j].dst.x -= l*60;
+		switchblock[j].dst.y -= k*60;
+		}
+
+		if(switchblock[j].flaghold == 1){
+		if( (newposx+gameRect.x >= switchblock[j].dst.x-60+20 && newposx+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40) &&
+			(P.y >= switchblock[j].dst.y-70 && P.y <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 25) )
 			hitx = 1;
-		if(P.x+gameRect.x >= switchblock[object[j].flaghold].dst.x-60+20 && P.x+gameRect.x <= switchblock[object[j].flaghold].dst.x+switchblock[object[j].flaghold].status*bit-60 + 40 &&
-		  newposy >= switchblock[object[j].flaghold].dst.y-75 && newposy <= switchblock[object[j].flaghold].dst.y+switchblock[object[j].flaghold].gimmick*bit-60 + 43){
-			if(newposy >= switchblock[object[j].flaghold].dst.y)
+		if(P.x+gameRect.x >= switchblock[j].dst.x-60+20 && P.x+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40 &&
+		  newposy >= switchblock[j].dst.y-75 && newposy <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 43){
+			if(newposy >= switchblock[j].dst.y)
 			hity = 1;//上にヒット
-			if(newposy <= switchblock[object[j].flaghold].dst.y)
+			if(newposy <= switchblock[j].dst.y)
 			hity = -1;//下にヒット
 			}
 		}
-	}
 	}
 
 	//ハシゴの判定
@@ -420,6 +415,7 @@ void hitjudge(void){
 }
 
 /*
+clear
 git branch
 git checkout client
 git add client_window.c map.data client_func.h client_system.c 
@@ -546,7 +542,7 @@ void title(void){
                     DEBAG = 5;
                     titlep = 0;
                     titlep2 = 0;
-					}
+		}
 //*/
                     if(P.y == 600)
                         EXIT();
@@ -598,9 +594,9 @@ void title(void){
 void DrawChara(void)
 {
 //int i;
-    for(j = 0; j < MAX_CLIENTS; j++){
-        SDL_BlitSurface(usa, &PA, mapwindow, &player[j].pos); //キャラ貼り付け
-    }
+//    for(j = 0; j < MAX_CLIENTS; j++){
+//        SDL_BlitSurface(usa, &PA, mapwindow, &player[j].pos); //キャラ貼り付け
+//   }
 
 //    SDL_Flip(mapwindow);
 //    SDL_Flip(window);
@@ -621,9 +617,9 @@ void GameOver(void){
 	for(j=0; j<SUM_object; j++){
 	SDL_BlitSurface(mapwindow, &object[j].src, mapwindow, &object[j].dst); // object貼り準備
 	}
-
+	printf("\n\n\n %d \n\n\n", object[4].status);
     InitStatus();
-	
+
 }
 
 
