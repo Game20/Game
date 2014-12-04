@@ -419,7 +419,7 @@ clear
 git branch
 git checkout client
 git add client_window.c map.data client_func.h client_system.c 
-git commit -m "オブジェクト絵追加 ギミック判定強化 マップ拡張"
+git commit -m "スイッチできたぞおおおおおうわああああああ"
 git checkout master
 git branch
 git merge client
