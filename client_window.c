@@ -328,8 +328,18 @@ void hitjudge(void){
 	   gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
 		object[j].dst.y <= 20 * 60){
 		object[j].flaghold = 1;
-		if(object[j].movex != 0)
-		object[j].movex = 0;
+
+		for(k=0; k<SUM_switchblock; k++){
+		if(switchblock[k].flaghold == 1 &&
+		  object[j].dst.x >= switchblock[k].dst.x-60 && object[j].dst.x <= switchblock[k].dst.x+switchblock[k].status*bit &&
+		  object[j].dst.y >= switchblock[k].dst.y-60 && object[j].dst.y <= switchblock[k].dst.y+switchblock[k].gimmick*bit-110){
+			object[j].flaghold = 0;
+			}
+		}
+
+	if(object[j].flaghold == 1 && object[j].movex != 0)
+	object[j].movex = 0;
+
 	}
 
 	//オブジェクト同士の当たり判定
@@ -367,7 +377,16 @@ void hitjudge(void){
 				object[j].dst.y <= 20 * 60)
 			object[j].movey = 4;
 			else
-			object[j].flaghold = 0;	
+			object[j].flaghold = 0;
+
+/*		for(k=0; k<SUM_switchblock; k++){
+		if(switchblock[k].flaghold == 1 &&
+		  object[j].dst.x >= switchblock[k].dst.x-60 && object[j].dst.x <= switchblock[k].dst.x+switchblock[k].status*bit &&
+		  object[j].dst.y >= switchblock[k].dst.y-60 && object[j].dst.y <= switchblock[k].dst.y+switchblock[k].gimmick*bit){
+			object[j].movey = 0;
+			object[j].flaghold = 0;
+			}
+		}*/
 		}
 	}
 	if(object[j].movex != 0 || object[j].movey != 0){
@@ -428,15 +447,6 @@ void hitjudge(void){
 	}
 
 }
-
-/*
-clear
-git branch
-git checkout client
-git add client_window.c map.data client_func.h client_system.c 
-git commit -m "中間ポイントなんとかなった"
-git push game client
-*/
 
 void scroll(void){
 
@@ -612,7 +622,6 @@ void DrawChara(void)
 //    SDL_Flip(window);
 }
 
-
 void GameOver(void){
 
 	PA.x = 3 * bit;
@@ -632,7 +641,7 @@ void GameOver(void){
 
 	for(j=0; j<SUM_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
-	gameRect.x = object[j].dst.x-300;
+	gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
 	P.y = object[j].dst.y+60;
 	newposy = P.y;
 	}

@@ -169,6 +169,24 @@ void objectinit(void){
 	object[26].dst.x = 220;
 	object[26].dst.y = 1;
 
+	object[27].gimmick = 0;
+	object[27].dst.x = 243;
+	object[27].dst.y = 2;
+
+	object[28].gimmick = 2; //スイッチ
+	object[28].flaghold = 10;
+	object[28].dst.x = 268;
+	object[28].dst.y = 11;
+
+	object[29].gimmick = 3; //バネ
+	object[29].status = 4;
+	object[29].dst.x = 266;
+	object[29].dst.y = 3;
+
+	object[30].gimmick = 5; //カギ
+	object[30].dst.x = 256;
+	object[30].dst.y = 11;
+
 
 	for(j=0; j<SUM_object; j++){
 	object[j].movex = 0;
@@ -177,6 +195,10 @@ void objectinit(void){
 	object[j].flaghold = 0;
 	object[j].src.x = object[j].gimmick*bit;
 	object[j].src.y = 0;
+if(j == 30){
+object[j].src.x = 0;
+object[j].src.y = 60;
+}
 	object[j].src.w = 60;
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
@@ -236,6 +258,10 @@ void objectinit(void){
 	switchblock[9].dst.x = 235;
 	switchblock[9].dst.y = 12;
 
+	switchblock[10].gimmick = 1;//縦幅
+	switchblock[10].status = 1;//横幅
+	switchblock[10].dst.x = 263;
+	switchblock[10].dst.y = 12;
 
 
 
@@ -270,6 +296,15 @@ void objectinit(void){
 	steps[2].status = 4;//長さ
 	steps[2].dst.x = 220;
 	steps[2].dst.y = 2;
+
+	steps[3].status = 5;//長さ
+	steps[3].dst.x = 252;
+	steps[3].dst.y = 7;
+
+	steps[4].status = 6;//長さ
+	steps[4].dst.x = 246;
+	steps[4].dst.y = 2;
+
 
 	for(j=0; j<SUM_steps; j++){
 	steps[j].src.x = 60;
