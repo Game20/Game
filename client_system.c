@@ -25,15 +25,6 @@ int i;
 	LR = 0;
 	UD = 0;
 
-	for(j=0; j<SUM_object; j++){
-	if(object[j].gimmick == 0 && object[j].status == 1){
-	P.x = object[j].dst.x-420;
-	P.y = object[j].dst.y+60;
-	}
-	else
-	gameRect.x = 0;
-	}
-
 	objectinit();
 
     for(i = 0; i < MAX_CLIENTS; i++){
@@ -174,6 +165,10 @@ void objectinit(void){
 	object[25].dst.x = 225;
 	object[25].dst.y = 12;
 
+	object[26].gimmick = 0;
+	object[26].dst.x = 220;
+	object[26].dst.y = 1;
+
 
 	for(j=0; j<SUM_object; j++){
 	object[j].movex = 0;
@@ -271,6 +266,10 @@ void objectinit(void){
 	steps[1].status = 9;//長さ
 	steps[1].dst.x = 143;
 	steps[1].dst.y = 3;
+
+	steps[2].status = 4;//長さ
+	steps[2].dst.x = 220;
+	steps[2].dst.y = 2;
 
 	for(j=0; j<SUM_steps; j++){
 	steps[j].src.x = 60;

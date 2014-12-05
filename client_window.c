@@ -199,7 +199,7 @@ void hitjudge(void){
 		//中間ポイントのとき
 		if(object[i].gimmick == 0){
 			if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
-			   P.y >= object[i].dst.y+20 && newposy <= object[i].dst.y+40 && object[i].status != 1){
+			   P.y >= object[i].dst.y+20 && P.y <= object[i].dst.y+45 && object[i].status != 1 && P.y > newposy){
 				object[i].status = 1;
 				if(object[i].flaghold == -1){
 				SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
@@ -402,8 +402,8 @@ void hitjudge(void){
 			hitx = 1;
 		if(P.x+gameRect.x >= switchblock[j].dst.x-60+20 && P.x+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40 &&
 		  newposy >= switchblock[j].dst.y-75 && newposy <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 43){
-			if(newposy >= switchblock[j].dst.y)
-			hity = 1;//上にヒット
+			if(newposy >= switchblock[j].dst.y-60)
+			newposy = switchblock[j].dst.y+45;//上にヒット
 			if(newposy <= switchblock[j].dst.y)
 			hity = -1;//下にヒット
 			}
@@ -414,9 +414,9 @@ void hitjudge(void){
 	if(stepflag >= 1){
 	for(j=0; j<SUM_steps; j++){
 		if( (P.x+gameRect.x+10 >= steps[j].dst.x-10 && P.x+gameRect.x <= steps[j].dst.x + 30) &&
-			(P.y >= steps[j].dst.y + 45 && P.y+30 <= steps[j].dst.y + 25 + steps[j].status*bit)){
+			(P.y >= steps[j].dst.y + 40 && P.y+30 <= steps[j].dst.y + 25 + steps[j].status*bit)){
 			stepflag = 2;
-			if(newposy <= steps[j].dst.y + 45)
+			if(newposy < steps[j].dst.y + 40)
 			newposy = P.y;
 		break;
 		}
@@ -434,13 +434,8 @@ clear
 git branch
 git checkout client
 git add client_window.c map.data client_func.h client_system.c 
-git commit -m "だれか中間ポイントのバグをなんとかしてくれ"
-git checkout master
-git branch
-git merge client
-./shell.sh client_window.c map.data client_func.h client_system.c
-git branch -d client
-git checkout -b client
+git commit -m "中間ポイントなんとかなった"
+git push game client
 */
 
 void scroll(void){
@@ -635,7 +630,15 @@ void GameOver(void){
 
     InitStatus();
 
-printf("\n\n %d \n\n", P.x);
+	for(j=0; j<SUM_object; j++){
+	if(object[j].gimmick == 0 && object[j].status == 1){
+	gameRect.x = object[j].dst.x-300;
+	P.y = object[j].dst.y+60;
+	newposy = P.y;
+	}
+	}
+
+//printf("\n\n a \n\n");
 
 }
 
