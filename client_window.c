@@ -434,7 +434,7 @@ clear
 git branch
 git checkout client
 git add client_window.c map.data client_func.h client_system.c 
-git commit -m "スイッチできたぞおおおおおうわああああああ"
+git commit -m "中間ポイントのバグを"
 git checkout master
 git branch
 git merge client
