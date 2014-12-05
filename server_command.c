@@ -64,14 +64,15 @@ int ExecuteCommand(char command,int pos)
         dataSize = 0;
         SetCharData2DataBlock(data, command, &dataSize);
 
-        int i;
-        for(i=0; i< MAX_CLIENTS ; i++){
-            SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
-            SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
-        }
+      //  int i;
+      //  for(i=0; i< MAX_CLIENTS ; i++){
+            SetIntData2DataBlock(data, pos, &dataSize);
+            SetIntData2DataBlock(data, gClients[pos].plc.x, &dataSize);
+            SetIntData2DataBlock(data, gClients[pos].plc.y, &dataSize);
+      //  }
+
            SendData(ALL_CLIENTS, data, dataSize);
         break;
-
     case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/
         RecvIntData(pos, &object_num);//オブジェクトの添字を受け取る
         RecvIntData(pos, &object_status);//オブジェクトの状態を受け取る

@@ -172,13 +172,14 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 static void RecvMoveData(void)
 {
     int i;
-    for(i = 0; i < MAX_CLIENTS; i++) {
+ //   for(i = 0; i < MAX_CLIENTS; i++) {
+        RecvIntData(&i);
         RecvIntData(&player[i].pos.x);
         RecvIntData(&player[i].pos.y);
 
-        if(player[i].pos.x == NULL)
-            break;
-    }
+     //   if(player[i].pos.x == NULL)
+       //     break;
+   // }
 //    DrawChara(x,y);
 
 }
