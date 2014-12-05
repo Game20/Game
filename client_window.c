@@ -385,10 +385,10 @@ void hitjudge(void){
             }
 	}
 	if(object[j].movex != 0 || object[j].movey != 0){
+            SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
             SDL_BlitSurface(mapwindow, &object[j].src, mapwindow, &object[j].dst); // object貼り準備
             object[j].dst.x += object[j].movex;
             object[j].dst.y += object[j].movey;
-            SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
             SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
             object[j].movex = 0;
             object[j].movey = 0;
