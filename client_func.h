@@ -151,7 +151,7 @@ extern void GameOver(void);
 extern int ExecuteCommand(char command);
 extern void SendEndCommand(void);
 extern void SendMoveCommand(int x, int y); //追加
-extern void SendObjectCommand(int num, int status, int x, int y);
+extern void SendObjectCommand(int num, int status, int x, int y, int movex, int movey);
 
 
 
