@@ -26,5 +26,6 @@
 
 #define OBJECT_COMMAND 'O' //オブジェクトの受け渡しに使うコマンド
 
+#define ANIMATION_COMMAND 'A'/** アニメーションを送受信するコマンド */
 
 #endif
