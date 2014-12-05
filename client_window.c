@@ -322,18 +322,28 @@ void hitjudge(void){
     }
 } // オブジェクトの判定の終わり
 
-////再判定
-for(j=0; j<SUM_object; j++){
 
-    if(object[j].gimmick == 1 || object[j].gimmick == 3){
-        //岩の下にマップがなにもなかった場合
-        if(gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
-           gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
-           object[j].dst.y <= 20 * 60){
-            object[j].flaghold = 1;
-            if(object[j].movex != 0)
-                object[j].movex = 0;
-        }
+	////再判定
+	for(j=0; j<SUM_object; j++){
+
+	if(object[j].gimmick == 1 || object[j].gimmick == 3){
+	//岩の下にマップがなにもなかった場合
+	if(gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
+	   gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
+		object[j].dst.y <= 20 * 60){
+		object[j].flaghold = 1;
+
+		for(k=0; k<SUM_switchblock; k++){
+		if(switchblock[k].flaghold == 1 &&
+		  object[j].dst.x >= switchblock[k].dst.x-60 && object[j].dst.x <= switchblock[k].dst.x+switchblock[k].status*bit &&
+		  object[j].dst.y >= switchblock[k].dst.y-60 && object[j].dst.y <= switchblock[k].dst.y+switchblock[k].gimmick*bit-110){
+			object[j].flaghold = 0;
+			}
+		}
+
+	if(object[j].flaghold == 1 && object[j].movex != 0)
+object[j].movex = 0;
+}
 
         //オブジェクト同士の当たり判定
         if(object[j].movex != 0  || object[j].movey != 0 || object[j].flaghold == 1){
@@ -362,30 +372,38 @@ for(j=0; j<SUM_object; j++){
         }
     }
 
-    //フラグホールドの処理
-    if(object[j].flaghold == 1){
-        if(object[j].gimmick == 1 || object[j].gimmick == 3){
-            if( gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
-                gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
-                object[j].dst.y <= 20 * 60)
-                object[j].movey = 4;
-            else
-                object[j].flaghold = 0;
-        }
-    }
-    if(object[j].movex != 0 || object[j].movey != 0){
-        SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
-        SDL_BlitSurface(mapwindow, &object[j].src, mapwindow, &object[j].dst); // object貼り準備
-        object[j].dst.x += object[j].movex;
-        object[j].dst.y += object[j].movey;
-        //SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
-        SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
-        object[j].movex = 0;
-        object[j].movey = 0;
-        SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
 
-    }
-}
+	//フラグホールドの処理
+	if(object[j].flaghold == 1){
+		if(object[j].gimmick == 1 || object[j].gimmick == 3){
+		    if( gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
+			    gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
+				object[j].dst.y <= 20 * 60)
+			object[j].movey = 4;
+			else
+			object[j].flaghold = 0;
+
+/*		for(k=0; k<SUM_switchblock; k++){
+		if(switchblock[k].flaghold == 1 &&
+		  object[j].dst.x >= switchblock[k].dst.x-60 && object[j].dst.x <= switchblock[k].dst.x+switchblock[k].status*bit &&
+		  object[j].dst.y >= switchblock[k].dst.y-60 && object[j].dst.y <= switchblock[k].dst.y+switchblock[k].gimmick*bit){
+			object[j].movey = 0;
+			object[j].flaghold = 0;
+			}
+		}*/
+		}
+	}
+	if(object[j].movex != 0 || object[j].movey != 0){
+	SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,  object[j].movex, object[j].movey); // オブジェクトのデータの送信
+	SDL_BlitSurface(mapwindow, &object[j].src, mapwindow, &object[j].dst); // object貼り準備
+	object[j].dst.x += object[j].movex;
+	object[j].dst.y += object[j].movey;
+	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
+	object[j].movex = 0;
+	object[j].movey = 0;
+	SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
+	}
+	}
 
 //スイッチブロックの当たり判定と描写
 for(j=0; j<SUM_switchblock; j++){
@@ -435,6 +453,7 @@ if(stepflag >= 1){
 }
 
 }
+
 
 void scroll(void){
 
@@ -608,7 +627,6 @@ void DrawChara(void)
     }
 }
 
-
 void GameOver(void){
 
     PA.x = 3 * bit;
@@ -628,11 +646,12 @@ void GameOver(void){
 
     for(j=0; j<SUM_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
-            gameRect.x = object[j].dst.x-300;
-            P.y = object[j].dst.y+60;
-            newposy = P.y;
+	gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
+	P.y = object[j].dst.y+60;
+	newposy = P.y;
 	}
-    }
+	}
+
 
 //printf("\n\n a \n\n");
 
