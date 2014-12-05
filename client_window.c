@@ -391,6 +391,7 @@ void hitjudge(void){
             SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
             object[j].movex = 0;
             object[j].movey = 0;
+            SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y); // オブジェクトのデータの送信
 	}
     }
 
