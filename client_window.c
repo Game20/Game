@@ -612,7 +612,8 @@ void DrawChara(void)
 {
 //int i;
     for(j = 0; j < MAX_CLIENTS; j++){
-        SDL_BlitSurface(usa, &PA, mapwindow, &player[j].pos); //キャラ貼り付け
+        player[j].pos.x -= gameRect.x;
+        SDL_BlitSurface(usa, &PA, window, &player[j].pos); //キャラ貼り付け
     }
 
 //    SDL_Flip(mapwindow);
