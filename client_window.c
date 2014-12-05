@@ -374,7 +374,7 @@ for(j=0; j<SUM_object; j++){
         }
     }
     if(object[j].movex != 0 || object[j].movey != 0){
-        //SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
+        SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
         SDL_BlitSurface(mapwindow, &object[j].src, mapwindow, &object[j].dst); // object貼り準備
         object[j].dst.x += object[j].movex;
         object[j].dst.y += object[j].movey;
@@ -435,15 +435,6 @@ if(stepflag >= 1){
 }
 
 }
-
-/*
-  clear
-  git branch
-  git checkout client
-  git add client_window.c map.data client_func.h client_system.c
-  git commit -m "中間ポイントなんとかなった"
-  git push game client
-*/
 
 void scroll(void){
 
