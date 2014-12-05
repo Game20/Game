@@ -87,14 +87,14 @@ int main(int argc, char* argv[]) {
     int i, j; //forループで使用
     int		endFlag=1;
 //サーバーつなぐなら外して*********************/
-/*    int		num;
+    int		num;
     char	name[MAX_CLIENTS][MAX_NAME_SIZE];
     char	localHostName[]="localhost";
     char	*serverName;
     int		clientID;
 
     /* 引き数チェック */
-/*    if(argc == 1){
+    if(argc == 1){
     	serverName = localHostName;
     }
     else if(argc == 2){
@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
     }
 
     /* サーバーとの接続 */
-/*    if(SetUpClient(serverName,&clientID,&num,name)==-1){
+    if(SetUpClient(serverName,&clientID,&num,name)==-1){
 		fprintf(stderr,"setup failed : SetUpClient\n");
 		return -1;
 	}
@@ -139,18 +139,14 @@ int main(int argc, char* argv[]) {
         //DrawChara();
 
 //サーバーつなぐなら外して*********************/
-    for(j = 0; j < MAX_CLIENTS; j++){ // キャラクターの描画を消す
-        SDL_BlitSurface(mapwindow, &whitedisplay, mapwindow, &player[j].pos);
-    }
-    
-/*    for(i = 0; i <= 30; i++) { // データの受信
+    for(i = 0; i <= 30; i++) { // データの受信
         endFlag = SendRecvManager();
     }
-    
+
     /**/
         DrawChara(); // キャラの描画
         SDL_Flip(window); // 画面に図形を表示（反映）
-	
+
 	DisplayStatus();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
