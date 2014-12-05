@@ -434,7 +434,7 @@ clear
 git branch
 git checkout client
 git add client_window.c map.data client_func.h client_system.c 
-git commit -m "中間ポイントのバグを"
+git commit -m "だれか中間ポイントのバグをなんとかしてくれ"
 git checkout master
 git branch
 git merge client
@@ -635,7 +635,7 @@ void GameOver(void){
 
     InitStatus();
 
-//printf("\n\n %d \n\n", P.x);
+printf("\n\n %d \n\n", P.x);
 
 }
 
