@@ -53,8 +53,8 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 16
-#define SUM_switchblock 5
+#define SUM_object 26
+#define SUM_switchblock 10
 #define SUM_steps 2
 
 extern Player player[MAX_CLIENTS];

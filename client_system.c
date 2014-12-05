@@ -21,7 +21,6 @@ int i;
 	hithold = 0;
 	shiftdef = 0;
 	gimmickflag = 0;
-//	G_flaghold = 0;
 	stepflag = 0;
 	LR = 0;
 	UD = 0;
@@ -108,7 +107,6 @@ void objectinit(void){
 	object[11].dst.x = 197;
 	object[11].dst.y = 11;
 
-
 	object[12].gimmick = 2; //スイッチ
 	object[12].flaghold = 2;
 	object[12].dst.x = 190;
@@ -124,11 +122,57 @@ void objectinit(void){
 	object[14].dst.x = 190;
 	object[14].dst.y = 4;
 
-
 	object[15].gimmick = 2; //スイッチ
 	object[15].flaghold = 4;
 	object[15].dst.x = 197;
 	object[15].dst.y = 2;
+
+	object[16].gimmick = 1;
+	object[16].dst.x = 202;
+	object[16].dst.y = 1;
+
+	object[17].gimmick = 2; //スイッチ
+	object[17].flaghold = 5;
+	object[17].dst.x = 206;
+	object[17].dst.y = 11;
+
+	object[18].gimmick = 1;
+	object[18].dst.x = 208;
+	object[18].dst.y = 1;
+
+	object[19].gimmick = 3; //バネ
+	object[19].status = 5;
+	object[19].dst.x = 212;
+	object[19].dst.y = 1;
+
+	object[20].gimmick = 2; //スイッチ
+	object[20].flaghold = 7;
+	object[20].dst.x = 222;
+	object[20].dst.y = 5;
+
+	object[21].gimmick = 3; //バネ
+	object[21].status = 6;
+	object[21].dst.x = 227;
+	object[21].dst.y = 11;
+
+	object[22].gimmick = 1;
+	object[22].dst.x = 229;
+	object[22].dst.y = 1;
+
+	object[23].gimmick = 2; //スイッチ
+	object[23].flaghold = 6;
+	object[23].dst.x = 217;
+	object[23].dst.y = 11;
+
+	object[24].gimmick = 2; //スイッチ
+	object[24].flaghold = 8;
+	object[24].dst.x = 233;
+	object[24].dst.y = 5;
+
+	object[25].gimmick = 2; //スイッチ
+	object[25].flaghold = 9;
+	object[25].dst.x = 225;
+	object[25].dst.y = 12;
 
 
 	for(j=0; j<SUM_object; j++){
@@ -171,6 +215,33 @@ void objectinit(void){
 	switchblock[4].status = 3;//横幅
 	switchblock[4].dst.x = 193;
 	switchblock[4].dst.y = 4;
+
+	switchblock[5].gimmick = 1;//縦幅
+	switchblock[5].status = 2;//横幅
+	switchblock[5].dst.x = 204;
+	switchblock[5].dst.y = 2;
+
+	switchblock[6].gimmick = 1;//縦幅
+	switchblock[6].status = 3;//横幅
+	switchblock[6].dst.x = 216;
+	switchblock[6].dst.y = 6;
+
+	switchblock[7].gimmick = 1;//縦幅
+	switchblock[7].status = 3;//横幅
+	switchblock[7].dst.x = 221;
+	switchblock[7].dst.y = 12;
+
+	switchblock[8].gimmick = 1;//縦幅
+	switchblock[8].status = 3;//横幅
+	switchblock[8].dst.x = 226;
+	switchblock[8].dst.y = 2;
+
+	switchblock[9].gimmick = 1;//縦幅
+	switchblock[9].status = 3;//横幅
+	switchblock[9].dst.x = 235;
+	switchblock[9].dst.y = 12;
+
+
 
 
 	for(j=0; j<SUM_switchblock; j++){
@@ -249,10 +320,6 @@ void eventdisp(){
                     jumpflag = 1;
                     jump_a = 12; //初速
                 //} //←{}を消したら無限ジャンプ
-//				if(DEBAG == 5)
-//					P.y -= bit;
-
-
                 break;
 
             case SDLK_ESCAPE:	// エスケープキー
@@ -331,7 +398,7 @@ void keycont(void){
 
 ///*
 //デバッグ用処理　速度10倍
-newposx += (newposx - P.x) * DEBAG*2;
+newposx += (newposx - P.x) * DEBAG*3;
 //*/
 
     hitjudge();
