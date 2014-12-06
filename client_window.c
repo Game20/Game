@@ -264,15 +264,6 @@ void hitjudge(void){
 				switchblock[object[i].flaghold].flaghold = 0;
 			}
 
-	if(object[i].src.y != object[i].status*bit){
-	object[i].src.y = object[i].status*bit;
-	white.x = object[i].dst.x;
-	white.y = object[i].dst.y;
-	SDL_BlitSurface(mapwindow, &white, objectwindow, &object[i].dst); // object貼り付け準備
-	SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
-	}
-
-
 	for(j=0; j<=SUM_object; j++){
 	if(object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].status == 1)
 	switchblock[object[i].flaghold].flaghold = 1;
@@ -404,6 +395,17 @@ void hitjudge(void){
 				}
 			}
 		}
+	}
+	}
+
+	//スイッチのとき
+	if(object[j].gimmick == 2 && object[j].status != 2){
+	if(object[j].src.y != object[j].status*bit){
+	object[j].src.y = object[j].status*bit;
+	white.x = object[j].dst.x;
+	white.y = object[j].dst.y;
+	SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
+	SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
 	}
 	}
 
