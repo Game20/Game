@@ -77,7 +77,7 @@ extern TTF_Font* sTTF;
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる", "1P"};
-SDL_Surface *gMessages[ 100 ];
+
 
 
 
@@ -115,8 +115,10 @@ int main(int argc, char* argv[]) {
     InitWindow();
 
     title();
-
     InitStatus(); // キャラのステータスの初期化
+
+    SendStartCommand();
+    endFlag = SendRecvManager();
     // 無限ループ
     while(endFlag){
 
@@ -158,6 +160,8 @@ int main(int argc, char* argv[]) {
     EXITsetting();
     return 0;
 } //main
+
+
 
 //ステータス初期化
 void SS(void){
