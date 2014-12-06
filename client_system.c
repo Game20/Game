@@ -3,12 +3,13 @@
 void EXIT();
 
 int j, k, l;
+SDL_Rect P_START;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
 int i;
-    P.x = 3*bit;
-    P.y = 10*bit;//12*bit;
+    P.x = P_START.x;
+    P.y = P_START.y; //12*bit;
 	newposx = P.x;
 	newposy = P.y;
     PA.y = 0;

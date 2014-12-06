@@ -196,10 +196,9 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 static void RecvStartData(void)
 {
     int i;
-    for(i = 0; i < MAX_CLIENTS; i++) {
-        RecvIntData(&player[i].pos.x);
-        RecvIntData(&player[i].pos.y);
-    }
+    RecvIntData(&i);
+    RecvIntData(&player[i].pos.x);
+    RecvIntData(&player[i].pos.y);
 }
 
 static void RecvMoveData(void)
