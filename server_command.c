@@ -45,16 +45,16 @@ int ExecuteCommand(char command,int pos)
     switch(command){
     case START_COMMAND:
         dataSize = 0;
-        int j,x,y;
-        x=180;
-        y=630;
-        SetCharData2DataBlock(data, command, &dataSize);               
-        for(j=0; j< MAX_CLIENTS ; j++){
-            x = x + (j * 80);
-            SetIntData2DataBlock(data, x, &dataSize);
-            SetIntData2DataBlock(data, y, &dataSize);
-        }
-        SendData(ALL_CLIENTS, data, dataSize);
+        int x,y;
+        x=180;/*1Pの初期座標*/
+        y=630;/*1Pの初期座標*/
+        SetCharData2DataBlock(data, command, &dataSize);
+        SetIntData2DataBlock(data, pos, &dataSize);               
+        x = x + (pos * 80); /*プレイヤーごとの初期座標計算*/
+        SetIntData2DataBlock(data, x, &dataSize);
+        SetIntData2DataBlock(data, y, &dataSize);
+
+        SendData(pos, data, dataSize);
         break;
     case END_COMMAND:
         dataSize = 0;
