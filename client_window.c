@@ -13,6 +13,8 @@ int setstartp;
 TTF_Font* sTTF;
 //SDL_Surface *usa;  // 画像データへのポインタ
 
+SDL_Surface *gMessages[ 100 ];
+
 char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
 SDL_Surface *gMapImage; // マップ
@@ -252,20 +254,17 @@ void hitjudge(void){
                         switchblock[object[i].flaghold].flaghold = 1;
                         hity = -2;
                         newposy = object[i].dst.y - 35;
-                        SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,  object[i].movex, object[i].movey); // オブジェクトのデータの送信
                     }
                 }
                 else{
                     object[i].status = 0;
                     switchblock[object[i].flaghold].flaghold = 0;
-                    SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y,  object[j].movex, object[j].movey); // オブジェクトのデータの送信
                 }
 
                 if(object[i].src.y != object[i].status*bit){
                     object[i].src.y = object[i].status*bit;
                     SDL_BlitSurface(mapwindow, &object[i].src, mapwindow, &object[i].dst); // object貼り付け準備
                     SDL_BlitSurface(objectimage, &object[i].src, mapwindow, &object[i].dst); // object貼り付け
-                    SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y,  object[j].movex, object[j].movey); // オブジェクトのデータの送信
                 }
 
 
@@ -325,26 +324,16 @@ void hitjudge(void){
         }
     } // オブジェクトの判定の終わり
 
-
-    ////再判定
+////再判定
     for(j=0; j<SUM_object; j++){
 
-	if(object[j].gimmick == 1 || object[j].gimmick == 3){
+        if(object[j].gimmick == 1 || object[j].gimmick == 3){
             //岩の下にマップがなにもなかった場合
             if(gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
                gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
                object[j].dst.y <= 20 * 60){
-		object[j].flaghold = 1;
-
-		for(k=0; k<SUM_switchblock; k++){
-                    if(switchblock[k].flaghold == 1 &&
-                       object[j].dst.x >= switchblock[k].dst.x-60 && object[j].dst.x <= switchblock[k].dst.x+switchblock[k].status*bit &&
-                       object[j].dst.y >= switchblock[k].dst.y-60 && object[j].dst.y <= switchblock[k].dst.y+switchblock[k].gimmick*bit-110){
-			object[j].flaghold = 0;
-                    }
-		}
-
-                if(object[j].flaghold == 1 && object[j].movex != 0)
+                object[j].flaghold = 1;
+                if(object[j].movex != 0)
                     object[j].movex = 0;
             }
 
@@ -375,9 +364,8 @@ void hitjudge(void){
             }
         }
 
-
-	//フラグホールドの処理
-	if(object[j].flaghold == 1){
+        //フラグホールドの処理
+        if(object[j].flaghold == 1){
             if(object[j].gimmick == 1 || object[j].gimmick == 3){
                 if( gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
                     gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
@@ -386,17 +374,10 @@ void hitjudge(void){
                 else
                     object[j].flaghold = 0;
 
-/*		for(k=0; k<SUM_switchblock; k++){
-		if(switchblock[k].flaghold == 1 &&
-                object[j].dst.x >= switchblock[k].dst.x-60 && object[j].dst.x <= switchblock[k].dst.x+switchblock[k].status*bit &&
-                object[j].dst.y >= switchblock[k].dst.y-60 && object[j].dst.y <= switchblock[k].dst.y+switchblock[k].gimmick*bit){
-                object[j].movey = 0;
-                object[j].flaghold = 0;
-                }
-		}*/
             }
-	}
-	if(object[j].movex != 0 || object[j].movey != 0){
+        }
+        
+        if(object[j].movex != 0 || object[j].movey != 0){
             //SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y,  object[j].movex, object[j].movey); // オブジェクトのデータの送信
             SDL_BlitSurface(mapwindow, &object[j].src, mapwindow, &object[j].dst); // object貼り準備
             object[j].dst.x += object[j].movex;
@@ -406,8 +387,11 @@ void hitjudge(void){
             object[j].movex = 0;
             object[j].movey = 0;
             SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y, object[j].movex, object[j].movey); // オブジェクトのデータの送信
-	}
+        }
     }
+
+
+
 
 //スイッチブロックの当たり判定と描写
     for(j=0; j<SUM_switchblock; j++){
@@ -458,6 +442,14 @@ void hitjudge(void){
 
 }
 
+/*
+  clear
+  git branch
+  git checkout client
+  git add client_window.c map.data client_func.h client_system.c
+  git commit -m "中間ポイントなんとかなった"
+  git push game client
+*/
 
 void scroll(void){
 
@@ -631,6 +623,7 @@ void DrawChara(void)
     }
 }
 
+
 void GameOver(void){
 
     PA.x = 3 * bit;
@@ -650,12 +643,11 @@ void GameOver(void){
 
     for(j=0; j<SUM_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
-            gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
+            gameRect.x = object[j].dst.x-300;
             P.y = object[j].dst.y+60;
             newposy = P.y;
 	}
     }
-
 
 //printf("\n\n a \n\n");
 

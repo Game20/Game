@@ -8,6 +8,7 @@
 
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
+static void RecvStartData(void);
 static void RecvMoveData(void);
 static void RecvObjectData(void);
 /*****************************************************************
@@ -31,6 +32,10 @@ int ExecuteCommand(char command)
         endFlag = 0;
         break;
 
+    case START_COMMAND:
+        RecvStartData();
+        break;
+
     case MOVE_COMMAND: //移動コマンド
         RecvMoveData();
         break;
@@ -43,6 +48,25 @@ int ExecuteCommand(char command)
 }
 
 /* 追加*/
+/*****************************************************************
+関数名	: SendStartCommand
+機能	: ゲーム開始をサーバーに送る
+引数	: なし
+出力	: なし
+*****************************************************************/
+void SendStartCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    /* コマンドのセット */
+    SetCharData2DataBlock(data,START_COMMAND,&dataSize);
+
+    /* データの送信 */
+    SendData(data,dataSize);
+}
+
 /*****************************************************************
 関数名	: SendMoveCommand
 機能	: 移動したことをサーバーに送る
@@ -169,6 +193,14 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 
 
 /**************************追加関数******************************/
+static void RecvStartData(void)
+{
+    int i;
+    RecvIntData(&i);
+    RecvIntData(&player[i].pos.x);
+    RecvIntData(&player[i].pos.y);
+}
+
 static void RecvMoveData(void)
 {
     int i;
@@ -179,8 +211,6 @@ static void RecvMoveData(void)
         if(player[i].pos.x == NULL)
             break;
     }
-//    DrawChara(x,y);
-
 }
 
 static void RecvObjectData(void)

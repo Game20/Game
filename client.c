@@ -56,6 +56,8 @@ SDL_Rect P = { 200, 705 };
 SDL_Rect PMR = { 0, 0, 60, 100 };
 SDL_Rect PM = { 0, 0 };//Player_Message(_Read) 1Pとかの表示 あとで構造体化
 
+extern SDL_Rect P_START;
+
 SDL_Event event; // SDLによるイベントを検知するための構造体
 SDL_Event quit_event = {SDL_QUIT};	// 特定のイベント名を格納
 
@@ -77,7 +79,7 @@ extern TTF_Font* sTTF;
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 
 static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる", "1P"};
-SDL_Surface *gMessages[ 100 ];
+
 
 
 
@@ -115,8 +117,27 @@ int main(int argc, char* argv[]) {
     InitWindow();
 
     title();
+    for(i = 0; i < MAX_CLIENTS; i++){
+        player[i].pos.x = 0;
+    }
+
+    SendStartCommand();
+
+    while(!player[0].pos.x && !player[1].pos.x
+          && !player[2].pos.x && !player[3].pos.x) {
+        endFlag = SendRecvManager();
+    }
+
+    for(i = 0; i < MAX_CLIENTS; i++){
+        if(player[i].pos.x != 0) {
+            P_START.x = player[i].pos.x;
+            P_START.y = player[i].pos.y;
+            break;
+        }
+    }
 
     InitStatus(); // キャラのステータスの初期化
+
     // 無限ループ
     while(endFlag){
 
@@ -158,6 +179,8 @@ int main(int argc, char* argv[]) {
     EXITsetting();
     return 0;
 } //main
+
+
 
 //ステータス初期化
 void SS(void){
