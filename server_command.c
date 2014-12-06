@@ -14,8 +14,8 @@
 /************OBJECT_COMMAND用の変数宣言*************/
 static int object_num;//オブジェクト配列の添字
 static int object_status;//オブジェクトの状態
-        Plc object_place;//オブジェクトの座標
-        Plc object_move;//移動判定を格納する(client_window内のmovex,movey)
+Plc object_place;//オブジェクトの座標
+Plc object_move;//移動判定を格納する(client_window内のmovex,movey)
 
 
 
@@ -43,6 +43,19 @@ int ExecuteCommand(char command,int pos)
     printf("Get command %c\n",command);
 #endif
     switch(command){
+    case START_COMMAND:
+        dataSize = 0;
+        int j,x,y;
+        x=180;
+        y=630;
+        SetCharData2DataBlock(data, command, &dataSize);               
+        for(j=0; j< MAX_CLIENTS ; j++){
+            x = x + (j * 80);
+            SetIntData2DataBlock(data, x, &dataSize);
+            SetIntData2DataBlock(data, y, &dataSize);
+        }
+        SendData(ALL_CLIENTS, data, dataSize);
+        break;
     case END_COMMAND:
         dataSize = 0;
         /* コマンドのセット */
@@ -56,7 +69,7 @@ int ExecuteCommand(char command,int pos)
     case MOVE_COMMAND: //クライアントの移動後座標を送信
 
         CalcPos(pos);
-        int k;
+        //    int k;
 	//for(k=0;k<2;k++)
 //		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
 //		printf("(x,y) = (%d,%d)",gClients[1].plc.x,gClients[1].plc.y);
@@ -69,7 +82,7 @@ int ExecuteCommand(char command,int pos)
             SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
             SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
         }
-           SendData(ALL_CLIENTS, data, dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
         break;
 
     case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/
