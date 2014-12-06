@@ -11,6 +11,7 @@ int i;
     P.y = 10*bit;//12*bit;
 	newposx = P.x;
 	newposy = P.y;
+	gameRect.x = 0;
     PA.y = 0;
 	jumpflag = 0;
 	jump_LR = 0;
@@ -300,9 +301,9 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[29].dst.y = 3;
 
 	object[30].gimmick = 4; //カギ
+	object[30].status = 0;
 	object[30].dst.x = 5;//255;
 	object[30].dst.y = 11;
-
 
 	for(j=0; j<SUM_object; j++){
 	object[j].movex = 0;

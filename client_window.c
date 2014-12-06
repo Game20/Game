@@ -11,7 +11,7 @@ static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
 
 TTF_Font* sTTF;
-//SDL_Surface *usa;  // 画像データへのポインタ
+SDL_Surface *usa2;  // 画像データへのポインタ
 
 char gMapDataFile[] = "map.data";
 MapType gMaps[ MAP_Width ][ MAP_Height ]; // マップの性質
@@ -83,8 +83,11 @@ void InitWindow(){
 //SDL_JoystickEventState(SDL_ENABLE);
 //Joystick = SDL_JoystickOpen(0);
 
-    usa = IMG_Load("images/usa60.png"); //pngの読み込み
-
+    usa2 = IMG_Load("images/usa60.png"); //pngの読み込み
+    if( usa2 == NULL ){
+        printf("failed to open usa2.png .\n");
+        exit(0);
+    }
 
     // フォントからメッセージ作成
     // 初期化
@@ -207,16 +210,8 @@ void hitjudge(void){
 		//中間ポイントのとき
 		if(object[i].gimmick == 0){
 			if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
-			   P.y >= object[i].dst.y+20 && P.y <= object[i].dst.y+45 && object[i].status != 1 && P.y > newposy){
+			   P.y >= object[i].dst.y+20 && P.y <= object[i].dst.y+45 && object[i].status != 1 && P.y > newposy)
 				object[i].status = 1;
-				if(object[i].flaghold == -1){
-				SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
-				object[i].flaghold = 0;
-				}
-				object[i].src.y -= 60;
-				SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
-				object[i].src.y += 60;
-			}
 		}
 
 		//岩/バネのとき
@@ -398,6 +393,18 @@ void hitjudge(void){
 	}
 	}
 
+	//中間ポイントのとき
+	if(object[j].gimmick == 0 && object[j].status == 1 && object[j].src.y == 0){
+		if(object[j].flaghold == -1){
+		SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+		object[j].flaghold = 0;
+		}
+		object[j].src.y = 60;
+		object[j].dst.y -= 60;
+		SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+		object[j].dst.y += 60;
+	}
+
 	//スイッチのとき
 	if(object[j].gimmick == 2 && object[j].status != 2){
 	if(object[j].src.y != object[j].status*bit){
@@ -527,7 +534,7 @@ void exepaste(void){
     if((PA.y != 0 && time % 20 == 0) || time % 20 == 10){
 	PA.x = (PA.x + bit) % (bit * 2);
 	//PUSH
-	if(hitx != 0 && jumpflag == 0 && UD == 0)
+	if(hitx != 0 && jumpflag == 0 && UD == 0 && keyhold == 0)
             PA.x += bit * 2;
     }
     if(jumpflag == 1 || UD == -1)
@@ -542,7 +549,9 @@ void exepaste(void){
 
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // object貼り付け
 
-    SDL_BlitSurface(usa, &PA, window, &P); //キャラ貼り付け
+//printf("\n\n %d %d %d %d  %d %d \n\n",PA.w ,PA.h ,PA.x ,PA.y ,P.x ,P.y);
+
+    SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
 
 
 /*
@@ -655,7 +664,7 @@ void title(void){
             dstRect.y += 100;
         }
 
-        SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
+        SDL_BlitSurface(usa2, &PA, SDL_GetVideoSurface(), &P);
         SDL_Flip(window);// 画面に図形を表示（反映）
     }
     P.y = 640;
@@ -666,7 +675,7 @@ void DrawChara(void)
 {
 //int i;
 //    for(j = 0; j < MAX_CLIENTS; j++){
-//        SDL_BlitSurface(usa, &PA, mapwindow, &player[j].pos); //キャラ貼り付け
+//        SDL_BlitSurface(usa2, &PA, mapwindow, &player[j].pos); //キャラ貼り付け
 //   }
 
 //    SDL_Flip(mapwindow);
@@ -681,12 +690,14 @@ void GameOver(void){
 	SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // マップ貼り付け
-    SDL_BlitSurface(usa, &PA, window, &P);
+    SDL_BlitSurface(usa2, &PA, window, &P);
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(1400);
 
 	for(j=0; j<=SUM_object; j++){
-	SDL_BlitSurface(mapwindow, &object[j].src, objectwindow, &object[j].dst); // object貼り準備
+	white.x = object[j].dst.x;
+	white.y = object[j].dst.y;
+	SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
 	}
 
     InitStatus();
@@ -698,6 +709,9 @@ void GameOver(void){
 	newposy = P.y;
 	}
 	}
+
+if(keyhold == 1)
+keyhold = 0;
 
 //printf("\n\n a \n\n");
 
