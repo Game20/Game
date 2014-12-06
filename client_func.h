@@ -67,7 +67,7 @@ Object steps[SUM_steps];//ハシゴの配列
 
 
 
-SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
+SDL_Surface *window, *mapwindow, *objectwindow; // ウィンドウデータへのポインタ
 
 SDL_Rect gameRect; // ゲームウィンドウの座標
 
