@@ -406,6 +406,7 @@ void hitjudge(void){
             object[j].dst.y -= 60;
             SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
             object[j].dst.y += 60;
+            object[j].src.y = 0;
 	}
 
 	//スイッチのとき
