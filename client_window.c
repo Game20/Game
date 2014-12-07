@@ -213,6 +213,8 @@ void hitjudge(void){
                 if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
                    P.y >= object[i].dst.y+20 && P.y <= object[i].dst.y+45 && object[i].status != 1 && P.y > newposy)
                     object[i].status = 1;
+                    SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                                object[i].movex, object[i].movey); // オブジェクトのデータの送信
             }
 
             //岩/バネのとき
