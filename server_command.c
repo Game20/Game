@@ -50,7 +50,8 @@ int ExecuteCommand(char command,int pos)
         y=630;/*1Pの初期座標*/
         SetCharData2DataBlock(data, command, &dataSize);
         SetIntData2DataBlock(data, pos, &dataSize);               
-        x = x + (pos * 80); /*プレイヤーごとの初期座標計算*/
+//        x = x + (pos * 80); /*プレイヤーごとの初期座標計算*/
+        y = y - (pos * 60);
         SetIntData2DataBlock(data, x, &dataSize);
         SetIntData2DataBlock(data, y, &dataSize);
 
