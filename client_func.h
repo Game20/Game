@@ -67,7 +67,7 @@ Object steps[SUM_steps];//ハシゴの配列
 
 
 
-SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
+SDL_Surface *window, *mapwindow, *objectwindow; // ウィンドウデータへのポインタ
 
 SDL_Rect gameRect; // ゲームウィンドウの座標
 
@@ -85,7 +85,7 @@ extern SDL_Surface *gMessages[ 100 ];
 
 extern TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
 
-extern SDL_Surface *usa;  // 画像データへのポインタ
+extern SDL_Surface *usa, *usa2;  // 画像データへのポインタ
 extern SDL_Surface *objectimage;
 extern SDL_Surface *blockimage;
 

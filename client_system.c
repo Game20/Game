@@ -12,6 +12,7 @@ int i;
     P.y = P_START.y; //12*bit;
 	newposx = P.x;
 	newposy = P.y;
+	gameRect.x = 0;
     PA.y = 0;
 	jumpflag = 0;
 	jump_LR = 0;
@@ -41,6 +42,122 @@ int i;
 
 
 void objectinit(void){
+
+
+	//スイッチブロック
+	switchblock[0].gimmick = 1;//縦幅
+	switchblock[0].status = 10;//横幅
+	switchblock[0].dst.x = 127;
+	switchblock[0].dst.y = 12;
+
+	switchblock[1].gimmick = 1;//縦幅
+	switchblock[1].status = 3;//横幅
+	switchblock[1].dst.x = 192;
+	switchblock[1].dst.y = 10;
+
+	switchblock[2].gimmick = 1;//縦幅
+	switchblock[2].status = 3;//横幅
+	switchblock[2].dst.x = 193;
+	switchblock[2].dst.y = 8;
+
+	switchblock[3].gimmick = 1;//縦幅
+	switchblock[3].status = 3;//横幅
+	switchblock[3].dst.x = 192;
+	switchblock[3].dst.y = 6;
+
+	switchblock[4].gimmick = 1;//縦幅
+	switchblock[4].status = 3;//横幅
+	switchblock[4].dst.x = 193;
+	switchblock[4].dst.y = 4;
+
+	switchblock[5].gimmick = 1;//縦幅
+	switchblock[5].status = 2;//横幅
+	switchblock[5].dst.x = 204;
+	switchblock[5].dst.y = 2;
+
+	switchblock[6].gimmick = 1;//縦幅
+	switchblock[6].status = 3;//横幅
+	switchblock[6].dst.x = 216;
+	switchblock[6].dst.y = 6;
+
+	switchblock[7].gimmick = 1;//縦幅
+	switchblock[7].status = 3;//横幅
+	switchblock[7].dst.x = 221;
+	switchblock[7].dst.y = 12;
+
+	switchblock[8].gimmick = 1;//縦幅
+	switchblock[8].status = 3;//横幅
+	switchblock[8].dst.x = 226;
+	switchblock[8].dst.y = 2;
+
+	switchblock[9].gimmick = 1;//縦幅
+	switchblock[9].status = 3;//横幅
+	switchblock[9].dst.x = 235;
+	switchblock[9].dst.y = 12;
+
+	switchblock[10].gimmick = 1;//縦幅
+	switchblock[10].status = 1;//横幅
+	switchblock[10].dst.x = 263;
+	switchblock[10].dst.y = 12;
+
+
+
+	for(j=0; j<SUM_switchblock; j++){
+	switchblock[j].flaghold = 0;
+	switchblock[j].src.x = 0;
+	switchblock[j].src.y = 0;
+	switchblock[j].src.w = 60;
+	switchblock[j].src.h = 60;
+	switchblock[j].dst.x *= bit;
+	switchblock[j].dst.y *= bit;
+		for(k=0; k<switchblock[j].gimmick; k++){
+			for(l=0; l<switchblock[j].status; l++){
+			SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
+			switchblock[j].dst.x += bit;
+			}
+		switchblock[j].dst.y += bit;
+		}
+	switchblock[j].dst.x -= l*60;
+	switchblock[j].dst.y -= k*60;
+	}
+
+	//ハシゴ
+	steps[0].status = 9;//長さ
+	steps[0].dst.x = 120;
+	steps[0].dst.y = 3;
+
+	steps[1].status = 9;//長さ
+	steps[1].dst.x = 143;
+	steps[1].dst.y = 3;
+
+	steps[2].status = 4;//長さ
+	steps[2].dst.x = 220;
+	steps[2].dst.y = 2;
+
+	steps[3].status = 5;//長さ
+	steps[3].dst.x = 252;
+	steps[3].dst.y = 7;
+
+	steps[4].status = 6;//長さ
+	steps[4].dst.x = 246;
+	steps[4].dst.y = 2;
+
+
+	for(j=0; j<SUM_steps; j++){
+	steps[j].src.x = 60;
+	steps[j].src.y = 60;
+	steps[j].src.w = 60;
+	steps[j].src.h = 60;
+	steps[j].dst.x *= bit;
+	steps[j].dst.y *= bit;
+		for(k=0; k<steps[j].status; k++){
+		SDL_BlitSurface(objectimage, &steps[j].src, mapwindow, &steps[j].dst);
+		steps[j].dst.y += bit;
+		}
+		steps[j].dst.y -= (k+1)*60;
+	}
+
+SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 
 	object[0].gimmick = 1; //岩
 	object[0].dst.x = 38;
@@ -184,10 +301,10 @@ void objectinit(void){
 	object[29].dst.x = 266;
 	object[29].dst.y = 3;
 
-	object[30].gimmick = 5; //カギ
-	object[30].dst.x = 256;
+	object[30].gimmick = 4; //カギ
+	object[30].status = 0;
+	object[30].dst.x = 5;//255;
 	object[30].dst.y = 11;
-
 
 	for(j=0; j<SUM_object; j++){
 	object[j].movex = 0;
@@ -205,121 +322,9 @@ object[j].src.y = 60;
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
 	if(object[j].flaghold != -1 || object[j].status == 1)
-	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // object貼り付け
+	SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
 	}
 
-	//スイッチブロック
-	switchblock[0].gimmick = 1;//縦幅
-	switchblock[0].status = 10;//横幅
-	switchblock[0].dst.x = 127;
-	switchblock[0].dst.y = 12;
-
-	switchblock[1].gimmick = 1;//縦幅
-	switchblock[1].status = 3;//横幅
-	switchblock[1].dst.x = 192;
-	switchblock[1].dst.y = 10;
-
-	switchblock[2].gimmick = 1;//縦幅
-	switchblock[2].status = 3;//横幅
-	switchblock[2].dst.x = 193;
-	switchblock[2].dst.y = 8;
-
-	switchblock[3].gimmick = 1;//縦幅
-	switchblock[3].status = 3;//横幅
-	switchblock[3].dst.x = 192;
-	switchblock[3].dst.y = 6;
-
-	switchblock[4].gimmick = 1;//縦幅
-	switchblock[4].status = 3;//横幅
-	switchblock[4].dst.x = 193;
-	switchblock[4].dst.y = 4;
-
-	switchblock[5].gimmick = 1;//縦幅
-	switchblock[5].status = 2;//横幅
-	switchblock[5].dst.x = 204;
-	switchblock[5].dst.y = 2;
-
-	switchblock[6].gimmick = 1;//縦幅
-	switchblock[6].status = 3;//横幅
-	switchblock[6].dst.x = 216;
-	switchblock[6].dst.y = 6;
-
-	switchblock[7].gimmick = 1;//縦幅
-	switchblock[7].status = 3;//横幅
-	switchblock[7].dst.x = 221;
-	switchblock[7].dst.y = 12;
-
-	switchblock[8].gimmick = 1;//縦幅
-	switchblock[8].status = 3;//横幅
-	switchblock[8].dst.x = 226;
-	switchblock[8].dst.y = 2;
-
-	switchblock[9].gimmick = 1;//縦幅
-	switchblock[9].status = 3;//横幅
-	switchblock[9].dst.x = 235;
-	switchblock[9].dst.y = 12;
-
-	switchblock[10].gimmick = 1;//縦幅
-	switchblock[10].status = 1;//横幅
-	switchblock[10].dst.x = 263;
-	switchblock[10].dst.y = 12;
-
-
-
-	for(j=0; j<SUM_switchblock; j++){
-	switchblock[j].flaghold = 0;
-	switchblock[j].src.x = 0;
-	switchblock[j].src.y = 0;
-	switchblock[j].src.w = 60;
-	switchblock[j].src.h = 60;
-	switchblock[j].dst.x *= bit;
-	switchblock[j].dst.y *= bit;
-		for(k=0; k<switchblock[j].gimmick; k++){
-			for(l=0; l<switchblock[j].status; l++){
-			SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
-			switchblock[j].dst.x += bit;
-			}
-		switchblock[j].dst.y += bit;
-		}
-	switchblock[j].dst.x -= l*60;
-	switchblock[j].dst.y -= k*60;
-	}
-
-	//ハシゴ
-	steps[0].status = 9;//長さ
-	steps[0].dst.x = 120;
-	steps[0].dst.y = 3;
-
-	steps[1].status = 9;//長さ
-	steps[1].dst.x = 143;
-	steps[1].dst.y = 3;
-
-	steps[2].status = 4;//長さ
-	steps[2].dst.x = 220;
-	steps[2].dst.y = 2;
-
-	steps[3].status = 5;//長さ
-	steps[3].dst.x = 252;
-	steps[3].dst.y = 7;
-
-	steps[4].status = 6;//長さ
-	steps[4].dst.x = 246;
-	steps[4].dst.y = 2;
-
-
-	for(j=0; j<SUM_steps; j++){
-	steps[j].src.x = 60;
-	steps[j].src.y = 60;
-	steps[j].src.w = 60;
-	steps[j].src.h = 60;
-	steps[j].dst.x *= bit;
-	steps[j].dst.y *= bit;
-		for(k=0; k<steps[j].status; k++){
-		SDL_BlitSurface(objectimage, &steps[j].src, mapwindow, &steps[j].dst);
-		steps[j].dst.y += bit;
-		}
-		steps[j].dst.y -= (k+1)*60;
-	}
 }
 
 
@@ -405,8 +410,8 @@ void keycont(void){
 	if(stepflag == 2){
     if(key[SDLK_UP] == SDL_PRESSED){	//上移動
         newposy -= 2;
-        UD = 1; //←あとで消す
-        jumpflag = 0; //←あとで消す
+        UD = 1;
+        jumpflag = 0;
     }
     if(key[SDLK_DOWN] == SDL_PRESSED){	//下移動
         newposy += 4;
