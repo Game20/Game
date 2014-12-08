@@ -261,6 +261,8 @@ void hitjudge(void){
                 }
                 else{
                     object[i].status = 0;
+                    SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                                object[i].movex, object[i].movey); // オブジェクトのデータの送信
                     switchblock[object[i].flaghold].flaghold = 0;
                 }
 
