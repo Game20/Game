@@ -224,4 +224,5 @@ static void RecvObjectData(void)
     RecvIntData(&object[i].movex);
     RecvIntData(&object[i].movey);
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
+    switchblock[object[i].flaghold].flaghold = object[i].status;
 }

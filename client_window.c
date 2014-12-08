@@ -252,6 +252,8 @@ void hitjudge(void){
                    P.y+50/**/ >= object[i].dst.y && P.y <= object[i].dst.y-35){
                     if(newposy+75 >= object[i].dst.y+35){
                         object[i].status = 1; //ステータス：押されてる
+                        SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                                object[i].movex, object[i].movey); // オブジェクトのデータの送信
                         switchblock[object[i].flaghold].flaghold = 1;
                         hity = -2;
                         newposy = object[i].dst.y - 35;
