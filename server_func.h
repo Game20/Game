@@ -23,5 +23,6 @@ extern int ExecuteCommand(char command,int pos);
 
 /* server_system.c */
 extern void CalcPos(int pos);/*各プレイヤーの座標を受け取る*/
+extern int HitJudge(int pos);/*各プレイヤー同士の当たり判定*/
 
 #endif

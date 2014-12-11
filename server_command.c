@@ -49,9 +49,9 @@ int ExecuteCommand(char command,int pos)
         x=180;/*1Pの初期座標*/
         y=630;/*1Pの初期座標*/
         SetCharData2DataBlock(data, command, &dataSize);
-        SetIntData2DataBlock(data, pos, &dataSize);               
-//        x = x + (pos * 80); /*プレイヤーごとの初期座標計算*/
-        y = y - (pos * 60);
+        SetIntData2DataBlock(data, pos, &dataSize);
+        x = x + (pos * 180); /*プレイヤーごとの初期座標計算*/
+ //       y = y - (pos * 60);
         SetIntData2DataBlock(data, x, &dataSize);
         SetIntData2DataBlock(data, y, &dataSize);
 
@@ -69,7 +69,12 @@ int ExecuteCommand(char command,int pos)
 
     case MOVE_COMMAND: //クライアントの移動後座標を送信
 
-        CalcPos(pos);
+        CalcPos(pos);/*座標受け取り*/
+
+        if(!HitJudge(pos)){/*当たり判定*/
+                   gClients[pos].plc.x = gClients[pos].newplc.x;
+                   gClients[pos].plc.y = gClients[pos].newplc.y;
+        }
         //    int k;
 	//for(k=0;k<2;k++)
 //		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
