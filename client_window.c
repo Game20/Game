@@ -358,14 +358,31 @@ void hitjudge(void){
 				if(newposy+75 >= object[i].dst.y+35){
 					newposy = object[i].dst.y-40;
 					jump_a = 6 * object[i].status;	
-					if(jump_a >= 7){
-					object[i].src.y = 0;
-					SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け	
-					}
+						if(jump_a >= 7){
+						object[i].src.y = 0;
+						SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け	
+						}
 				}
 			SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け	
 			}
 		}
+
+		//バネシーソーのとき
+		if(object[i].gimmick == 5){
+			if( (newposx+gameRect.x >= object[i].dst.x - 38 && newposx+gameRect.x <= object[i].dst.x + 40) &&
+				(P.y+74 >= object[i].dst.y+40 && P.y <= object[i].dst.y + 25))
+				hitx = 1;
+			if(P.x+gameRect.x >= object[i].dst.x - 35 && P.x+gameRect.x <= object[i].dst.x + 38 &&
+			   P.y+75 >= object[i].dst.y+30 && P.y <= object[i].dst.y-35 && jump_a <= 0){
+					newposy = object[i].dst.y - 40;
+jump_LR = 0;
+if(object[i].status == 0 && jump_a <= 0){
+object[i].status = 1;//PUSH
+object[object[i].flaghold].status = -1;//PULL
+}
+}
+			}
+
 
 
 		//カギのとき
@@ -391,13 +408,13 @@ void hitjudge(void){
 		}
 
 		//ループギミックのとき
-		if(object[i].gimmick == 5){
+		if(object[i].gimmick == 6){
 			gameRect.x -= 25*bit;
 		}
 
 
 	//オブジェクト全体の当たり判定
-	if(object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5){
+	if(object[i].gimmick != NULL && object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
 		(P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 35) )
 		hitx = 1;
@@ -407,7 +424,7 @@ void hitjudge(void){
 			hity = 1;//上にヒット
 		if(newposy <= object[i].dst.y && object[i].flaghold == 0 && object[i].gimmick != 3)
 			hity = -1;//下にヒット
-				if(object[i].flaghold == 1 && newposy <= object[i].dst.y + 20){
+				if(object[i].flaghold != 0 && newposy <= object[i].dst.y + 20){
 				jumpflag = 0;
 				jump_LR = 0;
 				newposy = object[i].dst.y - 75;
@@ -424,7 +441,7 @@ void hitjudge(void){
 	//岩の下にマップがなにもなかった場合
 	if(gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
 	   gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
-		object[j].dst.y <= 20 * 60){
+		object[j].dst.y <= 20 * 60 && object[j].flaghold != -1){
 		object[j].flaghold = 1;
 
 		for(k=0; k<=SUM_switchblock; k++){
@@ -447,23 +464,31 @@ void hitjudge(void){
 				if(object[j].dst.y+30 >= object[k].dst.y && object[j].dst.y-30 <= object[k].dst.y){
 					object[j].movex = 0;
 				}
-				if(object[j].dst.y+60 >= object[k].dst.y && object[j].dst.y+20 <= object[k].dst.y){
+				if(object[j].dst.y+60 >= object[k].dst.y && object[j].dst.y+20 <= object[k].dst.y && object[j].flaghold != -1){
 					object[j].movey = 0;
 					object[j].flaghold = 0;
 				}
-				if(object[j].gimmick == 1 && object[k].gimmick == 2 && object[j].dst.y+60 >= object[k].dst.y && object[j].dst.y+20 <= object[k].dst.y && object[k].status == 0)
+				if((object[j].gimmick == 1 || object[j].gimmick == 3) && object[k].gimmick == 2 && object[j].dst.y+60 >= object[k].dst.y && object[j].dst.y+20 <= object[k].dst.y && object[k].status != 2)
 					object[j].flaghold = 1;
-				if(object[j].gimmick == 3 && object[k].gimmick == 2 && object[j].dst.y+60 >= object[k].dst.y && object[j].dst.y+50 <= object[k].dst.y)
-					object[j].flaghold = 1;
-				if(object[j].gimmick == 1 && object[k].gimmick == 2 && object[j].dst.y+20 >= object[k].dst.y && object[j].dst.y+10 <= object[k].dst.y && object[k].status == 0){
+				if(object[k].gimmick == 2 && object[j].dst.y+30 >= object[k].dst.y && object[j].dst.y+20 <= object[k].dst.y && object[k].status == 0){
+					if(object[j].gimmick == 1 && object[j].flaghold != -1){
 					object[k].status = 2;
 					switchblock[object[k].flaghold].flaghold = 1;
-					object[k].src.y = object[k].status*bit;
+					object[k].src.y = bit;
 					white.x = object[k].dst.x;
 					white.y = object[k].dst.y;
 					SDL_BlitSurface(mapwindow, &white, objectwindow, &object[k].dst); // object貼り付け準備
 					SDL_BlitSurface(objectimage, &object[k].src, objectwindow, &object[k].dst); // object貼り付け
+					object[j].flaghold = -1;
+					object[j].movey = 2;
+					SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+					}
 				}
+if(object[j].gimmick == 1 && object[k].gimmick == 5 && object[j].dst.y+60 >= object[k].dst.y && object[j].dst.y+30 <= object[k].dst.y){
+object[j].flaghold = 1;
+if(object[j].dst.y+35 >= object[k].dst.y && object[j].status == 0)
+object[object[k].flaghold].status = -2;
+}
 			}
 		}
 	}
@@ -515,6 +540,35 @@ void hitjudge(void){
 	}
 	}
 
+
+	////再判定2
+	for(j=0; j<=SUM_object; j++){
+		//バネシーソーのとき
+		if(object[j].gimmick == 5 && (object[j].status == -1 || object[j].status == -2)){
+		if(P.x+gameRect.x >= object[j].dst.x - 45 && P.x+gameRect.x <= object[j].dst.x + 45 &&
+		P.y+75 >= object[j].dst.y+20 && P.y+75 <= object[j].dst.y+50){
+			if(object[j].status == -1)
+			jump_a = 5*6;
+			if(object[j].status == -2)
+			jump_a = 6*6;
+		}
+		if(object[j].status == -1)
+		object[j].status = 0;
+		if(object[j].status == -2)
+		object[j].gimmick = -1;//
+		object[object[j].flaghold].status = 1;
+
+		SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
+		SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
+		object[j].src.y = 0;
+		object[object[j].flaghold].src.y = object[object[j].flaghold].status*bit;
+		SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+		SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
+		SDL_BlitSurface(objectimage, &object[0].src, objectwindow, &object[0].dst);
+
+		}
+	}
+
 	//スイッチブロックの当たり判定と描写
 	for(j=0; j<=SUM_switchblock; j++){
 		if(switchblock[j].src.y != switchblock[j].flaghold*60){
@@ -535,7 +589,7 @@ void hitjudge(void){
 		switchblock[j].dst.y -= k*60;
 		}
 
-		if(switchblock[j].flaghold == 1){
+		if((switchblock[j].src.x == 0 && switchblock[j].src.y == 60) || (switchblock[j].src.x == 60 && switchblock[j].src.y == 0)){
 		if( (newposx+gameRect.x >= switchblock[j].dst.x-60+15 && newposx+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40) &&
 			(P.y >= switchblock[j].dst.y-70 && P.y <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 25) )
 			hitx = 1;

@@ -307,7 +307,7 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 
 	object[29].gimmick = 4; //カギ
 	object[29].status = 0;
-	object[29].dst.x = 5;//255;
+	object[29].dst.x = 255;
 	object[29].dst.y = 11;
 
 	for(j=0; j<SUM_object; j++){
@@ -399,6 +399,9 @@ void objectinit2(void){
 	switchblock[j].dst.x *= bit;
 	switchblock[j].dst.y *= bit;
 
+//if(j == )
+//switchblock[j].src.x = 60;
+
 	for(l=0; l<switchblock[j].status; l++){
 	SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
 	switchblock[j].dst.x += bit;
@@ -417,7 +420,7 @@ void objectinit2(void){
 	steps[0].dst.y = 5;
 
 	steps[1].status = 9;//長さ
-	steps[1].dst.x = 143;
+	steps[1].dst.x = 221;
 	steps[1].dst.y = 3;
 
 	steps[2].status = 4;//長さ
@@ -549,11 +552,11 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[20].dst.x = 93;
 	object[20].dst.y = 12;
 
-	object[21].gimmick = 5; //ループギミック
+	object[21].gimmick = 6; //ループギミック
 	object[21].dst.x = 130;
 	object[21].dst.y = 7;
 
-	object[22].gimmick = 5; //ループギミック
+	object[22].gimmick = 6; //ループギミック
 	object[22].dst.x = 130;
 	object[22].dst.y = 3;
 
@@ -562,12 +565,13 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[23].dst.x = 118;
 	object[23].dst.y = 12;
 
+	object[24].gimmick = 3;
+	object[24].status = 6;
+	object[24].dst.x = 143;
+	object[24].dst.y = 12;
 
 
-	object[24].gimmick = 2; //スイッチ
-	object[24].flaghold = 8;
-	object[24].dst.x = 233;
-	object[24].dst.y = 5;
+
 
 	object[25].gimmick = 2; //スイッチ
 	object[25].flaghold = 9;
@@ -578,19 +582,22 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[26].dst.x = 220;
 	object[26].dst.y = 1;
 
-	object[27].gimmick = 0;
-	object[27].dst.x = 243;
-	object[27].dst.y = 2;
+	object[27].gimmick = 5; //バネシーソー
+	object[27].status = -1;
+	object[27].flaghold = 28;
+	object[27].dst.x = 14;
+	object[27].dst.y = 12;
 
-	object[28].gimmick = 2; //スイッチ
-	object[28].flaghold = 10;
-	object[28].dst.x = 268;
-	object[28].dst.y = 11;
+	object[28].gimmick = 5; //バネシーソー
+	object[28].status = 0;
+	object[28].flaghold = 27;
+	object[28].dst.x = 17;
+	object[28].dst.y = 12;
 
-	object[29].gimmick = 3; //バネ
-	object[29].status = 4;
-	object[29].dst.x = 266;
-	object[29].dst.y = 3;
+	object[29].gimmick = 4; //カギ
+	object[29].status = 0;
+	object[29].dst.x = 255;
+	object[29].dst.y = 11;
 
 
 	for(j=0; j<SUM_object; j++){
