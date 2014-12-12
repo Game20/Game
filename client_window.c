@@ -10,6 +10,7 @@ static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "�
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
 
+
 TTF_Font* sTTF;
 SDL_Surface *usa2;  // 画像データへのポインタ
 SDL_Surface *gMessages[ 100 ];
@@ -33,6 +34,7 @@ int keyhold = 0;
 
 int DEBAG = 0;
 
+int mynum;
 /*初期設定*/
 void InitWindow(){
 
@@ -724,8 +726,8 @@ void hitjudge(void){
 
 //タイトル
     void title(void){
-        player[mynum].pos.x = 150;
-        player[mynum].pos.y = 400;
+        P.x = 150;
+        P.y = 400;
         PA.x = 0;
         PA.y = 0;
 
@@ -744,23 +746,23 @@ void hitjudge(void){
                 case SDL_KEYDOWN:// キーボードのキーが押された時
                     switch(event.key.keysym.sym){
                     case SDLK_UP:
-                        player[mynum].pos.y -= 100;
-                        if(player[mynum].pos.y == 300)
-                            player[mynum].pos.y = 600;
+                        P.y -= 100;
+                        if(P.y == 300)
+                            P.y = 600;
                         break;
                     case SDLK_DOWN:
-                        player[mynum].pos.y += 100;
-                        if(player[mynum].pos.y == 700)
-                            player[mynum].pos.y = 400;
+                        P.y += 100;
+                        if(P.y == 700)
+                            P.y = 400;
                         break;
 
                     case SDLK_RETURN: //エンターを押した時
-                        if(player[mynum].pos.y == 400){
+                        if(P.y == 400){
                             titlep = 0;
                             titlep2 = 0;
                         }
 ///*
-                        if(player[mynum].pos.y == 500){
+                        if(P.y == 500){
 //ステージ２から
 //if(stageP == 1)
                             stageP = 2;
@@ -770,7 +772,7 @@ void hitjudge(void){
                             titlep2 = 0;
                         }
 //*/
-                        if(player[mynum].pos.y == 600)
+                        if(P.y == 600)
                             EXIT();
                         break;
                     case SDLK_ESCAPE:	// エスケープキー
@@ -784,14 +786,14 @@ void hitjudge(void){
                     if(event.jaxis.axis == 1)
                     {
                         if(event.jaxis.value < -0x7000)
-                            player[mynum].pos.y -= 100;
-                        if(player[mynum].pos.y == 300)
-                            player[mynum].pos.y = 600;
+                            P.y -= 100;
+                        if(P.y == 300)
+                            P.y = 600;
 
                         if(event.jaxis.value >  0x7000)
-                            player[mynum].pos.y += 100;
-                        if(player[mynum].pos.y == 700)
-                            player[mynum].pos.y = 400;
+                            P.y += 100;
+                        if(P.y == 700)
+                            P.y = 400;
                     }
                     break;
                 }
@@ -813,7 +815,7 @@ void hitjudge(void){
             SDL_BlitSurface(usa2, &PA, SDL_GetVideoSurface(), &P);
             SDL_Flip(window);// 画面に図形を表示（反映）
         }
-        player[mynum].pos.y = 640;
+        P.y = 640;
     }
 
 /************プレイヤー表示関数**********************/

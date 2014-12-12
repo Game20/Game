@@ -6,6 +6,7 @@ int j, k, l;
 SDL_Rect P_START;
 int stageP = 1;
 int mapread = 1;
+int mynum;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化

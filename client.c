@@ -160,7 +160,7 @@ int main(int argc, char* argv[]) {
         //DrawChara();
 
 //サーバーつなぐなら外して*********************/
-    for(i = 0; i <= 30; i++) { // データの受信
+    for(i = 0; i <= 50; i++) { // データの受信
         endFlag = SendRecvManager();
     }
 
