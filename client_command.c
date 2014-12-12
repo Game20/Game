@@ -11,6 +11,8 @@ static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
 static void RecvStartData(void);
 static void RecvMoveData(void);
 static void RecvObjectData(void);
+
+extern int mynum;
 /*****************************************************************
 関数名	: ExecuteCommand
 機能	: サーバーから送られてきたコマンドを元に，
@@ -195,10 +197,9 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvStartData(void)
 {
-    int i;
-    RecvIntData(&i);
-    RecvIntData(&player[i].pos.x);
-    RecvIntData(&player[i].pos.y);
+    RecvIntData(&mynum);
+    RecvIntData(&player[mynum].pos.x);
+    RecvIntData(&player[mynum].pos.y);
 }
 
 static void RecvMoveData(void)
