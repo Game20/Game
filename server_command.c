@@ -9,8 +9,8 @@
 //int x = 200;
 //int y = 200;
 
-//int gClientNum;
-
+int gClientNum;
+int cnt = 0;///START_COMMANDの数
 /************OBJECT_COMMAND用の変数宣言*************/
 static int object_num;//オブジェクト配列の添字
 static int object_status;//オブジェクトの状態
@@ -45,10 +45,13 @@ int ExecuteCommand(char command,int pos)
     switch(command){
     case START_COMMAND:
         dataSize = 0;
+
         int x,y;
+
+        cnt = cnt + 1;
         x=180;/*1Pの初期座標*/
         y=630;/*1Pの初期座標*/
-        SetCharData2DataBlock(data, command, &dataSize);
+        SetCharData2DataBlock(data, NEWPOS_COMMAND, &dataSize);
         SetIntData2DataBlock(data, pos, &dataSize);
         x = x + (pos * 180); /*プレイヤーごとの初期座標計算*/
  //       y = y - (pos * 60);
@@ -56,6 +59,12 @@ int ExecuteCommand(char command,int pos)
         SetIntData2DataBlock(data, y, &dataSize);
 
         SendData(pos, data, dataSize);
+        if(cnt == gClientNum){
+            puts("faegaegijaigiaojgaojga@oga");
+            dataSize = 0;
+            SetCharData2DataBlock(data, command, &dataSize);
+            SendData(ALL_CLIENTS, data, dataSize);
+        }
         break;
     case END_COMMAND:
         dataSize = 0;

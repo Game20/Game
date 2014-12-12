@@ -13,6 +13,7 @@ static void RecvMoveData(void);
 static void RecvObjectData(void);
 
 extern int mynum;
+extern int start_flag = 0;
 /*****************************************************************
 関数名	: ExecuteCommand
 機能	: サーバーから送られてきたコマンドを元に，
@@ -33,11 +34,12 @@ int ExecuteCommand(char command)
     case END_COMMAND:
         endFlag = 0;
         break;
-
     case START_COMMAND:
+        start_flag = 1;
+        break;
+    case NEWPOS_COMMAND:
         RecvStartData();
         break;
-
     case MOVE_COMMAND: //移動コマンド
         RecvMoveData();
         break;

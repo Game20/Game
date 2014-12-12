@@ -49,6 +49,7 @@ int titlep = 1, titlep2 = 0;//
 int exit_p = 0;	//
 
 int i;
+int start_flag;
 
 
 SDL_Rect PA = { 0, 0, 60, 75 }; //プレイヤーキャラ座標読み取り　あとで構造体化
@@ -123,8 +124,11 @@ int main(int argc, char* argv[]) {
 
     SendStartCommand();
 
-    while(!player[0].pos.x && !player[1].pos.x
+/*    while(!player[0].pos.x && !player[1].pos.x
           && !player[2].pos.x && !player[3].pos.x) {
+*/
+
+    while(start_flag == 0){
         endFlag = SendRecvManager();
     }
 
