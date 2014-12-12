@@ -228,37 +228,37 @@ void hitjudge(void){
     hity = 0;
 
 //左右
-    if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+15)/bit] == 1 ||
-        gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 ||
-        gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 ||
-        gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	)
+    if( gMaps[(newposx+gameRect.x+10)/bit][(player[mynum].pos.y+15)/bit] == 1 ||
+        gMaps[(newposx+gameRect.x+10)/bit][(player[mynum].pos.y+10)/bit+1] == 1 ||
+        gMaps[(newposx+gameRect.x+45)/bit][(player[mynum].pos.y+15)/bit] == 1 ||
+        gMaps[(newposx+gameRect.x+45)/bit][(player[mynum].pos.y+10)/bit+1] == 1	)
 
 	hitx = 1;
 
 //上
-    if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit] == 1 ||
-        gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit] == 1	)
+    if( gMaps[(player[mynum].pos.x+gameRect.x+10)/bit][(newposy+15)/bit] == 1 ||
+        gMaps[(player[mynum].pos.x+gameRect.x+45)/bit][(newposy+15)/bit] == 1	)
 
 	hity = 1;
 
 //下
-    if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit+1] == 1 ||
-        gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit+1] == 1	)
+    if( gMaps[(player[mynum].pos.x+gameRect.x+10)/bit][(newposy+15)/bit+1] == 1 ||
+        gMaps[(player[mynum].pos.x+gameRect.x+45)/bit][(newposy+15)/bit+1] == 1	)
 
 	hity = -1;
 
 
 //針
-    if( gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit+1] == 2 ||
-        gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit+1] == 2	||
-        gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit] == 3 ||
-        gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit] == 3 )
+    if( gMaps[(player[mynum].pos.x+gameRect.x+10)/bit][(player[mynum].pos.y+15)/bit+1] == 2 ||
+        gMaps[(player[mynum].pos.x+gameRect.x+45)/bit][(player[mynum].pos.y+15)/bit+1] == 2	||
+        gMaps[(player[mynum].pos.x+gameRect.x+10)/bit][(player[mynum].pos.y+15)/bit] == 3 ||
+        gMaps[(player[mynum].pos.x+gameRect.x+45)/bit][(player[mynum].pos.y+15)/bit] == 3 )
 	GameOver();
 
 //ゴール
 //	if( object[29].status == 1 && jumpflag == 0 &&
-//	    gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit] == 5 &&
-//		gMaps[(P.x+gameRect.x)/bit+1][(newposy+15)/bit] == 5 )
+//	    gMaps[(player[mynum].pos.x+gameRect.x+45)/bit][(newposy+15)/bit] == 5 &&
+//		gMaps[(player[mynum].pos.x+gameRect.x)/bit+1][(newposy+15)/bit] == 5 )
 
 
 //オブジェクトの当たり判定
@@ -277,8 +277,8 @@ void hitjudge(void){
 
             //中間ポイントのとき
             if(object[i].gimmick == 0){
-                if(P.x+gameRect.x >= object[i].dst.x-20 && P.x+gameRect.x <= object[i].dst.x + 40 &&
-                   P.y >= object[i].dst.y+20 && P.y <= object[i].dst.y+45 && object[i].status != 1 && P.y > newposy){
+                if(player[mynum].pos.x+gameRect.x >= object[i].dst.x-20 && player[mynum].pos.x+gameRect.x <= object[i].dst.x + 40 &&
+                   player[mynum].pos.y >= object[i].dst.y+20 && player[mynum].pos.y <= object[i].dst.y+45 && object[i].status != 1 && player[mynum].pos.y > newposy){
                     object[i].status = 1;
                     //	newposy = object[i].dst.y+60;
                 }
@@ -289,32 +289,32 @@ void hitjudge(void){
                 //岩とマップのx座標当たり判定があったとき
                 if((gMaps[(object[i].dst.x-3)/bit][object[i].dst.y/bit] == 1 ||
                     gMaps[(object[i].dst.x)/bit+1][object[i].dst.y/bit] == 1	||
-                    jumpflag == 1) && P.y > object[i].dst.y - 75 && object[i].flaghold == 0)
+                    jumpflag == 1) && player[mynum].pos.y > object[i].dst.y - 75 && object[i].flaghold == 0)
                     hitx = 1;
-                else if(P.y == object[i].dst.y - 15 && jumpflag == 0 && keyhold == 0){
+                else if(player[mynum].pos.y == object[i].dst.y - 15 && jumpflag == 0 && keyhold == 0){
                     hitx = 2;
                     if(PA.x >= bit * 2){
-                        object[i].movex = ((newposx - P.x) / 4);
-                        newposx = P.x + object[i].movex;
+                        object[i].movex = ((newposx - player[mynum].pos.x) / 4);
+                        newposx = player[mynum].pos.x + object[i].movex;
                     }
                     else{
-                        newposx = P.x;
+                        newposx = player[mynum].pos.x;
                     }
                 }
                 //Player on 岩
                 if( object[i].flaghold == 1 &&
-                    (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
-                    (P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 43) && jump_a != -8)
+                    (player[mynum].pos.x+gameRect.x >= object[i].dst.x - 45 && player[mynum].pos.x+gameRect.x <= object[i].dst.x + 45) &&
+                    (player[mynum].pos.y >= object[i].dst.y + 30 && player[mynum].pos.y <= object[i].dst.y + 43) && jump_a != -8)
                     GameOver();
             }
 
                 //スイッチのとき
                 if(object[i].gimmick == 2 && object[i].status != 2){
                     if( (newposx+gameRect.x >= object[i].dst.x - 38 && newposx+gameRect.x <= object[i].dst.x + 40) &&
-                        (P.y+74 >= object[i].dst.y+40 && P.y <= object[i].dst.y + 25))
+                        (player[mynum].pos.y+74 >= object[i].dst.y+40 && player[mynum].pos.y <= object[i].dst.y + 25))
                         hitx = 1;
-                    if(P.x+gameRect.x >= object[i].dst.x - 35 && P.x+gameRect.x <= object[i].dst.x + 35 &&
-                       P.y+50/**/ >= object[i].dst.y && P.y <= object[i].dst.y-35){
+                    if(player[mynum].pos.x+gameRect.x >= object[i].dst.x - 35 && player[mynum].pos.x+gameRect.x <= object[i].dst.x + 35 &&
+                       player[mynum].pos.y+50/**/ >= object[i].dst.y && player[mynum].pos.y <= object[i].dst.y-35){
                         if(newposy+75 >= object[i].dst.y+35){
                             object[i].status = 1; //ステータス：押されてる
                             SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
@@ -350,9 +350,9 @@ void hitjudge(void){
 
 		//バネのとき
 		if(object[i].gimmick == 3){
-                    if(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45 &&
-                       P.y+90 >= object[i].dst.y && P.y <= object[i].dst.y - 35){
-                        if(P.y+60 >= object[i].dst.y && jump_a <= 0)
+                    if(player[mynum].pos.x+gameRect.x >= object[i].dst.x - 45 && player[mynum].pos.x+gameRect.x <= object[i].dst.x + 45 &&
+                       player[mynum].pos.y+90 >= object[i].dst.y && player[mynum].pos.y <= object[i].dst.y - 35){
+                        if(player[mynum].pos.y+60 >= object[i].dst.y && jump_a <= 0)
                             object[i].src.y = 60;
                         else
                             object[i].src.y = 0;
@@ -374,10 +374,10 @@ void hitjudge(void){
 		//バネシーソーのとき
 		if(object[i].gimmick == 5){
                     if( (newposx+gameRect.x >= object[i].dst.x - 38 && newposx+gameRect.x <= object[i].dst.x + 40) &&
-                        (P.y+74 >= object[i].dst.y+40 && P.y <= object[i].dst.y + 25))
+                        (player[mynum].pos.y+74 >= object[i].dst.y+40 && player[mynum].pos.y <= object[i].dst.y + 25))
                         hitx = 1;
-                    if(P.x+gameRect.x >= object[i].dst.x - 35 && P.x+gameRect.x <= object[i].dst.x + 38 &&
-                       P.y+75 >= object[i].dst.y+30 && P.y <= object[i].dst.y-35 && jump_a <= 0){
+                    if(player[mynum].pos.x+gameRect.x >= object[i].dst.x - 35 && player[mynum].pos.x+gameRect.x <= object[i].dst.x + 38 &&
+                       player[mynum].pos.y+75 >= object[i].dst.y+30 && player[mynum].pos.y <= object[i].dst.y-35 && jump_a <= 0){
                         newposy = object[i].dst.y - 40;
                         jump_LR = 0;
                         if(object[i].status == 0 && jump_a <= 0){
@@ -398,15 +398,15 @@ void hitjudge(void){
 
                         object[i].status = 1;
                         stepflag = 0;
-                        object[i].dst.x = P.x;
-                        object[i].dst.y = P.y-44;
+                        object[i].dst.x = player[mynum].pos.x;
+                        object[i].dst.y = player[mynum].pos.y-44;
                         keyhold = 1;
                     }
                     else if(object[i].status == 1){
                         object[i].status = 0;
                         stepflag = 0;
-                        object[i].dst.x = P.x+gameRect.x+(LR*45);
-                        object[i].dst.y = P.y;
+                        object[i].dst.x = player[mynum].pos.x+gameRect.x+(LR*45);
+                        object[i].dst.y = player[mynum].pos.y;
                         keyhold = 0;
                     }
                     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
@@ -421,9 +421,9 @@ void hitjudge(void){
                 //オブジェクト全体の当たり判定
                 if(object[i].gimmick != NULL && object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
                     if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
-                        (P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 35) )
+                        (player[mynum].pos.y >= object[i].dst.y - 74 && player[mynum].pos.y <= object[i].dst.y + 35) )
                         hitx = 1;
-                    if( (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
+                    if( (player[mynum].pos.x+gameRect.x >= object[i].dst.x - 45 && player[mynum].pos.x+gameRect.x <= object[i].dst.x + 45) &&
                         (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 43)){
 			if(newposy >= object[i].dst.y && object[i].flaghold == 0)
                             hity = 1;//上にヒット
@@ -555,8 +555,8 @@ void hitjudge(void){
 	for(j=0; j<=SUM_object; j++){
             //バネシーソーのとき
             if(object[j].gimmick == 5 && (object[j].status == -1 || object[j].status == -2)){
-		if(P.x+gameRect.x >= object[j].dst.x - 45 && P.x+gameRect.x <= object[j].dst.x + 45 &&
-                   P.y+75 >= object[j].dst.y+20 && P.y+75 <= object[j].dst.y+50){
+		if(player[mynum].pos.x+gameRect.x >= object[j].dst.x - 45 && player[mynum].pos.x+gameRect.x <= object[j].dst.x + 45 &&
+                   player[mynum].pos.y+75 >= object[j].dst.y+20 && player[mynum].pos.y+75 <= object[j].dst.y+50){
                     if(object[j].status == -1)
 			jump_a = 5*6;
                     if(object[j].status == -2)
@@ -601,9 +601,9 @@ void hitjudge(void){
 
             if((switchblock[j].src.x == 0 && switchblock[j].src.y == 60) || (switchblock[j].src.x == 60 && switchblock[j].src.y == 0)){
 		if( (newposx+gameRect.x >= switchblock[j].dst.x-60+15 && newposx+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40) &&
-                    (P.y >= switchblock[j].dst.y-70 && P.y <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 25) )
+                    (player[mynum].pos.y >= switchblock[j].dst.y-70 && player[mynum].pos.y <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 25) )
                     hitx = 1;
-		if(P.x+gameRect.x >= switchblock[j].dst.x-60+20 && P.x+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40 &&
+		if(player[mynum].pos.x+gameRect.x >= switchblock[j].dst.x-60+20 && player[mynum].pos.x+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40 &&
                    newposy >= switchblock[j].dst.y-75 && newposy <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 43){
                     if(newposy >= switchblock[j].dst.y-60)
 			newposy = switchblock[j].dst.y+45;//上にヒット
@@ -616,13 +616,13 @@ void hitjudge(void){
         //ハシゴの判定
         if(stepflag >= 1){
             for(j=0; j<=SUM_steps; j++){
-                if( P.x+gameRect.x+10 >= steps[j].dst.x-10 && P.x+gameRect.x <= steps[j].dst.x + 30 &&
-                    P.y >= steps[j].dst.y + 40 && P.y+30 <= steps[j].dst.y + 25 + steps[j].status*bit && keyhold == 0){
+                if( player[mynum].pos.x+gameRect.x+10 >= steps[j].dst.x-10 && player[mynum].pos.x+gameRect.x <= steps[j].dst.x + 30 &&
+                    player[mynum].pos.y >= steps[j].dst.y + 40 && player[mynum].pos.y+30 <= steps[j].dst.y + 25 + steps[j].status*bit && keyhold == 0){
                     stepflag = 2;
                     if(UD == 0)
                         UD = 1;
                     if(newposy < steps[j].dst.y + 40)
-                        newposy = P.y;
+                        newposy = player[mynum].pos.y;
                     break;
                 }
             }
@@ -642,7 +642,7 @@ void hitjudge(void){
             if(hity == 0)
 		object[29].dst.y = newposy-44;
             if(hity == -1)
-		object[29].dst.y = P.y-44;
+		object[29].dst.y = player[mynum].pos.y-44;
             SDL_BlitSurface(objectimage, &object[29].src, objectwindow, &object[29].dst); // object貼り付け
 	}
 
@@ -650,11 +650,11 @@ void hitjudge(void){
 
     void scroll(void){
 
-        shiftdef = P.x - (WIND_Width * bit/2-30);
+        shiftdef = player[mynum].pos.x - (WIND_Width * bit/2-30);
 
         if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
             gameRect.x += shiftdef;
-            P.x -= shiftdef;
+            player[mynum].pos.x -= shiftdef;
         }
     }
 
@@ -691,7 +691,7 @@ void hitjudge(void){
 
         SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // object貼り付け
 
-//printf("\n\n %d %d %d %d  %d %d \n\n",PA.w ,PA.h ,PA.x ,PA.y ,P.x ,P.y);
+//printf("\n\n %d %d %d %d  %d %d \n\n",PA.w ,PA.h ,PA.x ,PA.y ,player[mynum].pos.x ,player[mynum].pos.y);
 
         //SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
 
@@ -704,8 +704,8 @@ void hitjudge(void){
 */
 
         /*『1P』とかの表示　あとで4人分まで拡張*/
-        PM.x = P.x + 25;
-        PM.y = P.y - 30;
+        PM.x = player[mynum].pos.x + 25;
+        PM.y = player[mynum].pos.y - 30;
         SDL_BlitSurface(gMessages[5], &PMR, SDL_GetVideoSurface(), &PM);
 
     }
@@ -724,8 +724,8 @@ void hitjudge(void){
 
 //タイトル
     void title(void){
-        P.x = 150;
-        P.y = 400;
+        player[mynum].pos.x = 150;
+        player[mynum].pos.y = 400;
         PA.x = 0;
         PA.y = 0;
 
@@ -744,23 +744,23 @@ void hitjudge(void){
                 case SDL_KEYDOWN:// キーボードのキーが押された時
                     switch(event.key.keysym.sym){
                     case SDLK_UP:
-                        P.y -= 100;
-                        if(P.y == 300)
-                            P.y = 600;
+                        player[mynum].pos.y -= 100;
+                        if(player[mynum].pos.y == 300)
+                            player[mynum].pos.y = 600;
                         break;
                     case SDLK_DOWN:
-                        P.y += 100;
-                        if(P.y == 700)
-                            P.y = 400;
+                        player[mynum].pos.y += 100;
+                        if(player[mynum].pos.y == 700)
+                            player[mynum].pos.y = 400;
                         break;
 
                     case SDLK_RETURN: //エンターを押した時
-                        if(P.y == 400){
+                        if(player[mynum].pos.y == 400){
                             titlep = 0;
                             titlep2 = 0;
                         }
 ///*
-                        if(P.y == 500){
+                        if(player[mynum].pos.y == 500){
 //ステージ２から
 //if(stageP == 1)
                             stageP = 2;
@@ -770,7 +770,7 @@ void hitjudge(void){
                             titlep2 = 0;
                         }
 //*/
-                        if(P.y == 600)
+                        if(player[mynum].pos.y == 600)
                             EXIT();
                         break;
                     case SDLK_ESCAPE:	// エスケープキー
@@ -784,14 +784,14 @@ void hitjudge(void){
                     if(event.jaxis.axis == 1)
                     {
                         if(event.jaxis.value < -0x7000)
-                            P.y -= 100;
-                        if(P.y == 300)
-                            P.y = 600;
+                            player[mynum].pos.y -= 100;
+                        if(player[mynum].pos.y == 300)
+                            player[mynum].pos.y = 600;
 
                         if(event.jaxis.value >  0x7000)
-                            P.y += 100;
-                        if(P.y == 700)
-                            P.y = 400;
+                            player[mynum].pos.y += 100;
+                        if(player[mynum].pos.y == 700)
+                            player[mynum].pos.y = 400;
                     }
                     break;
                 }
@@ -813,7 +813,7 @@ void hitjudge(void){
             SDL_BlitSurface(usa2, &PA, SDL_GetVideoSurface(), &P);
             SDL_Flip(window);// 画面に図形を表示（反映）
         }
-        P.y = 640;
+        player[mynum].pos.y = 640;
     }
 
 /************プレイヤー表示関数**********************/
@@ -848,8 +848,8 @@ void GameOver(void){
     for(j=0; j<=SUM_object; j++){
         if(object[j].gimmick == 0 && object[j].status == 1){
             gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
-            P.y = object[j].dst.y+60;
-            newposy = P.y;
+            player[mynum].pos.y = object[j].dst.y+60;
+            newposy = player[mynum].pos.y;
         }
     }
 
