@@ -822,6 +822,8 @@ void hitjudge(void){
 void DrawChara(void)
 {
     for(j = 0; j < MAX_CLIENTS; j++){
+        if(player[j].pos.x == NULL)
+            break;
         player[j].pos.x -= gameRect.x;
         SDL_BlitSurface(usa2, &PA, window, &player[j].pos); //キャラ貼り付け
     }
