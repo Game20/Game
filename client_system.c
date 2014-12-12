@@ -4,6 +4,8 @@ void EXIT();
 
 int j, k, l;
 SDL_Rect P_START;
+int stageP = 1;
+int mapread = 1;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
@@ -27,7 +29,14 @@ int i;
 	LR = 0;
 	UD = 0;
 
-	objectinit();
+//ステージ２移行時
+if(stageP != mapread)
+Mapshift();
+
+	if(stageP == 1)
+	objectinit1();
+	if(stageP == 2)
+	objectinit2();
 
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.w = 60;
@@ -41,7 +50,7 @@ int i;
 }
 
 
-void objectinit(void){
+void objectinit1(void){
 
 
 	//スイッチブロック
@@ -287,36 +296,30 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[26].dst.x = 220;
 	object[26].dst.y = 1;
 
-	object[27].gimmick = 0;
-	object[27].dst.x = 243;
-	object[27].dst.y = 2;
+	object[27].gimmick = 2; //スイッチ
+	object[27].flaghold = 10;
+	object[27].dst.x = 268;
+	object[27].dst.y = 11;
 
-	object[28].gimmick = 2; //スイッチ
-	object[28].flaghold = 10;
-	object[28].dst.x = 268;
-	object[28].dst.y = 11;
+	object[28].gimmick = 3; //バネ
+	object[28].status = 4;
+	object[28].dst.x = 266;
+	object[28].dst.y = 3;
 
-	object[29].gimmick = 3; //バネ
-	object[29].status = 4;
-	object[29].dst.x = 266;
-	object[29].dst.y = 3;
-
-	object[30].gimmick = 4; //カギ
-	object[30].status = 0;
-	object[30].dst.x = 5;//255;
-	object[30].dst.y = 11;
+	object[29].gimmick = 4; //カギ
+	object[29].status = 0;
+	object[29].dst.x = 255;
+	object[29].dst.y = 11;
 
 	for(j=0; j<SUM_object; j++){
 	object[j].movex = 0;
 	object[j].movey = 0;
 	if(object[j].gimmick == 1 || object[j].gimmick == 3)
 	object[j].flaghold = 0;
+	if(object[j].gimmick == 2)
+	object[j].status = 0;
 	object[j].src.x = object[j].gimmick*bit;
 	object[j].src.y = 0;
-if(j == 30){
-object[j].src.x = 0;
-object[j].src.y = 60;
-}
 	object[j].src.w = 60;
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
@@ -327,6 +330,293 @@ object[j].src.y = 60;
 
 }
 
+void objectinit2(void){
+
+
+	//スイッチブロック
+	switchblock[0].gimmick = 4;//縦幅
+	switchblock[0].status = 1;//横幅
+	switchblock[0].dst.x = 69;
+	switchblock[0].dst.y = 1;
+
+	switchblock[1].gimmick = 2;//縦幅
+	switchblock[1].status = 1;//横幅
+	switchblock[1].dst.x = 68;
+	switchblock[1].dst.y = 6;
+
+	switchblock[2].gimmick = 1;//縦幅
+	switchblock[2].status = 5;//横幅
+	switchblock[2].dst.x = 64;
+	switchblock[2].dst.y = 5;
+
+	switchblock[3].gimmick = 2;//縦幅
+	switchblock[3].status = 1;//横幅
+	switchblock[3].dst.x = 63;
+	switchblock[3].dst.y = 6;
+
+	switchblock[4].gimmick = 1;//縦幅
+	switchblock[4].status = 1;//横幅
+	switchblock[4].dst.x = 67;
+	switchblock[4].dst.y = 7;
+
+	switchblock[5].gimmick = 1;//縦幅
+	switchblock[5].status = 2;//横幅
+	switchblock[5].dst.x = 204;
+	switchblock[5].dst.y = 2;
+
+	switchblock[6].gimmick = 1;//縦幅
+	switchblock[6].status = 3;//横幅
+	switchblock[6].dst.x = 216;
+	switchblock[6].dst.y = 6;
+
+	switchblock[7].gimmick = 1;//縦幅
+	switchblock[7].status = 3;//横幅
+	switchblock[7].dst.x = 221;
+	switchblock[7].dst.y = 12;
+
+	switchblock[8].gimmick = 1;//縦幅
+	switchblock[8].status = 3;//横幅
+	switchblock[8].dst.x = 226;
+	switchblock[8].dst.y = 2;
+
+	switchblock[9].gimmick = 1;//縦幅
+	switchblock[9].status = 3;//横幅
+	switchblock[9].dst.x = 235;
+	switchblock[9].dst.y = 12;
+
+	switchblock[10].gimmick = 1;//縦幅
+	switchblock[10].status = 1;//横幅
+	switchblock[10].dst.x = 263;
+	switchblock[10].dst.y = 12;
+
+
+
+	for(j=0; j<SUM_switchblock; j++){
+	switchblock[j].flaghold = 0;
+	switchblock[j].src.x = 0;
+	switchblock[j].src.y = 0;
+	switchblock[j].src.w = 60;
+	switchblock[j].src.h = 60;
+	switchblock[j].dst.x *= bit;
+	switchblock[j].dst.y *= bit;
+
+//if(j == )
+//switchblock[j].src.x = 60;
+
+	for(l=0; l<switchblock[j].status; l++){
+	SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
+	switchblock[j].dst.x += bit;
+	}
+	switchblock[j].dst.x -= l*60;
+	for(k=0; k<switchblock[j].gimmick; k++){
+	SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
+	switchblock[j].dst.y += bit;
+	}
+	switchblock[j].dst.y -= k*60;
+	}
+
+	//ハシゴ
+	steps[0].status = 6;//長さ
+	steps[0].dst.x = 17;
+	steps[0].dst.y = 5;
+
+	steps[1].status = 9;//長さ
+	steps[1].dst.x = 221;
+	steps[1].dst.y = 3;
+
+	steps[2].status = 4;//長さ
+	steps[2].dst.x = 220;
+	steps[2].dst.y = 2;
+
+	steps[3].status = 5;//長さ
+	steps[3].dst.x = 252;
+	steps[3].dst.y = 7;
+
+	steps[4].status = 6;//長さ
+	steps[4].dst.x = 246;
+	steps[4].dst.y = 2;
+
+
+	for(j=0; j<SUM_steps; j++){
+	steps[j].src.x = 60;
+	steps[j].src.y = 60;
+	steps[j].src.w = 60;
+	steps[j].src.h = 60;
+	steps[j].dst.x *= bit;
+	steps[j].dst.y *= bit;
+		for(k=0; k<steps[j].status; k++){
+		SDL_BlitSurface(objectimage, &steps[j].src, mapwindow, &steps[j].dst);
+		steps[j].dst.y += bit;
+		}
+		steps[j].dst.y -= (k+1)*60;
+	}
+
+SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
+
+	object[0].gimmick = 1; //岩
+	object[0].dst.x = 18;
+	object[0].dst.y = 5;
+
+	object[1].gimmick = 1;
+	object[1].dst.x = 32;
+	object[1].dst.y = 7;
+
+	object[2].gimmick = 1;
+	object[2].dst.x = 35;
+	object[2].dst.y = 7;
+
+	object[3].gimmick = 1;
+	object[3].dst.x = 38;
+	object[3].dst.y = 7;
+
+	object[4].gimmick = 1;
+	object[4].dst.x = 41;
+	object[4].dst.y = 7;
+
+	object[5].gimmick = 1;
+	object[5].dst.x = 44;
+	object[5].dst.y = 7;
+
+	object[6].gimmick = 2;
+	object[6].flaghold = 0;
+	object[6].dst.x = 33;
+	object[6].dst.y = 12;
+
+	object[7].gimmick = 2;
+	object[7].flaghold = 1;
+	object[7].dst.x = 36;
+	object[7].dst.y = 12;
+
+	object[8].gimmick = 2;
+	object[8].flaghold = 2;
+	object[8].dst.x = 39;
+	object[8].dst.y = 12;
+
+	object[9].gimmick = 2;
+	object[9].flaghold = 3;
+	object[9].dst.x = 42;
+	object[9].dst.y = 12;
+
+	object[10].gimmick = 2;
+	object[10].flaghold = 4;
+	object[10].dst.x = 45;
+	object[10].dst.y = 12;
+
+	object[11].gimmick = 3;
+	object[11].status = 6;
+	object[11].dst.x = 74;
+	object[11].dst.y = 12;
+
+	object[12].gimmick = 0;
+//	object[12].flaghold = -1;
+	object[12].dst.x = 74;
+	object[12].dst.y = 2;
+
+
+	object[13].gimmick = 3;
+	object[13].status = 5;
+	object[13].dst.x = 77;
+	object[13].dst.y = 12;
+
+	object[14].gimmick = 3;
+	object[14].status = 3;
+	object[14].dst.x = 79;
+	object[14].dst.y = 12;
+
+	object[15].gimmick = 3;
+	object[15].status = 9;
+	object[15].dst.x = 81;
+	object[15].dst.y = 12;
+
+	object[16].gimmick = 3;
+	object[16].status = 4;
+	object[16].dst.x = 83;
+	object[16].dst.y = 12;
+
+	object[17].gimmick = 3;
+	object[17].status = 7;
+	object[17].dst.x = 85;
+	object[17].dst.y = 12;
+
+	object[18].gimmick = 3;
+	object[18].status = 6;
+	object[18].dst.x = 87;
+	object[18].dst.y = 12;
+
+	object[19].gimmick = 3;
+	object[19].status = 20;
+	object[19].dst.x = 89;
+	object[19].dst.y = 12;
+
+	object[20].gimmick = 3;
+	object[20].status = 6;
+	object[20].dst.x = 93;
+	object[20].dst.y = 12;
+
+	object[21].gimmick = 6; //ループギミック
+	object[21].dst.x = 130;
+	object[21].dst.y = 7;
+
+	object[22].gimmick = 6; //ループギミック
+	object[22].dst.x = 130;
+	object[22].dst.y = 3;
+
+	object[23].gimmick = 3;
+	object[23].status = 6;
+	object[23].dst.x = 118;
+	object[23].dst.y = 12;
+
+	object[24].gimmick = 3;
+	object[24].status = 6;
+	object[24].dst.x = 143;
+	object[24].dst.y = 12;
+
+
+
+
+	object[25].gimmick = 2; //スイッチ
+	object[25].flaghold = 9;
+	object[25].dst.x = 225;
+	object[25].dst.y = 12;
+
+	object[26].gimmick = 0;
+	object[26].dst.x = 220;
+	object[26].dst.y = 1;
+
+	object[27].gimmick = 5; //バネシーソー
+	object[27].status = -1;
+	object[27].flaghold = 28;
+	object[27].dst.x = 14;
+	object[27].dst.y = 12;
+
+	object[28].gimmick = 5; //バネシーソー
+	object[28].status = 0;
+	object[28].flaghold = 27;
+	object[28].dst.x = 17;
+	object[28].dst.y = 12;
+
+	object[29].gimmick = 4; //カギ
+	object[29].status = 0;
+	object[29].dst.x = 255;
+	object[29].dst.y = 11;
+
+
+	for(j=0; j<SUM_object; j++){
+	object[j].movex = 0;
+	object[j].movey = 0;
+	if(object[j].gimmick == 1 || object[j].gimmick == 3)
+	object[j].flaghold = 0;
+	object[j].src.x = object[j].gimmick*bit;
+	object[j].src.y = 0;
+	object[j].src.w = 60;
+	object[j].src.h = 60;
+	object[j].dst.x *= bit;
+	object[j].dst.y *= bit;
+	if(object[j].flaghold != -1 || object[j].status == 1)
+	SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+	}
+
+}
 
 
 void eventdisp(){

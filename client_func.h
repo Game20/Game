@@ -53,19 +53,15 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 31
+#define SUM_object 30
 #define SUM_switchblock 11
 #define SUM_steps 5
 
 extern Player player[MAX_CLIENTS];
 
-
-
 Object object[SUM_object]; //構造体の配列化
 Object switchblock[SUM_switchblock];//スイッチ効果のブロック配列
 Object steps[SUM_steps];//ハシゴの配列
-
-
 
 SDL_Surface *window, *mapwindow, *objectwindow; // ウィンドウデータへのポインタ
 
@@ -124,13 +120,17 @@ extern int jump_a;
 extern int titlep;
 extern int titlep2;
 
+extern int stageP;
+extern int mapread;
+
 extern int fm;
 
 extern int i;
 
 /* client_system.c */
 void EXIT(void);
-void objectinit(void);
+void objectinit1(void);
+void objectinit2(void);
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
@@ -141,6 +141,7 @@ extern int SendRecvManager(void);
 
 /* client_window.c */
 extern void title(void);
+extern void Mapshift(void);
 //extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
 //extern void DestroyWindow(void);
 //extern void WindowEvent(int num);
