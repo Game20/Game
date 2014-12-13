@@ -683,7 +683,6 @@ void eventdisp(){
 
 
 void keycont(void){
-
     newposx = player[mynum].pos.x;
     newposy = player[mynum].pos.y;
 
@@ -731,7 +730,6 @@ void keycont(void){
 //デバッグ用処理　速度10倍
 newposx += (newposx - player[mynum].pos.x) * DEBAG*3;
 //*/
-
     hitjudge();
 
     if(hitx != 1)
@@ -754,7 +752,7 @@ newposx += (newposx - player[mynum].pos.x) * DEBAG*3;
         jumpflag = 1;
 
     SendMoveCommand(player[mynum].pos.x + gameRect.x, player[mynum].pos.y + gameRect.y);
-
+printf("%d\n",player[mynum].pos.x);
 }
 
 /*
@@ -774,10 +772,10 @@ object[0].dst.y = 13 * bit - gameRect.x;
 
 
 void EXIT(void){
-    int a = player[mynum].pos.x;
-    int b = player[mynum].pos.y;
-    player[mynum].pos.x = 100;
-    player[mynum].pos.y = 350;
+    //int a = P.x;
+    //int b = P.y;
+    P.x = 100;
+    P.y = 350;
     PA.x = 0;
     PA.y = 0;
 
@@ -797,18 +795,18 @@ void EXIT(void){
             case SDL_KEYDOWN:// キーボードのキーが押された時
                 switch(event.key.keysym.sym){
                 case SDLK_RIGHT:
-                    player[mynum].pos.x += 300;
-                    if(player[mynum].pos.x >= 700)
-                        player[mynum].pos.x = 100;
+                    P.x += 300;
+                    if(P.x >= 700)
+                        P.x = 100;
                     break;
                 case SDLK_LEFT:
-                    player[mynum].pos.x -= 300;
-                    if(player[mynum].pos.x <= 0)
-                        player[mynum].pos.x = 400;
+                    P.x -= 300;
+                    if(P.x <= 0)
+                        P.x = 400;
                     break;
 
                 case SDLK_RETURN: //エンターを押した時
-                    if(player[mynum].pos.x == 400){
+                    if(P.x == 400){
                         exit_p = 1;
                         titlep = 0;
                     }
@@ -837,12 +835,12 @@ void EXIT(void){
             dstRect.x += 300;
         }
 
-        SDL_BlitSurface(usa, &PA, SDL_GetVideoSurface(), &P);
+        SDL_BlitSurface(usa2, &PA, SDL_GetVideoSurface(), &P);
         SDL_Flip(window);// 画面に図形を表示（反映）
     }
 
-    player[mynum].pos.x = a;
-    player[mynum].pos.y = b;
+    //player[mynum].pos.x = a;
+    //player[mynum].pos.y = b;
 
 }
 
@@ -864,9 +862,9 @@ void EXITsetting(){
 void newpositionjadge(){
 
     if(player[mynum].pos.x >= WIND_Width * bit-60)
-        player[mynum].pos.x = WIND_Width * bit-60;
+        //player[mynum].pos.x = WIND_Width * bit-60;
     if(player[mynum].pos.x <= 0)
-        player[mynum].pos.x = 0;//画面外に出ない
+        //player[mynum].pos.x = 0;//画面外に出ない
 
     if(player[mynum].pos.y >= WIND_Height * bit)//画面下にいけば
     	GameOver();
