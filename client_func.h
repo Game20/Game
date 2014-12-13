@@ -30,6 +30,10 @@ typedef struct{
 	int flaghold;
     SDL_Rect src;	//読み込み座標
     SDL_Rect dst;	//貼り付け座標
+    int oldsrc_x;
+    int oldsrc_y;
+    int olddst_x;
+    int olddst_y;
 } Object; // オブジェクトの構造体
 /********************************************************************/
 
