@@ -263,10 +263,10 @@ void hitjudge(void){
 //		gMaps[(player[mynum].pos.x+gameRect.x)/bit+1][(newposy+15)/bit] == 5 )
 
     for(i = 0; i <= SUM_object; i++) {
-        object[i].src.x = object[i].oldsrc_x;
-        object[i].src.y = object[i].oldsrc_y;
-        object[i].dst.x = object[i].olddst_x;
-        object[i].dst.y = object[i].olddst_y;
+        object[i].oldsrc_x = object[i].src.x;
+        object[i].oldsrc_y = object[i].src.y;
+        object[i].olddst_x = object[i].dst.x;
+        object[i].olddst_y = object[i].dst.y;
     }
 
 //オブジェクトの当たり判定
