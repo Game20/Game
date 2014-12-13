@@ -752,7 +752,6 @@ newposx += (newposx - player[mynum].pos.x) * DEBAG*3;
         jumpflag = 1;
 
     SendMoveCommand(player[mynum].pos.x + gameRect.x, player[mynum].pos.y + gameRect.y);
-printf("%d\n",player[mynum].pos.x);
 }
 
 /*
