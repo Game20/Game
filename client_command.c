@@ -208,11 +208,17 @@ static void RecvMoveData(void)
 {
     int i;
     for(i = 0; i < MAX_CLIENTS; i++) {
+        //if(player[i+1].pos.x == NULL)
+        //    break;
         RecvIntData(&player[i].pos.x);
         RecvIntData(&player[i].pos.y);
-
         if(player[i].pos.x == NULL)
             break;
+        player[i].pos.x -= gameRect.x;
+        player[i].pos.y -= gameRect.y;
+        //if(player[i].pos.x == NULL)
+        //    break;
+
     }
 }
 

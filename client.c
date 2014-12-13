@@ -67,7 +67,7 @@ SDL_Surface *usa;  // 画像データへのポインタ
 //SDL_TimerID timer_id;	//タイマ割り込みを行うためのタイマのID
 
 Player player[MAX_CLIENTS]; // プレイヤーの状態を格納
-
+int mynum;
 
 /* フォント関連 */
 
@@ -148,7 +148,6 @@ int main(int argc, char* argv[]) {
 	//SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
 	time++;
-
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
             eventdisp();	// イベント処理
@@ -161,13 +160,10 @@ int main(int argc, char* argv[]) {
 
 	exepaste(); /*貼り付け設定 & 実行*/
 
-        //DrawChara();
-
 //サーバーつなぐなら外して*********************/
-    for(i = 0; i <= 50; i++) { // データの受信
+    for(i = 0; i <= 30; i++) { // データの受信
         endFlag = SendRecvManager();
     }
-
     /**/
         DrawChara(); // キャラの描画
         SDL_Flip(window); // 画面に図形を表示（反映）

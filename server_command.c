@@ -97,7 +97,7 @@ int ExecuteCommand(char command,int pos)
             SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
             SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
         }
-        SendData(ALL_CLIENTS, data, dataSize);
+        SendData(pos, data, dataSize);
         break;
 
     case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/

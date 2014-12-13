@@ -695,7 +695,7 @@ void hitjudge(void){
 
 //printf("\n\n %d %d %d %d  %d %d \n\n",PA.w ,PA.h ,PA.x ,PA.y ,player[mynum].pos.x ,player[mynum].pos.y);
 
-        //SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
+        //SDL_BlitSurface(usa2, &PA, window, &player[mynum]); //キャラ貼り付け
 
 
 /*
@@ -706,10 +706,10 @@ void hitjudge(void){
 */
 
         /*『1P』とかの表示　あとで4人分まで拡張*/
-        PM.x = player[mynum].pos.x + 25;
+        /*PM.x = player[mynum].pos.x + 25;
         PM.y = player[mynum].pos.y - 30;
         SDL_BlitSurface(gMessages[5], &PMR, SDL_GetVideoSurface(), &PM);
-
+*/
     }
 
 
@@ -824,7 +824,7 @@ void DrawChara(void)
     for(j = 0; j < MAX_CLIENTS; j++){
         if(player[j].pos.x == NULL)
             break;
-        player[j].pos.x -= gameRect.x;
+        //player[j].pos.x -= gameRect.x;
         SDL_BlitSurface(usa2, &PA, window, &player[j].pos); //キャラ貼り付け
     }
 }
@@ -837,7 +837,7 @@ void GameOver(void){
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // マップ貼り付け
-    SDL_BlitSurface(usa2, &PA, window, &P);
+    SDL_BlitSurface(usa2, &PA, window, &player[mynum]);
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(1400);
 
