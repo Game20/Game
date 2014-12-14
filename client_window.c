@@ -263,10 +263,10 @@ void hitjudge(void){
 //		gMaps[(player[mynum].pos.x+gameRect.x)/bit+1][(newposy+15)/bit] == 5 )
 
     for(i = 0; i <= SUM_object; i++) {
-        object[i].src.x = object[i].oldsrc_x;
-        object[i].src.y = object[i].oldsrc_y;
-        object[i].dst.x = object[i].olddst_x;
-        object[i].dst.y = object[i].olddst_y;
+        object[i].oldsrc_x = object[i].src.x;
+        object[i].oldsrc_y = object[i].src.y;
+        object[i].olddst_x = object[i].dst.x;
+        object[i].olddst_y = object[i].dst.y;
     }
 
 //オブジェクトの当たり判定
@@ -325,8 +325,9 @@ void hitjudge(void){
                        player[mynum].pos.y+50/**/ >= object[i].dst.y && player[mynum].pos.y <= object[i].dst.y-35){
                         if(newposy+75 >= object[i].dst.y+35){
                             object[i].status = 1; //ステータス：押されてる
-                            SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
-                                              object[i].movex, object[i].movey); // オブジェクトのデータの送信
+
+                            //SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                            //                object[i].movex, object[i].movey); // オブジェクトのデータの送信
                             switchblock[object[i].flaghold].flaghold = 1;
                             hity = -2;
                             newposy = object[i].dst.y - 35;
@@ -334,8 +335,9 @@ void hitjudge(void){
                     }
                     else{
                         object[i].status = 0;
-                        SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
-                                          object[i].movex, object[i].movey); // オブジェクトのデータの送信
+
+                        //SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                        //                object[i].movex, object[i].movey); // オブジェクトのデータの送信
                         switchblock[object[i].flaghold].flaghold = 0;
                     }
 
