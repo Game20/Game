@@ -16,7 +16,7 @@ static int object_num;//オブジェクト配列の添字
 static int object_status;//オブジェクトの状態
 Plc object_place;//オブジェクトの座標(貼り付け先の座標)
 Plc object_move;//移動判定を格納する(client_window内のmovex,movey)
-Plc object_cpy;//オブジェクトの貼り付け元の座標
+//Plc object_cpy;//オブジェクトの貼り付け元の座標
 
 
 
@@ -61,7 +61,6 @@ int ExecuteCommand(char command,int pos)
 
         SendData(pos, data, dataSize);
         if(cnt == gClientNum){
-            puts("faegaegijaigiaojgaojga@oga");
             dataSize = 0;
             SetCharData2DataBlock(data, command, &dataSize);
             SendData(ALL_CLIENTS, data, dataSize);
@@ -103,24 +102,24 @@ int ExecuteCommand(char command,int pos)
 
     case OBJECT_COMMAND:/**オブジェクトの番号・状態・座標を受け取り，全体に送る*/
         RecvIntData(pos, &object_num);//オブジェクトの添字を受け取る
-//        RecvIntData(pos, &object_status);//オブジェクトの状態を受け取る
-        RecvIntData(pos, &object_cpy.x);//オブジェクトの貼り付け元のx座標を受け取る
-        RecvIntData(pos, &object_cpy.y);//オブジェクトの貼り付け元のy座標を受け取る
+        RecvIntData(pos, &object_status);//オブジェクトの状態を受け取る
+//        RecvIntData(pos, &object_cpy.x);//オブジェクトの貼り付け元のx座標を受け取る
+//        RecvIntData(pos, &object_cpy.y);//オブジェクトの貼り付け元のy座標を受け取る
         RecvIntData(pos, &object_place.x);//オブジェクトのx座標を受け取る
         RecvIntData(pos, &object_place.y);//オブジェクトのy座標を受け取る
-//        RecvIntData(pos, &object_move.x);//オブジェクトの移動判定movexを受け取る
-//        RecvIntData(pos, &object_move.y);//オブジェクトの移動判定moveyを受け取る
+        RecvIntData(pos, &object_move.x);//オブジェクトの移動判定movexを受け取る
+        RecvIntData(pos, &object_move.y);//オブジェクトの移動判定moveyを受け取る
 
         dataSize = 0;
         SetCharData2DataBlock(data, command, &dataSize);//コマンドをセット
         SetIntData2DataBlock(data, object_num, &dataSize);//オブジェクトの添字をセット
-//        SetIntData2DataBlock(data, object_status, &dataSize);//オブジェクトの状態をセット
-        SetIntData2DataBlock(data, object_cpy.x, &dataSize);//オブジェクトの貼り付け元x座標をセット
-        SetIntData2DataBlock(data, object_cpy.y, &dataSize);//オブジェクトの貼り付け元y座標をセット
+        SetIntData2DataBlock(data, object_status, &dataSize);//オブジェクトの状態をセット
+//        SetIntData2DataBlock(data, object_cpy.x, &dataSize);//オブジェクトの貼り付け元x座標をセット
+//        SetIntData2DataBlock(data, object_cpy.y, &dataSize);//オブジェクトの貼り付け元y座標をセット
         SetIntData2DataBlock(data, object_place.x, &dataSize);//オブジェクトのx座標をセット
         SetIntData2DataBlock(data, object_place.y, &dataSize);//オブジェクトのy座標をセット
-//        SetIntData2DataBlock(data, object_move.x, &dataSize);//オブジェクトの移動判定movex座標をセット
-//        SetIntData2DataBlock(data, object_move.y, &dataSize);//オブジェクトの移動判定movey座標をセット
+        SetIntData2DataBlock(data, object_move.x, &dataSize);//オブジェクトの移動判定movex座標をセット
+        SetIntData2DataBlock(data, object_move.y, &dataSize);//オブジェクトの移動判定movey座標をセット
 
         SendData(ALL_CLIENTS, data, dataSize);
         break;
