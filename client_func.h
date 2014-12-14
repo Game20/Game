@@ -8,6 +8,9 @@
 //#include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
 #include"common.h"
 
+#include <libcwiimote/wiimote.h>
+#include <libcwiimote/wiimote_api.h>
+
 /*****************************構造体**********************************/
 
 typedef struct{
@@ -53,9 +56,9 @@ typedef enum {
 } MapType;
 
 
-#define SUM_object 30
-#define SUM_switchblock 11
-#define SUM_steps 5
+#define SUM_object 60
+#define SUM_switchblock 30
+#define SUM_steps 7
 
 extern Player player[MAX_CLIENTS];
 
@@ -81,9 +84,10 @@ extern SDL_Surface *gMessages[ 100 ];
 
 extern TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
 
-extern SDL_Surface *usa, *usa2;  // 画像データへのポインタ
+extern SDL_Surface *usa, *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
 extern SDL_Surface *objectimage;
 extern SDL_Surface *blockimage;
+extern SDL_Surface *gameclear;
 
 extern TTF_Font* sTTF;
 
@@ -103,6 +107,8 @@ extern int stepflag;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
 extern int DEBAG;
+
+extern int max_map_object;
 
 extern SDL_Rect PA;
 extern SDL_Rect P;
@@ -131,6 +137,7 @@ extern int i;
 void EXIT(void);
 void objectinit1(void);
 void objectinit2(void);
+void Operation(void);
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);
@@ -147,6 +154,8 @@ extern void Mapshift(void);
 //extern void WindowEvent(int num);
 extern void DrawChara(void); //他プレイヤー描画
 extern void GameOver(void);
+extern void StageClear(void);
+extern void GameClear(void);
 
 /* client_command.c */
 extern int ExecuteCommand(char command);
@@ -160,4 +169,24 @@ extern void SendMoveCommand(int x, int y); //追加
 /* 未定 */
 void story(void);
 void result(void);
+
+
+
+/* Wiiリモコンを用いるための構造体を宣言（初期化） */
+//extern wiimote_t wiimote = WIIMOTE_INIT; // Wiiリモコンの状態格納用
+//extern wiimote_report_t report = WIIMOTE_REPORT_INIT; // レポートタイプ用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
