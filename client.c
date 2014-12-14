@@ -6,6 +6,10 @@
 #include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
 #include "client_func.h"
 
+#include <libcwiimote/wiimote.h>
+#include <libcwiimote/wiimote_api.h>
+
+
 //void DisplayStatus(void);
 //void checkhit(void);
 //void InitStatus(void); // キャラのステータスの初期化
@@ -69,6 +73,12 @@ SDL_Surface *usa;  // 画像データへのポインタ
 Player player[MAX_CLIENTS]; // プレイヤーの状態を格納
 int mynum;
 
+SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
+/* Wiiリモコンを用いるための構造体を宣言（初期化）
+wiimote_t wiimote = WIIMOTE_INIT; // Wiiリモコンの状態格納用
+wiimote_report_t report = WIIMOTE_REPORT_INIT; // レポートタイプ用
+*/
+
 /* フォント関連 */
 
 #define MSG_NUM 6           /* メッセージの数 */
@@ -86,6 +96,24 @@ static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "�
 
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
+
+    /* Wiiリモコン処理
+    if (argc < 2) { // Wiiリモコン識別情報がコマンド引数で与えられなければ
+        printf("Designate the wiimote ID to the application.");
+        exit(1);
+    }*/
+
+    /* Wiiリモコンの接続（１つのみ）
+    if (wiimote_connect(&wiimote, argv[1]) < 0) { // コマンド引数に指定したWiiリモコン識別情報を渡して接続
+        printf("unable to open wiimote: %s\n", wiimote_get_error());
+        exit(1);
+    }
+
+    wiimote.led.one  = 1; // WiiリモコンのLEDの一番左を点灯（接続通知）
+
+    wiimote.mode.acc = 1; // 加速度センサをON（センサを受け付ける）
+*/
+
 
     int i, j; //forループで使用
     int		endFlag=1;
@@ -145,12 +173,21 @@ int main(int argc, char* argv[]) {
     // 無限ループ
     while(endFlag){
 
-	//SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
 	time++;
+
+    /* Wiiリモコンの状態を取得・更新する
+    if (wiimote_update(&wiimote) < 0) {
+        wiimote_disconnect(&wiimote);
+        break;
+    }*/
+
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
             eventdisp();	// イベント処理
+
+//	if(wiimote_is_open(&wiimote))
+//	Operation();
 
 	keycont();	/*キーボード操作*/
 
@@ -176,6 +213,8 @@ int main(int argc, char* argv[]) {
     } //whileループ
 
 /*終了設定*/
+//	if(wiimote_is_open(&wiimote))
+//    wiimote_disconnect(&wiimote); // Wiiリモコンとの接続を解除
     EXITsetting();
     return 0;
 } //main

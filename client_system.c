@@ -6,11 +6,17 @@ int j, k, l;
 SDL_Rect P_START;
 int stageP = 1;
 int mapread = 1;
+
 int mynum;
 
 static void PlayerHitJudge(void);
 
 int oldx, oldy; // PlayerHitJudgeで使用.プレイヤーの古い座標を格納
+
+int max_map_object = 0;
+int bottun2 = 0;
+wiimote_t wiimote;
+
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
@@ -316,7 +322,13 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[29].dst.x = 255;
 	object[29].dst.y = 11;
 
+	object[30].gimmick = 6; //扉
+	object[30].dst.x = 248;
+	object[30].dst.y = 6;
+
 	for(j=0; j<SUM_object; j++){
+if(object[j].dst.x == NULL)
+break;
 	object[j].movex = 0;
 	object[j].movey = 0;
 	if(object[j].gimmick == 1 || object[j].gimmick == 3)
@@ -329,9 +341,16 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
+	if(object[j].gimmick == 6){
+	object[j].src.w = 120;
+	object[j].src.h = 120;
+	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // objectをmapに貼り付け
+}
 	if(object[j].flaghold != -1 || object[j].status == 1)
 	SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
 	}
+
+max_map_object = j;
 
 }
 
@@ -364,39 +383,147 @@ void objectinit2(void){
 	switchblock[4].dst.x = 67;
 	switchblock[4].dst.y = 7;
 
-	switchblock[5].gimmick = 1;//縦幅
-	switchblock[5].status = 2;//横幅
-	switchblock[5].dst.x = 204;
-	switchblock[5].dst.y = 2;
+	switchblock[5].gimmick = 5;//縦幅
+	switchblock[5].status = 1;//横幅
+	switchblock[5].dst.x = 166;
+	switchblock[5].dst.y = 7;
 
-	switchblock[6].gimmick = 1;//縦幅
-	switchblock[6].status = 3;//横幅
-	switchblock[6].dst.x = 216;
-	switchblock[6].dst.y = 6;
+	switchblock[6].gimmick = 10;//縦幅
+	switchblock[6].status = 1;//横幅
+	switchblock[6].dst.x = 180;
+	switchblock[6].dst.y = 2;
 
 	switchblock[7].gimmick = 1;//縦幅
-	switchblock[7].status = 3;//横幅
-	switchblock[7].dst.x = 221;
-	switchblock[7].dst.y = 12;
+	switchblock[7].status = 1;//横幅
+	switchblock[7].dst.x = 188;
+	switchblock[7].dst.y = 8;
 
-	switchblock[8].gimmick = 1;//縦幅
-	switchblock[8].status = 3;//横幅
-	switchblock[8].dst.x = 226;
-	switchblock[8].dst.y = 2;
+	switchblock[8].gimmick = 2;//縦幅
+	switchblock[8].status = 1;//横幅
+	switchblock[8].dst.x = 199;
+	switchblock[8].dst.y = 10;
 
-	switchblock[9].gimmick = 1;//縦幅
-	switchblock[9].status = 3;//横幅
-	switchblock[9].dst.x = 235;
-	switchblock[9].dst.y = 12;
+	switchblock[9].gimmick = 3;//縦幅
+	switchblock[9].status = 1;//横幅
+	switchblock[9].dst.x = 192;
+	switchblock[9].dst.y = 6;
 
 	switchblock[10].gimmick = 1;//縦幅
-	switchblock[10].status = 1;//横幅
-	switchblock[10].dst.x = 263;
-	switchblock[10].dst.y = 12;
+	switchblock[10].status = 3;//横幅
+	switchblock[10].dst.x = 194;
+	switchblock[10].dst.y = 9;
 
+	switchblock[11].gimmick = 1;//縦幅
+	switchblock[11].status = 1;//横幅
+	switchblock[11].dst.x = 191;
+	switchblock[11].dst.y = 5;
+
+	switchblock[12].gimmick = 1;//縦幅
+	switchblock[12].status = 5;//横幅
+	switchblock[12].dst.x = 253;
+	switchblock[12].dst.y = 2;
+
+
+///
+
+	switchblock[13].gimmick = 2;//縦幅
+	switchblock[13].status = 1;//横幅
+	switchblock[13].dst.x = 244;
+	switchblock[13].dst.y = 10;
+
+//1
+	switchblock[14].gimmick = 1;//縦幅
+	switchblock[14].status = 3;//横幅
+	switchblock[14].dst.x = 225;
+	switchblock[14].dst.y = 1;
+
+	switchblock[15].gimmick = 1;//縦幅
+	switchblock[15].status = 3;//横幅
+	switchblock[15].dst.x = 220;
+	switchblock[15].dst.y = 1;
+
+	switchblock[16].gimmick = 1;//縦幅
+	switchblock[16].status = 3;//横幅
+	switchblock[16].dst.x = 230;
+	switchblock[16].dst.y = 1;
+
+	switchblock[17].gimmick = 1;//縦幅
+	switchblock[17].status = 3;//横幅
+	switchblock[17].dst.x = 235;
+	switchblock[17].dst.y = 1;
+
+	switchblock[18].gimmick = 1;//縦幅
+	switchblock[18].status = 3;//横幅
+	switchblock[18].dst.x = 240;
+	switchblock[18].dst.y = 1;
+
+//2
+	switchblock[19].gimmick = 1;//縦幅
+	switchblock[19].status = 3;//横幅
+	switchblock[19].dst.x = 220;
+	switchblock[19].dst.y = 4;
+
+	switchblock[20].gimmick = 1;//縦幅
+	switchblock[20].status = 3;//横幅
+	switchblock[20].dst.x = 225;
+	switchblock[20].dst.y = 7;
+
+	switchblock[21].gimmick = 1;//縦幅
+	switchblock[21].status = 3;//横幅
+	switchblock[21].dst.x = 230;
+	switchblock[21].dst.y = 3;
+
+	switchblock[22].gimmick = 1;//縦幅
+	switchblock[22].status = 3;//横幅
+	switchblock[22].dst.x = 235;
+	switchblock[22].dst.y = 6;
+
+	switchblock[23].gimmick = 1;//縦幅
+	switchblock[23].status = 3;//横幅
+	switchblock[23].dst.x = 240;
+	switchblock[23].dst.y = 5;
+
+//3
+	switchblock[24].gimmick = 1;//縦幅
+	switchblock[24].status = 3;//横幅
+	switchblock[24].dst.x = 220;
+	switchblock[24].dst.y = 7;
+
+	switchblock[25].gimmick = 1;//縦幅
+	switchblock[25].status = 3;//横幅
+	switchblock[25].dst.x = 225;
+	switchblock[25].dst.y = 5;
+
+	switchblock[26].gimmick = 1;//縦幅
+	switchblock[26].status = 3;//横幅
+	switchblock[26].dst.x = 230;
+	switchblock[26].dst.y = 5;
+
+	switchblock[27].gimmick = 1;//縦幅
+	switchblock[27].status = 3;//横幅
+	switchblock[27].dst.x = 235;
+	switchblock[27].dst.y = 4;
+
+//4
+	switchblock[28].gimmick = 1;//縦幅
+	switchblock[28].status = 3;//横幅
+	switchblock[28].dst.x = 225;
+	switchblock[28].dst.y = 3;
+
+	switchblock[29].gimmick = 1;//縦幅
+	switchblock[29].status = 3;//横幅
+	switchblock[29].dst.x = 230;
+	switchblock[29].dst.y = 7;
+
+//	switchblock[30].gimmick = 1;//縦幅
+//	switchblock[30].status = 3;//横幅
+//	switchblock[30].dst.x = 240;
+//	switchblock[30].dst.y = 5;
 
 
 	for(j=0; j<SUM_switchblock; j++){
+if(switchblock[j].gimmick == 0)
+break;
 	switchblock[j].flaghold = 0;
 	switchblock[j].src.x = 0;
 	switchblock[j].src.y = 0;
@@ -405,9 +532,11 @@ void objectinit2(void){
 	switchblock[j].dst.x *= bit;
 	switchblock[j].dst.y *= bit;
 
-//if(j == )
-//switchblock[j].src.x = 60;
+if((j >= 5 && j <= 9) || (j >= 13 && j <= 18) || j == 24 || (j >= 26 && j <= 28))
+switchblock[j].src.x = 60;
 
+
+	if(j != 12){
 	for(l=0; l<switchblock[j].status; l++){
 	SDL_BlitSurface(blockimage, &switchblock[j].src, mapwindow, &switchblock[j].dst); // switchblock貼り付け
 	switchblock[j].dst.x += bit;
@@ -419,27 +548,36 @@ void objectinit2(void){
 	}
 	switchblock[j].dst.y -= k*60;
 	}
+	}
 
 	//ハシゴ
 	steps[0].status = 6;//長さ
 	steps[0].dst.x = 17;
 	steps[0].dst.y = 5;
 
-	steps[1].status = 9;//長さ
-	steps[1].dst.x = 221;
-	steps[1].dst.y = 3;
+	steps[1].status = 8;//長さ
+	steps[1].dst.x = 186;
+	steps[1].dst.y = 4;
 
 	steps[2].status = 4;//長さ
-	steps[2].dst.x = 220;
-	steps[2].dst.y = 2;
+	steps[2].dst.x = 193;
+	steps[2].dst.y = 8;
 
 	steps[3].status = 5;//長さ
-	steps[3].dst.x = 252;
-	steps[3].dst.y = 7;
+	steps[3].dst.x = 198;
+	steps[3].dst.y = 4;
 
-	steps[4].status = 6;//長さ
+	steps[4].status = 5;//長さ
 	steps[4].dst.x = 246;
-	steps[4].dst.y = 2;
+	steps[4].dst.y = 8;
+
+	steps[5].status = 4;//長さ
+	steps[5].dst.x = 252;
+	steps[5].dst.y = 9;
+
+	steps[6].status = 10;//長さ
+	steps[6].dst.x = 269;
+	steps[6].dst.y = 3;
 
 
 	for(j=0; j<SUM_steps; j++){
@@ -558,11 +696,11 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[20].dst.x = 93;
 	object[20].dst.y = 12;
 
-	object[21].gimmick = 6; //ループギミック
+	object[21].gimmick = -1; //ループギミック
 	object[21].dst.x = 130;
 	object[21].dst.y = 7;
 
-	object[22].gimmick = 6; //ループギミック
+	object[22].gimmick = -1; //ループギミック
 	object[22].dst.x = 130;
 	object[22].dst.y = 3;
 
@@ -576,51 +714,188 @@ SDL_BlitSurface(mapwindow, NULL, objectwindow, NULL); // マップ貼り付け
 	object[24].dst.x = 143;
 	object[24].dst.y = 12;
 
+	object[25].gimmick = 0;
+	object[25].dst.x = 158;
+	object[25].dst.y = 8;
 
+	object[26].gimmick = 2; //スイッチ
+	object[26].flaghold = 5;
+	object[26].dst.x = 162;
+	object[26].dst.y = 11;
 
+	object[27].gimmick = 2; //スイッチ
+	object[27].flaghold = 5;
+	object[27].dst.x = 170;
+	object[27].dst.y = 11;
 
-	object[25].gimmick = 2; //スイッチ
-	object[25].flaghold = 9;
-	object[25].dst.x = 225;
-	object[25].dst.y = 12;
+	object[28].gimmick = 2; //スイッチ
+	object[28].flaghold = 6;
+	object[28].dst.x = 177;
+	object[28].dst.y = 11;
 
-	object[26].gimmick = 0;
-	object[26].dst.x = 220;
-	object[26].dst.y = 1;
-
-	object[27].gimmick = 5; //バネシーソー
-	object[27].status = -1;
-	object[27].flaghold = 28;
-	object[27].dst.x = 14;
-	object[27].dst.y = 12;
-
-	object[28].gimmick = 5; //バネシーソー
-	object[28].status = 0;
-	object[28].flaghold = 27;
-	object[28].dst.x = 17;
-	object[28].dst.y = 12;
-
-	object[29].gimmick = 4; //カギ
-	object[29].status = 0;
-	object[29].dst.x = 255;
+	object[29].gimmick = 2; //スイッチ
+	object[29].flaghold = 6;
+	object[29].dst.x = 183;
 	object[29].dst.y = 11;
+
+	object[30].gimmick = 2; //スイッチ
+	object[30].flaghold = 7;
+	object[30].dst.x = 177;
+	object[30].dst.y = 5;
+
+	object[31].gimmick = 2; //スイッチ
+	object[31].flaghold = 7;
+	object[31].dst.x = 188;
+	object[31].dst.y = 11;
+
+
+	object[32].gimmick = 2; //スイッチ
+	object[32].flaghold = 9;
+	object[32].dst.x = 197;
+	object[32].dst.y = 11;
+
+	object[33].gimmick = 2; //スイッチ
+	object[33].flaghold = 8;
+	object[33].dst.x = 191;
+	object[33].dst.y = 8;
+
+	object[34].gimmick = 2; //スイッチ
+	object[34].flaghold = 0; //例外判定
+	object[34].dst.x = 190;
+	object[34].dst.y = 4;
+
+	object[35].gimmick = 1;
+	object[35].dst.x = 192;
+	object[35].dst.y = 4;
+
+	object[36].gimmick = 0;
+	object[36].flaghold = -1;
+	object[36].dst.x = 217;
+	object[36].dst.y = 6;
+
+//
+	object[37].gimmick = 2; //スイッチ
+	object[37].flaghold = 15;
+	object[37].dst.x = 228;
+	object[37].dst.y = 12;
+
+	object[38].gimmick = 2; //スイッチ
+	object[38].flaghold = 17;
+	object[38].dst.x = 231;
+	object[38].dst.y = 12;
+
+	object[39].gimmick = 2; //スイッチ
+	object[39].flaghold = 14;
+	object[39].dst.x = 234;
+	object[39].dst.y = 12;
+
+	object[40].gimmick = 2; //スイッチ
+	object[40].flaghold = 16;
+	object[40].dst.x = 221;
+	object[40].dst.y = 8;
+
+	object[41].gimmick = 2; //スイッチ
+	object[41].flaghold = 18;
+	object[41].dst.x = 226;
+	object[41].dst.y = 8;
+
+	object[42].gimmick = 2; //スイッチ
+	object[42].flaghold = 13;
+	object[42].dst.x = 231;
+	object[42].dst.y = 8;
+
+	object[43].gimmick = 2; //スイッチ
+	object[43].flaghold = 28;
+	object[43].dst.x = 236;
+	object[43].dst.y = 8;
+
+	object[44].gimmick = 2; //スイッチ
+	object[44].flaghold = 29;
+	object[44].dst.x = 241;
+	object[44].dst.y = 8;
+//
+
+	object[45].gimmick = 3;
+	object[45].status = 7;
+	object[45].dst.x = 247;
+	object[45].dst.y = 12;
+
+	object[46].gimmick = 2;
+	object[46].flaghold = 12;
+	object[46].dst.x = 253;
+	object[46].dst.y = 4;
+
+
+	object[47].gimmick = 5; //バネシーソー
+	object[47].status = -1;
+	object[47].flaghold = 48;
+	object[47].dst.x = 258;
+	object[47].dst.y = 12;
+
+	object[48].gimmick = 5; //バネシーソー
+	object[48].status = 0;
+	object[48].flaghold = 47;
+	object[48].dst.x = 264;
+	object[48].dst.y = 12;
+
+	object[49].gimmick = 4; //カギ
+	object[49].status = 0;
+	object[49].dst.x = 261;
+	object[49].dst.y = 7;
+
+	object[50].gimmick = 1;
+	object[50].dst.x = 252;
+	object[50].dst.y = 1;
+
+	object[51].gimmick = 1;
+	object[51].dst.x = 221;
+	object[51].dst.y = 0;
+
+	object[52].gimmick = 1;
+	object[52].dst.x = 226;
+	object[52].dst.y = 0;
+
+	object[53].gimmick = 1;
+	object[53].dst.x = 231;
+	object[53].dst.y = 0;
+
+	object[54].gimmick = 1;
+	object[54].dst.x = 236;
+	object[54].dst.y = 0;
+
+	object[55].gimmick = 1;
+	object[55].dst.x = 241;
+	object[55].dst.y = 0;
+
+	object[56].gimmick = 6; //扉
+	object[56].dst.x = 266;
+	object[56].dst.y = 2;
 
 
 	for(j=0; j<SUM_object; j++){
+if(object[j].dst.x == NULL)
+break;
 	object[j].movex = 0;
 	object[j].movey = 0;
 	if(object[j].gimmick == 1 || object[j].gimmick == 3)
 	object[j].flaghold = 0;
+	if(object[j].gimmick == 2)
+	object[j].status = 0;
 	object[j].src.x = object[j].gimmick*bit;
 	object[j].src.y = 0;
 	object[j].src.w = 60;
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
+	if(object[j].gimmick == 6){
+	object[j].src.w = 120;
+	object[j].src.h = 120;
+	SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // objectをmapに貼り付け
+}
 	if(object[j].flaghold != -1 || object[j].status == 1)
 	SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
 	}
-
+max_map_object = j;
 }
 
 
@@ -677,7 +952,7 @@ void eventdisp(){
             case SDLK_DOWN:  //上下キーどちらかで
                 UD = 0;
                 break;
-            case SDLK_RETURN:  //上下キーどちらかで
+            case SDLK_RETURN:
                 DEBAG = 0;
                 break;
             }
@@ -686,40 +961,115 @@ void eventdisp(){
 }
 
 
+
+/* リモコン操作 */
+void Operation(){
+
+        /* Wiiリモコンの状態を取得・更新する */
+//        if (wiimote_update(&wiimote) < 0)// {
+//            wiimote_disconnect(&wiimote);
+//            break;
+//        }
+
+    /* Wiiのキー（ボタン）ごとに処理
+    if(wiimote.keys.up) { // 左
+		LR = -1;
+//        newposx -= 4;
+        if(jumpflag == 1)
+            jump_LR = -1;
+    }
+    else if(wiimote.keys.down) { // 右
+		LR = 1;
+//   		newposx += 4;
+		if(jumpflag == 1)
+		jump_LR = 1;
+    }
+	else
+	LR = 0;
+
+	if(wiimote.keys.right || wiimote.keys.left){
+	stepflag = 1;
+	}
+	else{
+	stepflag = 0;
+	UD = 0;
+	}
+
+	if(stepflag == 2){
+		if(wiimote.keys.right){ // 上
+		    newposy -= 2;
+		    UD = 1;
+		    jumpflag = 0;
+		}
+
+		if(wiimote.keys.left){ // 下
+		    newposy += 4;
+		    UD = -1;
+		}
+	}
+
+    if(wiimote.keys.one) { // 1ボタン
+	DEBAG = 5;
+    }
+	else
+	DEBAG = 0;
+
+    if (wiimote.keys.two) { // 2ボタン
+		if(jumpflag == 0 && bottun2 == 0){
+			jumpflag = 1;
+			jump_a = 12; //初速
+			bottun2 = 1;
+		} //←{}を消したら無限ジャンプ
+
+    }
+	else
+	bottun2 = 0;
+*/
+}
+
+
+
+
 void keycont(void){
     newposx = P.x;
     newposy = P.y;
     oldx = P.x;
     oldy = P.y;
 
+
     Uint8 *key = SDL_GetKeyState(NULL);
     if(key[SDLK_RIGHT] == SDL_PRESSED){	//右移動
+		LR = 1;
         newposx += 4;
         if(jumpflag == 1)
             jump_LR = 1;
     }
     if(key[SDLK_LEFT] == SDL_PRESSED){	//左移動
+		LR = -1;
         newposx -= 4;
         if(jumpflag == 1)
             jump_LR = -1;
     }
 	if(stepflag == 2){
-    if(key[SDLK_UP] == SDL_PRESSED){	//上移動
-        newposy -= 2;
-        UD = 1;
-        jumpflag = 0;
-    }
-    if(key[SDLK_DOWN] == SDL_PRESSED){	//下移動
-        newposy += 4;
-        UD = -1;
-    }
+		if(key[SDLK_UP] == SDL_PRESSED){	//上移動
+		    newposy -= 2;
+		    UD = 1;
+		    jumpflag = 0;
+		}
+		if(key[SDLK_DOWN] == SDL_PRESSED){	//下移動
+		    newposy += 4;
+		    UD = -1;
+		}
 	}
+
+//if(LR != 0)
+//newposx = P.x + 4 * LR;
 
 
 /*その他詳細設定*/
 
-    if(key[SDLK_RIGHT] != SDL_PRESSED && key[SDLK_LEFT] != SDL_PRESSED && (jump_LR == 1 || jump_LR == -1))
-        newposx += 4 * jump_LR; //空中なら静止しない
+    if(jump_LR == 1 || jump_LR == -1)
+        newposx = P.x + 4 * jump_LR; //空中なら静止しない
 
     if(jumpflag == 1 && jump_a > -8)
         jump_a -= 1; //重力加速　
