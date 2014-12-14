@@ -11,10 +11,10 @@ int mynum;
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
 int i;
-    player[mynum].pos.x = P_START.x;
-    player[mynum].pos.y = P_START.y; //12*bit;
-	newposx = player[mynum].pos.x;
-	newposy = player[mynum].pos.y;
+    P.x = P_START.x;
+    P.y = P_START.y; //12*bit;
+	newposx = P.x;
+	newposy = P.y;
 	gameRect.x = 0;
     PA.y = 0;
 	jumpflag = 0;
@@ -683,8 +683,8 @@ void eventdisp(){
 
 
 void keycont(void){
-    newposx = player[mynum].pos.x;
-    newposy = player[mynum].pos.y;
+    newposx = P.x;
+    newposy = P.y;
 
     Uint8 *key = SDL_GetKeyState(NULL);
     if(key[SDLK_RIGHT] == SDL_PRESSED){	//右移動
@@ -728,20 +728,20 @@ void keycont(void){
 
 ///*
 //デバッグ用処理　速度10倍
-newposx += (newposx - player[mynum].pos.x) * DEBAG*3;
+newposx += (newposx - P.x) * DEBAG*3;
 //*/
     hitjudge();
 
     if(hitx != 1)
-        player[mynum].pos.x = newposx;
+        P.x = newposx;
     else if(jump_LR != 0)
         jump_LR *= 2;
 
     if(hity == 0)
-        player[mynum].pos.y = newposy;
+        P.y = newposy;
     else if(hity == -1 || (hitx == 1 && hity == 1)){
 		jumpflag = 0;
-		player[mynum].pos.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
+		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 	}
 	else if(hity == -2){
 	 	jumpflag = 0;
@@ -751,7 +751,7 @@ newposx += (newposx - player[mynum].pos.x) * DEBAG*3;
     if(hity == 0 && UD == 0)
         jumpflag = 1;
 
-    SendMoveCommand(player[mynum].pos.x + gameRect.x, player[mynum].pos.y + gameRect.y);
+    SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y);
 }
 
 /*
@@ -838,8 +838,8 @@ void EXIT(void){
         SDL_Flip(window);// 画面に図形を表示（反映）
     }
 
-    //player[mynum].pos.x = a;
-    //player[mynum].pos.y = b;
+    //P.x = a;
+    //P.y = b;
 
 }
 
@@ -860,12 +860,12 @@ void EXITsetting(){
 
 void newpositionjadge(){
 
-    if(player[mynum].pos.x >= WIND_Width * bit-60)
-        //player[mynum].pos.x = WIND_Width * bit-60;
-    if(player[mynum].pos.x <= 0)
-        //player[mynum].pos.x = 0;//画面外に出ない
+    if(P.x >= WIND_Width * bit-60)
+        //P.x = WIND_Width * bit-60;
+    if(P.x <= 0)
+        //P.x = 0;//画面外に出ない
 
-    if(player[mynum].pos.y >= WIND_Height * bit)//画面下にいけば
+    if(P.y >= WIND_Height * bit)//画面下にいけば
     	GameOver();
 
 

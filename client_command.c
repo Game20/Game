@@ -218,7 +218,8 @@ static void RecvMoveData(void)
         player[i].pos.y -= gameRect.y;
         //if(player[i].pos.x == NULL)
         //    break;
-
+        P.x = player[mynum].pos.x;
+        P.y = player[mynum].pos.y;
     }
 }
 
