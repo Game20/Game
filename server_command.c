@@ -80,15 +80,6 @@ int ExecuteCommand(char command,int pos)
 
         CalcPos(pos);/*座標受け取り*/
 
-        if(!HitJudge(pos)){/*当たり判定*/
-                   gClients[pos].plc.x = gClients[pos].newplc.x;
-                   gClients[pos].plc.y = gClients[pos].newplc.y;
-        }
-        //    int k;
-	//for(k=0;k<2;k++)
-//		printf("(x,y) = (%d,%d)",gClients[0].plc.x,gClients[0].plc.y);
-//		printf("(x,y) = (%d,%d)",gClients[1].plc.x,gClients[1].plc.y);
-
         dataSize = 0;
         SetCharData2DataBlock(data, command, &dataSize);
 
@@ -96,6 +87,9 @@ int ExecuteCommand(char command,int pos)
         for(i=0; i< MAX_CLIENTS ; i++){
             SetIntData2DataBlock(data, gClients[i].plc.x, &dataSize);
             SetIntData2DataBlock(data, gClients[i].plc.y, &dataSize);
+            SetIntData2DataBlock(data, gClients[i].anim.x, &dataSize);
+            SetIntData2DataBlock(data, gClients[i].anim.y, &dataSize);
+
         }
         SendData(pos, data, dataSize);
         break;
