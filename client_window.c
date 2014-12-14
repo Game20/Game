@@ -262,12 +262,12 @@ void hitjudge(void){
     //	    gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit] == 5 &&
     //		gMaps[(P.x+gameRect.x)/bit+1][(newposy+15)/bit] == 5 )
 
-    for(i = 0; i <= SUM_object; i++) {
+/*    for(i = 0; i <= SUM_object; i++) {
         object[i].oldsrc_x = object[i].src.x;
         object[i].oldsrc_y = object[i].src.y;
         object[i].olddst_x = object[i].dst.x;
         object[i].olddst_y = object[i].dst.y;
-    }
+    }*/
 
     //オブジェクトの当たり判定
     ///////////////////////////////////////////////////////////////////////////
@@ -695,8 +695,8 @@ void exepaste(void){
         if(hitx != 0 && jumpflag == 0 && UD == 0 && keyhold == 0)
             PA.x += bit * 2;
     }
-    if(jumpflag == 1 || UD == -1)
-        PA.x = bit; //アニメーション固定
+ //   if(jumpflag == 1 || UD == -1)
+ //       PA.x = bit; //アニメーション固定
 
     if(hitx != hithold){
         PA.x = 0;
@@ -851,7 +851,7 @@ void GameOver(void){
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // マップ貼り付け
-    SDL_BlitSurface(usa2, &PA, window, &player[mynum]);
+    SDL_BlitSurface(usa2, &PA, window, &P);
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(1400);
 

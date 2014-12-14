@@ -8,6 +8,10 @@ int stageP = 1;
 int mapread = 1;
 int mynum;
 
+static void PlayerHitJudge(void);
+
+int oldx, oldy; // PlayerHitJudgeで使用.プレイヤーの古い座標を格納
+
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
 int i;
@@ -685,6 +689,8 @@ void eventdisp(){
 void keycont(void){
     newposx = P.x;
     newposy = P.y;
+    oldx = P.x;
+    oldy = P.y;
 
     Uint8 *key = SDL_GetKeyState(NULL);
     if(key[SDLK_RIGHT] == SDL_PRESSED){	//右移動
@@ -732,6 +738,8 @@ newposx += (newposx - P.x) * DEBAG*3;
 //*/
     hitjudge();
 
+    PlayerHitJudge();
+
     if(hitx != 1)
         P.x = newposx;
     else if(jump_LR != 0)
@@ -750,6 +758,8 @@ newposx += (newposx - P.x) * DEBAG*3;
 
     if(hity == 0 && UD == 0)
         jumpflag = 1;
+
+
 
     SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y);
 }
@@ -869,4 +879,23 @@ void newpositionjadge(){
     	GameOver();
 
 
+}
+
+/* プレイヤー同士の当たり判定 */
+void PlayerHitJudge(void)
+{
+    int i;
+    for(i=0; i<MAX_CLIENTS; i++){
+        if(i != mynum){
+            if((newposx > player[i].pos.x - 45 && newposx < player[i].pos.x + 45) &&
+               (P.y > player[i].pos.y - 60 && P.y < player[i].pos.y + 60))
+                hitx = 1;
+               if((P.x > player[i].pos.x - 45 && P.x < player[i].pos.x + 45) &&
+               (newposy > player[i].pos.y - 60 && newposy < player[i].pos.y + 60)){
+                hity = 1;
+                jumpflag = 0;
+               }
+
+        }
+    }
 }
