@@ -101,7 +101,7 @@ void SendMoveCommand(int x, int y)
 引数	: なし
 出力	: なし
 *****************************************************************/
-void SendObjectCommand(int num, int cpx, int cpy, int x, int y)
+void SendObjectCommand(int num, int status, int x, int y, int movex, int movey)
 {
     unsigned char	data[MAX_DATA];
     int			dataSize;
@@ -112,11 +112,11 @@ void SendObjectCommand(int num, int cpx, int cpy, int x, int y)
 
     /* データセット */
     SetIntData2DataBlock(data, num, &dataSize);    // オブジェクトナンバー
-//    SetIntData2DataBlock(data, status, &dataSize); // オブジェクトのステータス
-    SetIntData2DataBlock(data, cpx, &dataSize);      // オブジェクトの座標
-    SetIntData2DataBlock(data, cpy, &dataSize);
+    SetIntData2DataBlock(data, status, &dataSize); // オブジェクトのステータス
     SetIntData2DataBlock(data, x, &dataSize);      // オブジェクトの座標
     SetIntData2DataBlock(data, y, &dataSize);
+    SetIntData2DataBlock(data, movex, &dataSize);      // オブジェクトの座標
+    SetIntData2DataBlock(data, movey, &dataSize);
 
     /* データの送信 */
     SendData(data,dataSize);
@@ -227,11 +227,11 @@ static void RecvObjectData(void)
     int i;
     RecvIntData(&i);
     SDL_BlitSurface(mapwindow, &object[i].src, objectwindow, &object[i].dst); // object貼り付け準備
-//    RecvIntData(&object[i].status);
-    RecvIntData(&object[i].src.x);
-    RecvIntData(&object[i].src.y);
+    RecvIntData(&object[i].status);
     RecvIntData(&object[i].dst.x);
     RecvIntData(&object[i].dst.y);
+    RecvIntData(&object[i].movex);
+    RecvIntData(&object[i].movey);
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     if(object[i].gimmick == 2) {
         switchblock[object[i].flaghold].flaghold = object[i].status;
