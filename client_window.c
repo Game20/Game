@@ -325,7 +325,7 @@ void hitjudge(void){
                        player[mynum].pos.y+50/**/ >= object[i].dst.y && player[mynum].pos.y <= object[i].dst.y-35){
                         if(newposy+75 >= object[i].dst.y+35){
                             object[i].status = 1; //ステータス：押されてる
-                            //SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                            SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
                                               object[i].movex, object[i].movey); // オブジェクトのデータの送信
                             switchblock[object[i].flaghold].flaghold = 1;
                             hity = -2;
@@ -334,7 +334,7 @@ void hitjudge(void){
                     }
                     else{
                         object[i].status = 0;
-                        //SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                        SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
                                           object[i].movex, object[i].movey); // オブジェクトのデータの送信
                         switchblock[object[i].flaghold].flaghold = 0;
                     }
@@ -654,13 +654,13 @@ void hitjudge(void){
             SDL_BlitSurface(objectimage, &object[29].src, objectwindow, &object[29].dst); // object貼り付け
 	}
 
-    for(i = 0; i <= SUM_object; i++) {
+/*    for(i = 0; i <= SUM_object; i++) {
         if(object[i].src.x != object[i].oldsrc_x || object[i].src.y != object[i].oldsrc_y ||
             object[i].dst.x != object[i].olddst_x || object[i].dst.y != object[i].olddst_y)
         SendObjectCommand(i, object[i].src.x, object[i].src.y, object[i].dst.x, object[i].dst.y);
-    }
+    }*/
 
-    }
+}
 
     void scroll(void){
 
