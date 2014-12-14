@@ -77,7 +77,7 @@ void SendStartCommand(void)
 引数	: なし
 出力	: なし
 *****************************************************************/
-void SendMoveCommand(int x, int y)
+void SendMoveCommand(int x, int y, int animx, int animy)
 {
     unsigned char	data[MAX_DATA];
     int			dataSize;
@@ -89,6 +89,8 @@ void SendMoveCommand(int x, int y)
     /* データセット */
     SetIntData2DataBlock(data, x, &dataSize);
     SetIntData2DataBlock(data, y, &dataSize);
+    SetIntData2DataBlock(data, animx, &dataSize);
+    SetIntData2DataBlock(data, animy, &dataSize);
 
     /* データの送信 */
     SendData(data,dataSize);
@@ -212,6 +214,8 @@ static void RecvMoveData(void)
         //    break;
         RecvIntData(&player[i].pos.x);
         RecvIntData(&player[i].pos.y);
+        RecvIntData(&player[i].anim.x);
+        RecvIntData(&player[i].anim.y);
         if(player[i].pos.x == NULL)
             break;
         player[i].pos.x -= gameRect.x;

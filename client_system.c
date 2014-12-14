@@ -46,6 +46,8 @@ Mapshift();
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.w = 60;
         player[i].pos.h = 75;
+        player[i].anim.w = 60;
+        player[i].anim.h = 75;
     }
 
     exit_p = 0;
@@ -761,7 +763,7 @@ newposx += (newposx - P.x) * DEBAG*3;
 
 
 
-    SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y);
+ //   SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y, PA.x, PA.y);
 }
 
 /*
