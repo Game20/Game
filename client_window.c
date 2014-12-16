@@ -702,7 +702,6 @@ void exepaste(void){
         PA.x = 0;
         hithold = hitx; //ヒットホールドの更新
     }
-
            SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y, PA.x, PA.y);
 
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
@@ -842,9 +841,11 @@ void DrawChara(void)
         if(player[j].pos.x == NULL)
             break;
         //player[j].pos.x -= gameRect.x;
-                printf("player[0].anim = %d\n", player[i].anim.y);
 
-        SDL_BlitSurface(usa2, &PA, window, &player[j].pos); //キャラ貼り付け
+player[j].anim.w = 60;
+ //               printf("player[0].anim = (%d, %d, %d, %d)\n", player[0].anim.x, player[0].anim.y, player[0].anim.w, player[0].anim.h);
+
+        SDL_BlitSurface(usa2, &player[j].anim, window, &player[j].pos); //キャラ貼り付け
     }
 }
 

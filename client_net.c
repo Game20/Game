@@ -75,7 +75,7 @@ int SetUpClient(char *hostName,int *clientID,int *num,char clientNames[][MAX_NAM
 
     /* select()のためのマスク値を設定する */
     SetMask();
-    
+
     return 0;
 }
 
@@ -122,13 +122,13 @@ int SendRecvManager(void)
 int RecvIntData(int *intData)
 {
     int n,tmp;
-    
+
     /* 引き数チェック */
     assert(intData!=NULL);
 
     n = RecvData(&tmp,sizeof(int));
     (*intData) = ntohl(tmp);
-    
+
     return n;
 }
 

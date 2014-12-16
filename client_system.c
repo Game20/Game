@@ -34,6 +34,13 @@ int i;
 	LR = 0;
 	UD = 0;
 
+	for(i = 0; i < MAX_CLIENTS; i++){
+        player[i].anim.x = 0;//PA.x;
+        player[i].anim.y = 0;//PA.y;
+        player[i].anim.w = 60;//PA.w;
+        player[i].anim.h = 75;//PA.h;
+	}
+
 //ステージ２移行時
 if(stageP != mapread)
 Mapshift();
@@ -46,8 +53,6 @@ Mapshift();
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.w = 60;
         player[i].pos.h = 75;
-        player[i].anim.w = 60;
-        player[i].anim.h = 75;
     }
 
     exit_p = 0;
@@ -763,7 +768,7 @@ newposx += (newposx - P.x) * DEBAG*3;
 
 
 
- //   SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y, PA.x, PA.y);
+//    SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y, PA.x, PA.y);
 }
 
 /*

@@ -148,6 +148,7 @@ int main(int argc, char* argv[]) {
 	//SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
 	SDL_Delay(20);
 	time++;
+
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
             eventdisp();	// イベント処理
@@ -164,7 +165,9 @@ int main(int argc, char* argv[]) {
     for(i = 0; i <= 100; i++) { // データの受信
         endFlag = SendRecvManager();
     }
+
     /**/
+
         DrawChara(); // キャラの描画
         SDL_Flip(window); // 画面に図形を表示（反映）
 
