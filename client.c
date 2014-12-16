@@ -201,7 +201,9 @@ int main(int argc, char* argv[]) {
     for(i = 0; i <= 100; i++) { // データの受信
         endFlag = SendRecvManager();
     }
+
     /**/
+
         DrawChara(); // キャラの描画
         SDL_Flip(window); // 画面に図形を表示（反映）
 

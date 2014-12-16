@@ -15,6 +15,7 @@
 
 typedef struct{
     SDL_Rect pos; // 座標
+    SDL_Rect anim;
     //SDL_Rect anime; // アニメーション
     //int jumpf; // ジャンプフラグ
     //int jump_a; // jump acceleration
@@ -164,7 +165,7 @@ extern void GameClear(void);
 /* client_command.c */
 extern int ExecuteCommand(char command);
 extern void SendEndCommand(void);
-extern void SendMoveCommand(int x, int y); //追加
+extern void SendMoveCommand(int x, int y, int animx, int animy); //追加
 extern void SendObjectCommand(int num, int status, int x, int y, int movex, int movey);
 extern void SendStartCommand(void);
 
