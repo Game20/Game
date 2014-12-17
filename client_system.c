@@ -1099,6 +1099,7 @@ newposx += (newposx - P.x) * DEBAG*3;
         P.y = newposy;
     else if(hity == -1 || (hitx == 1 && hity == 1)){
 		jumpflag = 0;
+if(P.y > 0)
 		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 	}
 	else if(hity == -2){
@@ -1244,6 +1245,8 @@ void PlayerHitJudge(void)
                (newposy > player[i].pos.y - 60 && newposy < player[i].pos.y + 60)){
                 hity = 1;
                 jumpflag = 0;
+if(jump_a > 12)
+jump_a = -4;
                }
 
         }
