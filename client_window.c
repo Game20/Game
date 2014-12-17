@@ -358,8 +358,10 @@ SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y, object[
         //岩 on Player
         if( object[i].flaghold == 1 &&
             (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
-            (P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 43) && jump_a != -8)
+            (P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 43) && jump_a != -8) {
+            SendGameoverCommand();
             GameOver(mynum);
+            }
     }
 
     //スイッチのとき

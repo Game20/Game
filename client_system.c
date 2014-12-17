@@ -1233,9 +1233,10 @@ void newpositionjadge(){
     if(P.x <= 0)
         //P.x = 0;//画面外に出ない
 
-    if(P.y >= WIND_Height * bit)//画面下にいけば
+    if(P.y >= WIND_Height * bit) {//画面下にいけば
+        SendGameoverCommand();
     	GameOver(mynum);
-
+    }
 
 }
 
