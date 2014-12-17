@@ -978,24 +978,20 @@ void DrawChara(void)
 
 
     for(j = 0; j < gClientNum; j++){
-
+        player[j].anim.w = 60;
         if(j == 0) {
-            player[j].anim.w = 60;
             SDL_BlitSurface(usa2, &player[j].anim, window, &player[j].pos); //キャラ貼り付け
         }
 
         if(j == 1) {//neko
-            player[j].anim.w = 60;
             SDL_BlitSurface(neko, &player[j].anim, window, &player[j].pos); //キャラ貼り付け
         }
 
         if(j == 2) {
-            player[j].anim.w = 60;
             SDL_BlitSurface(inu, &player[j].anim, window, &player[j].pos); //キャラ貼り付け
         }
 
         if(j == 3) {
-            player[3].anim.w = 60;
             SDL_BlitSurface(panda, &player[j].anim, window, &player[j].pos); //キャラ貼り付け
         }
     }
