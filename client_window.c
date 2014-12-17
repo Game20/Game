@@ -1065,9 +1065,7 @@ void GameOver(int ClientNum){
 
     for(j=0; j<=max_map_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
-            gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit)-mynum*60;//-mynum*60はあとで消す
-			P.x = gameRect.x+(24-mynum)*60;
-			newposx = P.x;
+            gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
             P.y = object[j].dst.y+60;
             newposy = P.y;
             object[j].src.y = 60;
