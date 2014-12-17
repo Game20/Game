@@ -1106,6 +1106,7 @@ newposx += (newposx - P.x) * DEBAG*3;
         P.y = newposy;
     else if(hity == -1 || (hitx == 1 && hity == 1)){
 		jumpflag = 0;
+if(P.y > 0)
 		P.y = ((newposy - 10) / bit + 1) * bit - 15; //マスの上に調整
 	}
 	else if(hity == -2){
@@ -1233,7 +1234,7 @@ void newpositionjadge(){
         //P.x = 0;//画面外に出ない
 
     if(P.y >= WIND_Height * bit)//画面下にいけば
-    	GameOver();
+    	GameOver(mynum);
 
 
 }
@@ -1251,6 +1252,12 @@ void PlayerHitJudge(void)
                (newposy > player[i].pos.y - 60 && newposy < player[i].pos.y + 60)){
                 hity = 1;
                 jumpflag = 0;
+if(jump_a > 12)
+jump_a = -4;
+if(stepflag >= 1){
+stepflag = 0;
+UD = 0;
+}
                }
 
         }
