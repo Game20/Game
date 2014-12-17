@@ -795,7 +795,11 @@ void hitjudge(void){
 
 void scroll(void){
 
-    shiftdef = P.x - (WIND_Width * bit/2-30);
+    int x;
+
+    x = (player[0].pos.x + player[1].pos.x + player[2].pos.x + player[3].pos.x) / gClientNum;
+
+    shiftdef = x - (WIND_Width * bit/2-30);
 
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
