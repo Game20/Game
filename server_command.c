@@ -58,6 +58,7 @@ int ExecuteCommand(char command,int pos)
  //       y = y - (pos * 60);
         SetIntData2DataBlock(data, x, &dataSize);
         SetIntData2DataBlock(data, y, &dataSize);
+        SetIntData2DataBlock(data, gClientNum, &dataSize);
 
         SendData(pos, data, dataSize);
         if(cnt == gClientNum){
