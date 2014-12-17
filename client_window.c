@@ -270,7 +270,8 @@ void hitjudge(void){
     if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+15)/bit] == 1 ||
         gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 ||
         gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 ||
-        gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	)
+        gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	||
+		newposx < 0 || newposx > 24*60)
 
         hitx = 1;
 
