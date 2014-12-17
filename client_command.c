@@ -11,9 +11,12 @@ static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
 static void RecvStartData(void);
 static void RecvMoveData(void);
 static void RecvObjectData(void);
+static void RecvGameoverData(void);
+static void RecvNewposData(void);
 
 extern int mynum;
 extern int start_flag = 0;
+
 /*****************************************************************
 関数名	: ExecuteCommand
 機能	: サーバーから送られてきたコマンドを元に，
@@ -38,14 +41,16 @@ int ExecuteCommand(char command)
         start_flag = 1;
         break;
     case NEWPOS_COMMAND:
-        RecvStartData();
+        RecvNewposData();
         break;
     case MOVE_COMMAND: //移動コマンド
         RecvMoveData();
         break;
-
     case OBJECT_COMMAND:
         RecvObjectData();
+        break;
+    case GAMEOVER_COMMAND:
+        RecvGameoverData();
         break;
     }
     return endFlag;
@@ -148,9 +153,29 @@ void SendEndCommand(void)
     SendData(data,dataSize);
 }
 
+void SendGameoverCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, GAMEOVER_COMMAND, &dataSize);
+    SetIntData2DataBlock(data, mynum, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendNewposCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, NEWPOS_COMMAND, &dataSize);
+    SendData(data, dataSize);
+}
 
 /*****
-      static
+static
 *****/
 /*****************************************************************
 関数名	: SetIntData2DataBlock
@@ -201,9 +226,7 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 /**************************追加関数******************************/
 static void RecvStartData(void)
 {
-    RecvIntData(&mynum);
-    RecvIntData(&player[mynum].pos.x);
-    RecvIntData(&player[mynum].pos.y);
+
 }
 
 static void RecvMoveData(void)
@@ -239,4 +262,19 @@ static void RecvObjectData(void)
     if(object[i].gimmick == 2) {
         switchblock[object[i].flaghold].flaghold = object[i].status;
     }
+}
+
+static void RecvGameoverData(void)
+{
+    int num;
+
+    RecvIntData(&num);
+    GameOver(num);
+}
+
+static void RecvNewposData(void)
+{
+    RecvIntData(&mynum);
+    RecvIntData(&player[mynum].pos.x);
+    RecvIntData(&player[mynum].pos.y);
 }

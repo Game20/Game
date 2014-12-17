@@ -38,6 +38,8 @@ int keyhold = 0;
 int DEBAG = 0;
 
 int mynum;
+int start_flag;
+
 /*初期設定*/
 void InitWindow(){
 
@@ -282,9 +284,10 @@ void hitjudge(void){
     if( gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit+1] == 2 ||
         gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit+1] == 2	||
         gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit] == 3 ||
-        gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit] == 3 )
-        GameOver();
-
+        gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit] == 3 ){
+        SendGameoverCommand();
+        GameOver(mynum);
+        }
     //ゴール
     //	if( object[29].status == 1 && jumpflag == 0 &&
     //	    gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit] == 5 &&
@@ -340,7 +343,7 @@ void hitjudge(void){
         if( object[i].flaghold == 1 &&
             (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
             (P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 43) && jump_a != -8)
-            GameOver();
+            GameOver(mynum);
     }
 
 
@@ -951,15 +954,31 @@ player[j].anim.w = 60;
     }
 }
 
-void GameOver(void){
+void GameOver(int ClientNum){
 
-    PA.x = 3 * bit;
-    PA.y = 3 * 75;
+    //PA.x = 3 * bit;
+    //PA.y = 3 * 75;
+
+    int endFlag = 1;
 
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // マップ貼り付け
-    SDL_BlitSurface(usa2, &PA, window, &P);
+
+    DrawChara();
+
+    white.x = player[ClientNum].pos.x;
+	white.y = player[ClientNum].pos.y;
+	white.h = 75;
+
+    SDL_BlitSurface(mapwindow, &white, window, &player[ClientNum].pos); // 死亡キャラ貼り付け準備
+
+    white.h = 60;
+
+    PA.x = 3 * bit;
+    PA.y = 3 * 75;
+
+    SDL_BlitSurface(usa2, &PA, window, &player[ClientNum].pos);
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(1400);
 
@@ -976,14 +995,17 @@ void GameOver(void){
             gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
             P.y = object[j].dst.y+60;
             newposy = P.y;
-	}
+        }
     }
 
     if(keyhold == 1)
         keyhold = 0;
 
-    //printf("\n\n a \n\n");
-
+    SendStartCommand();
+    start_flag = 0;
+    while(start_flag == 0){
+        endFlag = SendRecvManager();
+    }
 }
 
 void StageClear(void){
@@ -1029,8 +1051,6 @@ void GameClear(void){
 //titlep2 = 1;
 
     exit_p = 1;
-
-
 }
 
 
