@@ -44,7 +44,7 @@ int ExecuteCommand(char command,int pos)
     printf("Get command %c\n",command);
 #endif
     switch(command){
-    case START_COMMAND:
+    case NEWPOS_COMMAND:
         dataSize = 0;
 
         int x,y;
@@ -52,7 +52,7 @@ int ExecuteCommand(char command,int pos)
         cnt = cnt + 1;
         x=180;/*1Pの初期座標*/
         y=630;/*1Pの初期座標*/
-        SetCharData2DataBlock(data, NEWPOS_COMMAND, &dataSize);
+        SetCharData2DataBlock(data, command, &dataSize);
         SetIntData2DataBlock(data, pos, &dataSize);
         x = x + (pos * 180); /*プレイヤーごとの初期座標計算*/
  //       y = y - (pos * 60);
@@ -62,10 +62,24 @@ int ExecuteCommand(char command,int pos)
         SendData(pos, data, dataSize);
         if(cnt == gClientNum){
             dataSize = 0;
-            SetCharData2DataBlock(data, command, &dataSize);
+            SetCharData2DataBlock(data, START_COMMAND, &dataSize);
             SendData(ALL_CLIENTS, data, dataSize);
+            cnt = 0;
         }
         break;
+
+    case START_COMMAND:
+        cnt = cnt + 1;
+
+        if(cnt == gClientNum){
+            dataSize = 0;
+            SetCharData2DataBlock(data, command, &dataSize);
+            SendData(ALL_CLIENTS, data, dataSize);
+            cnt = 0;
+        }
+
+        break;
+
     case END_COMMAND:
         dataSize = 0;
         /* コマンドのセット */
@@ -124,6 +138,11 @@ int ExecuteCommand(char command,int pos)
         SendData(ALL_CLIENTS, data, dataSize);
         break;
 
+    case GAMEOVER_COMMAND:
+        dataSize = 0;
+        SetCharData2DataBlock(data, command, &dataSize);
+        SetIntData2DataBlock(data, pos, &dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
 
     default:
         /* 未知のコマンドが送られてきた */
@@ -133,7 +152,7 @@ int ExecuteCommand(char command,int pos)
 }
 
 /*****
-      static
+static
 *****/
 /*****************************************************************
 関数名	: SetIntData2DataBlock

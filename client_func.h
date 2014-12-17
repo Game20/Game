@@ -157,7 +157,7 @@ extern void Mapshift(void);
 //extern void DestroyWindow(void);
 //extern void WindowEvent(int num);
 extern void DrawChara(void); //他プレイヤー描画
-extern void GameOver(void);
+extern void GameOver(int ClientNum);
 extern void StageClear(void);
 extern void GameClear(void);
 
@@ -167,8 +167,8 @@ extern void SendEndCommand(void);
 extern void SendMoveCommand(int x, int y); //追加
 extern void SendObjectCommand(int num, int status, int x, int y, int movex, int movey);
 extern void SendStartCommand(void);
-
-
+extern void SendGameoverCommand(void);
+extern void SendNewposCommand(void);
 
 /* 未定 */
 void story(void);

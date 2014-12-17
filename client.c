@@ -150,7 +150,7 @@ int main(int argc, char* argv[]) {
         player[i].pos.x = 0;
     }
 
-    SendStartCommand();
+    SendNewposCommand();
 
 /*    while(!player[0].pos.x && !player[1].pos.x
           && !player[2].pos.x && !player[3].pos.x) {
@@ -159,6 +159,8 @@ int main(int argc, char* argv[]) {
     while(start_flag == 0){
         endFlag = SendRecvManager();
     }
+
+    start_flag = 0;
 
     for(i = 0; i < MAX_CLIENTS; i++){
         if(player[i].pos.x != 0) {
