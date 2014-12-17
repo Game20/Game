@@ -27,6 +27,7 @@
 
 
 //SDL_Surface *window; // ウィンドウ（画像）データへのポインタ（グローバル）
+SDL_Joystick *Joystick;
 
 //変数などの宣言(main外)
 
@@ -113,6 +114,15 @@ int main(int argc, char* argv[]) {
 
     wiimote.mode.acc = 1; // 加速度センサをON（センサを受け付ける）
 */
+
+	// SDL初期化
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
+		printf("failed to initialize SDL.\n");
+		exit(-1);
+	}
+
+SDL_JoystickEventState(SDL_ENABLE);
+Joystick = SDL_JoystickOpen(0);
 
 
     int i, j; //forループで使用
@@ -219,6 +229,7 @@ int main(int argc, char* argv[]) {
 /*終了設定*/
 //	if(wiimote_is_open(&wiimote))
 //    wiimote_disconnect(&wiimote); // Wiiリモコンとの接続を解除
+	SDL_JoystickClose(Joystick);
     EXITsetting();
     return 0;
 } //main
