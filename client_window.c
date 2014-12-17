@@ -38,6 +38,7 @@ int keyhold = 0;
 int DEBAG = 0;
 
 int mynum;
+int gClientNum;
 int start_flag;
 
 /*初期設定*/
@@ -942,7 +943,7 @@ void title(void){
 /************プレイヤー表示関数**********************/
 void DrawChara(void)
 {
-    for(j = 0; j < MAX_CLIENTS; j++){
+    for(j = 0; j < gClientNum; j++){
         if(player[j].pos.x == NULL)
             break;
         //player[j].pos.x -= gameRect.x;

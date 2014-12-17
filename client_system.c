@@ -8,6 +8,7 @@ int stageP = 1;
 int mapread = 1;
 
 int mynum;
+int gClientNum;
 
 static void PlayerHitJudge(void);
 
@@ -40,7 +41,7 @@ int i;
 	LR = 0;
 	UD = 0;
 
-	for(i = 0; i < MAX_CLIENTS; i++){
+	for(i = 0; i < gClientNum; i++){
         player[i].anim.x = 0;//PA.x;
         player[i].anim.y = 0;//PA.y;
         player[i].anim.w = 60;//PA.w;
@@ -56,7 +57,7 @@ Mapshift();
 	if(stageP == 2)
 	objectinit2();
 
-    for(i = 0; i < MAX_CLIENTS; i++){
+    for(i = 0; i < gClientNum; i++){
         player[i].pos.w = 60;
         player[i].pos.h = 75;
     }
@@ -1233,7 +1234,7 @@ void newpositionjadge(){
         //P.x = 0;//画面外に出ない
 
     if(P.y >= WIND_Height * bit)//画面下にいけば
-    	GameOver();
+    	GameOver(mynum);
 
 
 }
@@ -1242,7 +1243,7 @@ void newpositionjadge(){
 void PlayerHitJudge(void)
 {
     int i;
-    for(i=0; i<MAX_CLIENTS; i++){
+    for(i=0; i<gClientNum; i++){
         if(i != mynum){
             if((newposx > player[i].pos.x - 45 && newposx < player[i].pos.x + 45) &&
                (P.y > player[i].pos.y - 60 && P.y < player[i].pos.y + 60))

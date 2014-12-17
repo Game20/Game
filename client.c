@@ -72,6 +72,7 @@ SDL_Surface *usa;  // 画像データへのポインタ
 
 Player player[MAX_CLIENTS]; // プレイヤーの状態を格納
 int mynum;
+int gClientNum;
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 /* Wiiリモコンを用いるための構造体を宣言（初期化）
@@ -106,7 +107,7 @@ int main(int argc, char* argv[]) {
     /* Wiiリモコンの接続（１つのみ）
     if (wiimote_connect(&wiimote, argv[1]) < 0) { // コマンド引数に指定したWiiリモコン識別情報を渡して接続
         printf("unable to open wiimote: %s\n", wiimote_get_error());
-        exit(1);
+        exit(1);MAX_CLIENTS
     }
 
     wiimote.led.one  = 1; // WiiリモコンのLEDの一番左を点灯（接続通知）
@@ -162,7 +163,7 @@ int main(int argc, char* argv[]) {
 
     start_flag = 0;
 
-    for(i = 0; i < MAX_CLIENTS; i++){
+    for(i = 0; i < gClientNum; i++){
         if(player[i].pos.x != 0) {
             P_START.x = player[i].pos.x;
             P_START.y = player[i].pos.y;
