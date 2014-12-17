@@ -974,16 +974,38 @@ void title(void){
 /************プレイヤー表示関数**********************/
 void DrawChara(void)
 {
+
+/*
     for(j = 0; j < MAX_CLIENTS; j++){
         if(player[j].pos.x == NULL)
             break;
         //player[j].pos.x -= gameRect.x;
 
-player[j].anim.w = 60;
- //               printf("player[0].anim = (%d, %d, %d, %d)\n", player[0].anim.x, player[0].anim.y, player[0].anim.w, player[0].anim.h);
+        player[j].anim.w = 60;
 
         SDL_BlitSurface(usa2, &player[j].anim, window, &player[j].pos); //キャラ貼り付け
+    }*/
+
+    if(player[0].pos.x != NULL) {
+        player[0].anim.w = 60;
+        SDL_BlitSurface(usa2, &player[0].anim, window, &player[0].pos); //キャラ貼り付け
     }
+
+    if(player[1].pos.x != NULL) {//neko
+        player[1].anim.w = 60;
+        SDL_BlitSurface(neko, &player[1].anim, window, &player[1].pos); //キャラ貼り付け
+    }
+
+    if(player[2].pos.x != NULL) {
+        player[2].anim.w = 60;
+        SDL_BlitSurface(inu, &player[2].anim, window, &player[2].pos); //キャラ貼り付け
+    }
+
+    if(player[3].pos.x != NULL) {
+        player[3].anim.w = 60;
+        SDL_BlitSurface(panda, &player[3].anim, window, &player[3].pos); //キャラ貼り付け
+    }
+
 }
 
 void GameOver(int ClientNum){
@@ -1028,7 +1050,7 @@ void GameOver(int ClientNum){
             P.y = object[j].dst.y+60-mynum*60;
             newposy = P.y;
 			object[j].src.y = 60;
-			SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &revivalflag); // flag貼り付け	
+			SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &revivalflag); // flag貼り付け
 			object[j].src.y = 0;
 	}
     }
