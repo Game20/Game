@@ -929,7 +929,7 @@ void eventdisp(){
                 stepflag = 1;
                 break;
             case SDLK_RETURN:
-                DEBAG = 5;
+                DEBAG1 = 5;
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
@@ -960,10 +960,86 @@ void eventdisp(){
                 UD = 0;
                 break;
             case SDLK_RETURN:
-                DEBAG = 0;
+                DEBAG1 = 0;
                 break;
             }
         }
+
+
+			//joys
+			case SDL_JOYBUTTONDOWN:
+				switch(event.jbutton.button){
+					case 0:
+//						stepflag = -1;
+						break;
+					/**/
+					case 1:
+						DEBAG2 = 5;
+						break;
+					case 2:
+						stepflag = -1;
+						break;
+					case 3:
+				        if(jumpflag == 0)//{
+				            jumpflag = 1;
+				            jump_a = 12; //初速
+				        //} //←{}を消したら無限ジャンプ
+						break;
+
+//					default:
+//						DEBAG2 = 0;				
+//						break;
+						}
+						break;
+
+			case SDL_JOYBUTTONUP:
+				switch(event.jbutton.button){
+					case 0:
+//						stepflag = 0;
+						break;
+					case 2:
+						stepflag = 0;
+						break;
+					/**/
+					case 1:
+						DEBAG2 = 0;
+						break;
+						}
+
+
+			//スティック(左の十字キーも)
+			case SDL_JOYAXISMOTION:
+				//左右の動き
+				if(event.jaxis.axis == 0) 
+				{
+					if(event.jaxis.value < -0x7000)
+					//	newposx -= 4;
+						LR = -1;
+					else if(event.jaxis.value >  0x7000)
+					//	newposx += 4;
+						LR = 1;
+					else
+						LR = 0;					
+				}
+
+				//上下の動き
+				if(event.jaxis.axis == 1) 
+				if(stepflag == 2){
+					if(event.jaxis.value < -0x5000){	//上移動
+						newposy -= 2;
+						UD = 1;
+						jumpflag = 0;
+					}
+					if(event.jaxis.value >  0x10000){	//下移動
+						newposy += 4;
+						UD = -1;
+					}
+				}
+				else{
+				stepflag = 1;
+				UD = 0;
+				}
+				break;
     }
 }
 
@@ -1016,10 +1092,10 @@ void Operation(){
 	}
 
     if(wiimote.keys.one) { // 1ボタン
-	DEBAG = 5;
+	DEBAG2 = 5;
     }
 	else
-	DEBAG = 0;
+	DEBAG2 = 0;
 
     if (wiimote.keys.two) { // 2ボタン
 		if(jumpflag == 0 && bottun2 == 0){
@@ -1050,12 +1126,14 @@ void keycont(void){
         newposx += 4;
         if(jumpflag == 1)
             jump_LR = 1;
+		DEBAG2 = 0;
     }
     if(key[SDLK_LEFT] == SDL_PRESSED){	//左移動
 		LR = -1;
         newposx -= 4;
         if(jumpflag == 1)
             jump_LR = -1;
+		DEBAG2 = 0;
     }
 	if(stepflag == 2){
 		if(key[SDLK_UP] == SDL_PRESSED){	//上移動
@@ -1069,8 +1147,8 @@ void keycont(void){
 		}
 	}
 
-//if(LR != 0)
-//newposx = P.x + 4 * LR;
+if(LR != 0)
+newposx = P.x + 4 * LR;
 
 
 /*その他詳細設定*/
@@ -1091,7 +1169,7 @@ void keycont(void){
 
 ///*
 //デバッグ用処理　速度10倍
-newposx += (newposx - P.x) * DEBAG*3;
+newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
 //*/
     hitjudge();
 

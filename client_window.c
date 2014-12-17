@@ -40,7 +40,8 @@ int j, k, l;
 int keyhold = 0;
 int switchcount = 0;
 
-int DEBAG = 0;
+int DEBAG1 = 0;
+int DEBAG2 = 0;
 
 int mynum;
 int start_flag;
@@ -471,12 +472,12 @@ SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y, object[
 
 
     //カギのとき
-    if(object[i].gimmick == 4 && jumpflag == 0 && stepflag == 1){
+    if(object[i].gimmick == 4 && jumpflag == 0 && stepflag == -1){
         white.x = object[i].dst.x;
         white.y = object[i].dst.y;
         SDL_BlitSurface(mapwindow, &white, objectwindow, &object[i].dst); // object貼り付け準備
         if(object[i].status == 0){
-            object[i].status = 1;
+            object[i].status = mynum+1;
             stepflag = 0;
             object[i].dst.x = P.x;
             object[i].dst.y = P.y-44;
@@ -488,23 +489,25 @@ SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y, object[
             object[i].dst.x = P.x+gameRect.x+(LR*60);
             object[i].dst.y = P.y;
             keyhold = 0;
+        }
 
             if( (stageP == 1 && P.x+gameRect.x >= 248*60+20 && P.x+gameRect.x <= 250*60-80 && P.y == 7*60-15) ||
                 (stageP == 2 && P.x+gameRect.x >= 266*60+20 && P.x+gameRect.x <= 268*60-80 && P.y == 3*60-15)){
                 object[i].src.x = -60;
                 if(stageP == 1){
                     object[30].src.x += 120;
+                    object[30].status = 1;
                     SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
                 }
                 if(stageP == 2){
                     object[56].src.x += 120;
+                    object[56].status = 1;
                     SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
                 }
 
                 StageClear();
             }
 
-        }
         SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     }
 
@@ -749,7 +752,7 @@ if(stepflag >= 1){
 }
 
 //カギの判定
-if(stageP == 1 && object[29].status == 1){
+if(stageP == 1 && object[29].status == mynum+1){
     white.x = object[29].dst.x;
     white.y = object[29].dst.y;
     SDL_BlitSurface(mapwindow, &white, objectwindow, &object[29].dst); // object貼り付け準備
@@ -763,7 +766,7 @@ if(stageP == 1 && object[29].status == 1){
 }
 
 //カギの判定
-if(stageP == 2 && object[49].status == 1){
+if(stageP == 2 && object[49].status == mynum+1){
     white.x = object[49].dst.x;
     white.y = object[49].dst.y;
     SDL_BlitSurface(mapwindow, &white, objectwindow, &object[49].dst); // object貼り付け準備
@@ -1023,7 +1026,9 @@ void GameOver(int ClientNum){
     for(j=0; j<=max_map_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
             gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit)-mynum*60;//-mynum*60はあとで消す
-            P.y = object[j].dst.y+60-mynum*60;
+			P.x = gameRect.x+(24-mynum)*60;
+			newposx = P.x;
+            P.y = object[j].dst.y+60;
             newposy = P.y;
 			object[j].src.y = 60;
 			SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &revivalflag); // flag貼り付け	

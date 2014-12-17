@@ -109,7 +109,8 @@ extern int G_flaghold;
 extern int stepflag;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
-extern int DEBAG;
+extern int DEBAG1;
+extern int DEBAG2;
 
 extern int max_map_object;
 
