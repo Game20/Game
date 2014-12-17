@@ -15,7 +15,10 @@ static void RecvGameoverData(void);
 static void RecvNewposData(void);
 
 extern int mynum;
+extern int gClientNum;
 extern int start_flag = 0;
+
+int gClientNum;
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -232,7 +235,7 @@ static void RecvStartData(void)
 static void RecvMoveData(void)
 {
     int i;
-    for(i = 0; i < MAX_CLIENTS; i++) {
+    for(i = 0; i < gClientNum; i++) {
         //if(player[i+1].pos.x == NULL)
         //    break;
         RecvIntData(&player[i].pos.x);
@@ -277,4 +280,6 @@ static void RecvNewposData(void)
     RecvIntData(&mynum);
     RecvIntData(&player[mynum].pos.x);
     RecvIntData(&player[mynum].pos.y);
+    RecvIntData(&gClientNum);
+
 }
