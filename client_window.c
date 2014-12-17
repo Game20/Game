@@ -826,6 +826,13 @@ void scroll(void){
 
     shiftdef = x - (WIND_Width * bit/2-30);
 
+	for(j = 0; j < gClientNum; j++){
+	if(player[j].pos.x - shiftdef <= 0)
+	shiftdef = 0;
+	if(player[j].pos.x - shiftdef >= 24*60)
+	shiftdef = 0;
+	}
+
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
