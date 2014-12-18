@@ -775,6 +775,7 @@ if(keycommand == 1){
 		object[29].src.x = -60;
 		object[30].src.x += 120;
 		object[30].status = 1;
+        SendObjectCommand(i, object[30].status, object[30].dst.x, object[30].dst.y, object[30].movex, object[30].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
 		StageClear();
 	}
@@ -782,6 +783,7 @@ if(keycommand == 1){
 		object[49].src.x = -60;
 		object[56].src.x += 120;
 		object[56].status = 1;
+        SendObjectCommand(i, object[56].status, object[56].dst.x, object[56].dst.y, object[56].movex, object[56].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
 		StageClear();
 	}
@@ -855,32 +857,8 @@ void exepaste(void){
 
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // object貼り付け
 
-    //printf("\n\n %d %d %d %d  %d %d \n\n",PA.w ,PA.h ,PA.x ,PA.y ,P.x ,P.y);
-
-    //SDL_BlitSurface(usa2, &PA, window, &player[mynum]); //キャラ貼り付け
-
-    /*
-      P.x += 120;
-      SDL_BlitSurface(neko, &PA, window, &P); //キャラ貼り付け
-      P.x += 120;
-      SDL_BlitSurface(inu, &PA, window, &P); //キャラ貼り付け
-      P.x += 120;
-      SDL_BlitSurface(panda, &PA, window, &P); //キャラ貼り付け
-      P.x -= 360;
-    */
-
-    /*
-      SDL_BlitSurface(Player[paste0], &PA[paste0], SDL_GetVideoSurface(), &P[paste0]);
-      SDL_BlitSurface(Player[paste1], &PA[paste1], SDL_GetVideoSurface(), &P[paste1]);
-      SDL_BlitSurface(Player[paste2], &PA[paste2], SDL_GetVideoSurface(), &P[paste2]);
-      SDL_BlitSurface(Player[paste3], &PA[paste3], SDL_GetVideoSurface(), &P[paste3]);
-    */
-
-    /*『1P』とかの表示　あとで4人分まで拡張*/
-    /*PM.x = P.x + 25;
-      PM.y = P.y - 30;
-      SDL_BlitSurface(gMessages[5], &PMR, SDL_GetVideoSurface(), &PM);
-    */
+    if(stageP == 2)
+	GameClear();
 
 }
 
@@ -937,7 +915,7 @@ void title(void){
                     if(P.y == 500){
                         //ステージ２から
                         //if(stageP == 1)
-                        stageP = 2;
+                    //    stageP = 2;
                         //if(stageP == 2)
                         //stageP = 1;
                         titlep = 0;
@@ -975,11 +953,11 @@ void title(void){
 					titlep = 0;
 					titlep2 = 0;
 					}
-					if(P.y == 500){
+				/*	if(P.y == 500){
 					stageP = 2;
 					titlep = 0;
 					titlep2 = 0;
-					}
+					}*/
 					if(P.y == 600)
 					EXIT();
 					break;
@@ -1113,7 +1091,7 @@ void StageClear(void){
     }
 
     stageP++;
-    if(stageP == 3)
+    if(stageP == 2)
 	GameClear();
 
     InitStatus();

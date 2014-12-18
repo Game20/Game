@@ -1380,15 +1380,16 @@ void PlayerHitJudge(void)
                (newposy > player[i].pos.y - 60 && newposy < player[i].pos.y + 60)){
                 hity = 1;
                 jumpflag = 0;
-                if(jump_a > 8)
-                P.y = player[i].pos.y - 60;
                 if(stepflag >= 1){
                     stepflag = 0;
                     UD = 0;
                 }
-				if(newposy > player[i].pos.y - 55 && newposy < player[i].pos.y + 45)
-				if(newposy > player[i].pos.y)
+				if(P.y > player[i].pos.y - 55 && P.y < player[i].pos.y + 45)
+				if(P.y > player[i].pos.y){
 				P.y = player[i].pos.y + 60;
+				newposy = P.y;
+				jump_a = 0;
+				}
             }
         }
     }
