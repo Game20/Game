@@ -50,7 +50,7 @@ int ExecuteCommand(char command,int pos)
         int x,y;
 
         cnt = cnt + 1;
-        x=180;/*1Pの初期座標*/
+        x=300;/*1Pの初期座標*/
         y=630;/*1Pの初期座標*/
         SetCharData2DataBlock(data, command, &dataSize);
         SetIntData2DataBlock(data, pos, &dataSize);

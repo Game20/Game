@@ -993,7 +993,7 @@ void eventdisp(){
 						break;
 
 //					default:
-//						DEBAG2 = 0;				
+//						DEBAG2 = 0;
 //						break;
 						}
 						break;
@@ -1016,7 +1016,7 @@ void eventdisp(){
 			//スティック(左の十字キーも)
 			case SDL_JOYAXISMOTION:
 				//左右の動き
-				if(event.jaxis.axis == 0) 
+				if(event.jaxis.axis == 0)
 				{
 					if(event.jaxis.value < -0x7000)
 					//	newposx -= 4;
@@ -1025,7 +1025,7 @@ void eventdisp(){
 					//	newposx += 4;
 						LR = 1;
 					else
-						LR = 0;					
+						LR = 0;
 				}
 
 				//上下の動き
@@ -1288,7 +1288,7 @@ void EXIT(void){
                 }
 			case SDL_JOYAXISMOTION:
 				//左右の動き
-				if(event.jaxis.axis == 0) 
+				if(event.jaxis.axis == 0)
 				{
 					if(event.jaxis.value < -0x7000)
 					P.x += 300;

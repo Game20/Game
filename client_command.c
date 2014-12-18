@@ -255,7 +255,7 @@ static void RecvObjectData(void)
 {
     int i;
     RecvIntData(&i);
-    SDL_BlitSurface(mapwindow, &object[i].src, objectwindow, &object[i].dst); // object貼り付け準備
+    SDL_BlitSurface(mapwindow, &object[i].dst, objectwindow, &object[i].dst); // object貼り付け準備
     RecvIntData(&object[i].status);
     RecvIntData(&object[i].dst.x);
     RecvIntData(&object[i].dst.y);
