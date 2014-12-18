@@ -91,6 +91,14 @@ int ExecuteCommand(char command,int pos)
         endFlag = 0;
         break;
 
+    case CLEAR_COMMAND:
+        dataSize = 0;
+
+        SetCharData2DataBlock(data,command,&dataSize);
+
+        SendData(ALL_CLIENTS,data,dataSize);
+        break;
+
     case MOVE_COMMAND: //クライアントの移動後座標を送信
 
         CalcPos(pos);/*座標受け取り*/

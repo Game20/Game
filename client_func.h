@@ -171,6 +171,7 @@ extern void SendObjectCommand(int num, int status, int x, int y, int movex, int 
 extern void SendStartCommand(void);
 extern void SendGameoverCommand(void);
 extern void SendNewposCommand(void);
+extern void SendGameclearCommand(void);
 
 /* 未定 */
 void story(void);
