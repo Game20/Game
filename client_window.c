@@ -858,7 +858,7 @@ void exepaste(void){
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // object貼り付け
 
     if(stageP == 2) {
-        SendGameclearCommand();
+        //SendGameclearCommand();
 	GameClear();
     }
 }
@@ -1092,9 +1092,11 @@ void StageClear(void){
     }
 
     stageP++;
-    if(stageP == 2)
+    if(stageP == 2) {
+	//SendGameclearCommand();
 	GameClear();
-    SendGameclearCommand();
+    }
+
     InitStatus();
 
 }
@@ -1107,6 +1109,7 @@ void GameClear(void){
         SendRecvManager();
     }
 */
+
     SDL_BlitSurface(gameclear, NULL, window, NULL); // マップ貼り付け
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(2000);
