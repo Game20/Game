@@ -55,6 +55,9 @@ int ExecuteCommand(char command)
     case GAMEOVER_COMMAND:
         RecvGameoverData();
         break;
+    case CLEAR_COMMAND:
+        GameClear();
+        break;
     }
     return endFlag;
 }
@@ -174,6 +177,16 @@ void SendNewposCommand(void)
 
     dataSize = 0;
     SetCharData2DataBlock(data, NEWPOS_COMMAND, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendGameclearCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, CLEAR_COMMAND, &dataSize);
     SendData(data, dataSize);
 }
 

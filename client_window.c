@@ -857,9 +857,10 @@ void exepaste(void){
 
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // object貼り付け
 
-    if(stageP == 2)
+    if(stageP == 2) {
+        SendGameclearCommand();
 	GameClear();
-
+    }
 }
 
 
@@ -1093,7 +1094,7 @@ void StageClear(void){
     stageP++;
     if(stageP == 2)
 	GameClear();
-
+    SendGameclearCommand();
     InitStatus();
 
 }
