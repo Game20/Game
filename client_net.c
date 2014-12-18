@@ -34,6 +34,13 @@ int SetUpClient(char *hostName,int *clientID,int *num,char clientNames[][MAX_NAM
     int			len;
     char		str[BUF_SIZE];
 
+    FILE *fp;///接続時にユーザー名を入力する手間を省くためのファイルを読み込む
+    fp = fopen( "./PLAYER_NAME" , "r" );
+    if( fp == NULL ) {
+    printf( "ファイルオープンエラー\n" );
+    return -1;
+    }
+
     /* ホスト名からホスト情報を得る */
     if((servHost = gethostbyname(hostName))==NULL){
         fprintf(stderr,"Unknown host\n");
@@ -61,8 +68,7 @@ int SetUpClient(char *hostName,int *clientID,int *num,char clientNames[][MAX_NAM
 
     /* 名前を読み込みサーバーに送る */
     do{
-        printf("Enter Your Name\n");
-        fgets(str,BUF_SIZE,stdin);
+        fgets(str,BUF_SIZE,fp);
         len = strlen(str)-1;
         str[len]='\0';
     }while(len>MAX_NAME_SIZE-1 || len==0);
