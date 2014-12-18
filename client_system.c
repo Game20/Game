@@ -1195,6 +1195,7 @@ newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
 //*/
     hitjudge();
 
+	if(clearpoint == 0)
     PlayerHitJudge();
 
     if(hitx != 1)
@@ -1217,25 +1218,8 @@ newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
     if(hity == 0 && UD == 0)
         jumpflag = 1;
 
-
-
 //    SendMoveCommand(P.x + gameRect.x, P.y + gameRect.y, PA.x, PA.y);
 }
-
-/*
-  void mapobject(void){
-
-//object[].gimmick = {1, 2, 1};
-
-object[0].gimmick = 1; //岩
-object[0].status = 0; //押されてない状態
-object[0].src.x = 180;
-object[0].src.y = 225;
-object[0].dst.x = 18 * bit - gameRect.x;
-object[0].dst.y = 13 * bit - gameRect.x;
-
-}
-*/
 
 
 void EXIT(void){

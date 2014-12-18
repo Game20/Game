@@ -40,6 +40,7 @@ int keycommand = 0;
 int j, k, l;
 int keyhold = 0;
 int switchcount = 0;
+int clearpoint = 0;
 
 int DEBAG1 = 0;
 int DEBAG2 = 0;
@@ -290,11 +291,11 @@ void hitjudge(void){
 
 
     //針or崖
-    if( gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit+1] == 2 ||
+    if((gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit+1] == 2 ||
         gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit+1] == 2	||
         gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit] == 3 ||
         gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit] == 3 ||
-		P.y >= 14*bit){
+		P.y >= 14*bit) && clearpoint == 0){
         SendGameoverCommand();
         GameOver(mynum);
     }
@@ -775,20 +776,31 @@ if(keycommand == 1){
 		object[29].src.x = -60;
 		object[30].src.x += 120;
 		object[30].status = 1;
-        SendObjectCommand(i, object[30].status, object[30].dst.x, object[30].dst.y, object[30].movex, object[30].movey); // オブジェクトのデータの送信
+        SendObjectCommand(30, object[30].status, object[30].dst.x, object[30].dst.y, object[30].movex, object[30].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
-		StageClear();
+		clearpoint = 1;
 	}
 	if(stageP == 2 && (object[49].status == mynum+1 || object[56].status == 1) && P.x+gameRect.x >= 266*60+20 && P.x+gameRect.x <= 268*60-80 && P.y == 3*60-15){
 		object[49].src.x = -60;
 		object[56].src.x += 120;
 		object[56].status = 1;
-        SendObjectCommand(i, object[56].status, object[56].dst.x, object[56].dst.y, object[56].movex, object[56].movey); // オブジェクトのデータの送信
+        SendObjectCommand(56, object[56].status, object[56].dst.x, object[56].dst.y, object[56].movex, object[56].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
-		StageClear();
+		clearpoint = 1;
 	}
 keycommand = 0;
 }
+if(object[30].status == 1 && object[30].src.x == 6*bit){
+object[30].src.x = 8*bit;
+SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
+SDL_BlitSurface(objectimage, &object[30].src, mapwindow, &object[30].dst); // object貼り付け
+}
+//if(object[56].status == 1 && object[56].src.x == 6*bit){
+//object[56].src.x = 8*bit;
+//SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
+//SDL_BlitSurface(objectimage, &object[56].src, mapwindow, &object[56].dst); // object貼り付け
+//}
+
 
     for(i=0; i <= max_map_object; i++){
         if(object[i].oldsrc.y != object[i].src.y || object[i].olddst.x != object[i].dst.x || object[i].olddst.y != object[i].dst.y){
@@ -799,6 +811,21 @@ keycommand = 0;
 
 
 
+if(clearpoint == 1){
+hitx = 1;
+P.y = 25*bit;
+newposy = P.y;
+object[29].dst.y = 25*bit;
+object[49].dst.y = 25*bit;
+if(gClientNum == 1 && player[0].pos.y >= 20*bit)
+StageClear();
+if(gClientNum == 2 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit)
+StageClear();
+if(gClientNum == 3 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit)
+StageClear();
+if(gClientNum == 4 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit && player[3].pos.y >= 20*bit)
+StageClear();
+}
 
 }
 
