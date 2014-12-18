@@ -107,6 +107,7 @@ extern int shiftdef;
 extern int gimmickflag;
 extern int G_flaghold;
 extern int stepflag;
+extern int keycommand;
 extern SDL_Rect rect;
 extern SDL_Rect dst;
 extern int DEBAG1;
