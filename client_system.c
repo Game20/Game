@@ -328,7 +328,7 @@ void objectinit1(void){
 
     object[29].gimmick = 4; //カギ
     object[29].status = 0;
-    object[29].dst.x = 5;//255;
+    object[29].dst.x = 255;
     object[29].dst.y = 11;
 
     object[30].gimmick = 6; //扉
@@ -1037,18 +1037,15 @@ void eventdisp(){
 						UD = 1;
 						stepUD = 1;
 					//	jumpflag = 0;
-					printf("\n %d \n", stepUD);
 					}
 					else if(event.jaxis.value >  0x7000){	//下移動
 					//	newposy += 4;
 						stepflag = 1;
 						UD = -1;
 						stepUD = -1;
-					printf("\n   %d \n", stepUD);
 					}
 					else
 					stepUD = 0;
-//					printf("\n     %d \n", stepUD);
 				}
 				break;
     }
@@ -1173,7 +1170,6 @@ if(stepUD == 1)
 newposy = P.y-2;
 if(stepUD == -1)
 newposy = P.y+4;
-printf("\n\n         %d \n", stepUD);
 }
 
 
@@ -1374,20 +1370,31 @@ void PlayerHitJudge(void)
     for(i=0; i<gClientNum; i++){
         if(i != mynum){
             if((newposx > player[i].pos.x - 45 && newposx < player[i].pos.x + 45) &&
-               (P.y > player[i].pos.y - 60 && P.y < player[i].pos.y + 60))
+               (P.y > player[i].pos.y - 60 && P.y < player[i].pos.y + 60)){
                 hitx = 1;
-            if((P.x > player[i].pos.x - 45 && P.x < player[i].pos.x + 45) &&
+				if(P.x > player[i].pos.x - 40 && P.x < player[i].pos.x + 40)
+				if(P.x > player[i].pos.x)
+				P.x = player[i].pos.x + 45;
+				}
+            if((P.x > player[i].pos.x - 40 && P.x < player[i].pos.x + 40) &&
                (newposy > player[i].pos.y - 60 && newposy < player[i].pos.y + 60)){
                 hity = 1;
                 jumpflag = 0;
-                if(jump_a > 12)
-                    jump_a = -4;
+                if(jump_a > 8)
+                P.y = player[i].pos.y - 60;
                 if(stepflag >= 1){
                     stepflag = 0;
                     UD = 0;
                 }
+				if(newposy > player[i].pos.y - 55 && newposy < player[i].pos.y + 45)
+				if(newposy > player[i].pos.y)
+				P.y = player[i].pos.y + 60;
             }
-
         }
     }
 }
+
+
+
+
+

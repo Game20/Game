@@ -471,6 +471,8 @@ void hitjudge(void){
                     if(object[i].status == 0 && jump_a <= 0){
                         object[i].status = 1;//PUSH
                         object[object[i].flaghold].status = -1;//PULL
+            SendObjectCommand(object[i].flaghold, object[object[i].flaghold].status, object[object[i].flaghold].dst.x, object[object[i].flaghold].dst.y,
+                              object[object[i].flaghold].movex, object[object[i].flaghold].movey); // オブジェクトのデータの送信
                     }
                 }
             }
@@ -629,6 +631,10 @@ void hitjudge(void){
                 SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
                 SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
             }
+/*			for(k=0; k<=max_map_object; k++){
+			if(object[k].gimmick == 2 && object[j].flaghold == object[k].flaghold && object[k].status == 1)
+			switchblock[object[j].flaghold].status = 1;
+			}*/
         }
 
         //フラグホールドの処理
@@ -1065,7 +1071,7 @@ void GameOver(int ClientNum){
 
     for(j=0; j<=max_map_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
-            gameRect.x = object[j].dst.x-300+(object[j].flaghold * bit);
+            gameRect.x = object[j].dst.x-420+(object[j].flaghold * bit);
             P.y = object[j].dst.y+60;
             newposy = P.y;
             object[j].src.y = 60;
