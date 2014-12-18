@@ -980,16 +980,16 @@ void eventdisp(){
 						break;
 					/**/
 					case 1:
-						DEBAG2 = 5;
+					//	DEBAG2 = 5;
 						break;
 					case 2:
 						keycommand = -1;
 						break;
 					case 3:
-				        if(jumpflag == 0)//{
+				        if(jumpflag == 0){
 				            jumpflag = 1;
 				            jump_a = 12; //初速
-				        //} //←{}を消したら無限ジャンプ
+				        } //←{}を消したら無限ジャンプ
 						break;
 
 //					default:
@@ -1004,7 +1004,7 @@ void eventdisp(){
 //						stepflag = 0;
 						break;
 					case 2:
-						stepflag = 0;
+						keycommand = 0;
 						break;
 					/**/
 					case 1:
