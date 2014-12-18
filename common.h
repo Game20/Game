@@ -22,6 +22,7 @@
 
 #define END_COMMAND 'E' /* プログラム終了コマンド */
 #define START_COMMAND 'S' /* ゲーム開始コマンド */
+#define CLEAR_COMMAND 'C' /*ゲームクリア表示用コマンド*/
 
 #define MOVE_COMMAND 'M' /*移動コマンド*/
 
