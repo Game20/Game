@@ -6,6 +6,7 @@ int j, k, l;
 SDL_Rect P_START;
 int stageP = 1;
 int mapread = 1;
+int stepUD = 0;
 
 int mynum;
 int gClientNum;
@@ -327,7 +328,7 @@ void objectinit1(void){
 
     object[29].gimmick = 4; //カギ
     object[29].status = 0;
-    object[29].dst.x = 255;
+    object[29].dst.x = 5;//255;
     object[29].dst.y = 11;
 
     object[30].gimmick = 6; //扉
@@ -926,8 +927,12 @@ void eventdisp(){
                 break;
 
             case SDLK_UP:
+                stepflag = 1;
+				keycommand = 1;
+                break;
             case SDLK_DOWN:
                 stepflag = 1;
+				keycommand = -1;
                 break;
             case SDLK_RETURN:
                 DEBAG1 = 5;
@@ -978,7 +983,7 @@ void eventdisp(){
 						DEBAG2 = 5;
 						break;
 					case 2:
-						stepflag = -1;
+						keycommand = -1;
 						break;
 					case 3:
 				        if(jumpflag == 0)//{
@@ -1024,21 +1029,26 @@ void eventdisp(){
 				}
 
 				//上下の動き
-				if(event.jaxis.axis == 1) 
-				if(stepflag == 2){
-					if(event.jaxis.value < -0x5000){	//上移動
-						newposy -= 2;
+				if(event.jaxis.axis == 1){
+					if(event.jaxis.value < -0x5000){	//ハシゴフラグ&カギ使用
+						stepflag = 1;
+						keycommand = 1;
+					//	newposy -= 2;
 						UD = 1;
-						jumpflag = 0;
+						stepUD = 1;
+					//	jumpflag = 0;
+					printf("\n %d \n", stepUD);
 					}
-					if(event.jaxis.value >  0x10000){	//下移動
-						newposy += 4;
+					else if(event.jaxis.value >  0x7000){	//下移動
+					//	newposy += 4;
+						stepflag = 1;
 						UD = -1;
+						stepUD = -1;
+					printf("\n   %d \n", stepUD);
 					}
-				}
-				else{
-				stepflag = 1;
-				UD = 0;
+					else
+					stepUD = 0;
+//					printf("\n     %d \n", stepUD);
 				}
 				break;
     }
@@ -1158,6 +1168,13 @@ void keycont(void){
 
 if(LR != 0)
 newposx = P.x + 4 * LR;
+if(stepflag == 2){
+if(stepUD == 1)
+newposy = P.y-2;
+if(stepUD == -1)
+newposy = P.y+4;
+printf("\n\n         %d \n", stepUD);
+}
 
 
 /*その他詳細設定*/
@@ -1273,6 +1290,29 @@ void EXIT(void){
                     titlep2 = 0;
                     break;
                 }
+			case SDL_JOYAXISMOTION:
+				//左右の動き
+				if(event.jaxis.axis == 0) 
+				{
+					if(event.jaxis.value < -0x7000)
+					P.x += 300;
+					if(P.x >= 700)
+					P.x = 100;
+					if(event.jaxis.value >  0x7000)
+					P.x -= 300;
+					if(P.x <= 0)
+					P.x = 400;
+				}
+				break;
+			case SDL_JOYBUTTONDOWN:
+					if(event.type!=SDL_KEYDOWN){
+					if(P.x == 400){
+					exit_p = 1;
+					titlep = 0;
+					}
+					titlep2 = 0;
+					break;
+					}
             }
 	}
 
