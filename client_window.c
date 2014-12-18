@@ -1086,7 +1086,7 @@ void GameOver(int ClientNum){
     SendStartCommand();
     start_flag = 0;
     while(start_flag == 0){
-        endFlag = SendRecvManager();
+        SendRecvManager();
     }
 }
 
@@ -1121,6 +1121,12 @@ void StageClear(void){
 }
 
 void GameClear(void){
+
+    SendStartCommand();
+    start_flag = 0;
+    while(start_flag == 0){
+        SendRecvManager();
+    }
 
     SDL_BlitSurface(gameclear, NULL, window, NULL); // マップ貼り付け
     SDL_Flip(window);// 画面に図形を表示（反映）
