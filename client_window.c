@@ -503,7 +503,8 @@ void hitjudge(void){
 
     //ループギミックのとき
     if(object[i].gimmick == -1){
-        gameRect.x -= 25*bit;
+	gameRect.x -= 25*bit;
+
     }
 
 
@@ -884,10 +885,6 @@ void exepaste(void){
 
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // object貼り付け
 
-    if(stageP == 2) {
-        //SendGameclearCommand();
-	GameClear();
-    }
 }
 
 
@@ -943,7 +940,7 @@ void title(void){
                     if(P.y == 500){
                         //ステージ２から
                         //if(stageP == 1)
-                    //    stageP = 2;
+                        stageP = 2;
                         //if(stageP == 2)
                         //stageP = 1;
                         titlep = 0;
@@ -981,11 +978,11 @@ void title(void){
 					titlep = 0;
 					titlep2 = 0;
 					}
-				/*	if(P.y == 500){
+					if(P.y == 500){
 					stageP = 2;
 					titlep = 0;
 					titlep2 = 0;
-					}*/
+					}
 					if(P.y == 600)
 					EXIT();
 					break;
@@ -1125,8 +1122,10 @@ void StageClear(void){
             object[j].status = 0;
     }
 
+    keyhold = 0;
+	clearpoint = 0;
     stageP++;
-    if(stageP == 2) {
+    if(stageP == 3) {
 	//SendGameclearCommand();
 	GameClear();
     }
