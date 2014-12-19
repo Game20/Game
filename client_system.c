@@ -980,16 +980,16 @@ void eventdisp(){
 						break;
 					/**/
 					case 1:
-					//	DEBAG2 = 5;
+						DEBAG2 = 5;
 						break;
 					case 2:
 						keycommand = -1;
 						break;
 					case 3:
-				        if(jumpflag == 0){
+				        if(jumpflag == 0)//{
 				            jumpflag = 1;
 				            jump_a = 12; //初速
-				        } //←{}を消したら無限ジャンプ
+				        //} //←{}を消したら無限ジャンプ
 						break;
 
 //					default:
@@ -1353,12 +1353,13 @@ void PlayerHitJudge(void)
     int i;
     for(i=0; i<gClientNum; i++){
         if(i != mynum){
-            if((newposx > player[i].pos.x - 45 && newposx < player[i].pos.x + 45) &&
+            if((newposx > player[i].pos.x - 43 && newposx < player[i].pos.x + 43) &&
                (P.y > player[i].pos.y - 60 && P.y < player[i].pos.y + 60)){
                 hitx = 1;
-				if(P.x > player[i].pos.x - 40 && P.x < player[i].pos.x + 40)
+				if(P.x > player[i].pos.x - 40 && P.x < player[i].pos.x + 40){
 				if(P.x > player[i].pos.x)
-				P.x = player[i].pos.x + 45;
+				P.x = player[i].pos.x + 40;
+}
 				}
             if((P.x > player[i].pos.x - 40 && P.x < player[i].pos.x + 40) &&
                (newposy > player[i].pos.y - 60 && newposy < player[i].pos.y + 60)){
@@ -1369,8 +1370,8 @@ void PlayerHitJudge(void)
                     UD = 0;
                 }
 				if(P.y > player[i].pos.y - 55 && P.y < player[i].pos.y + 45)
-				if(P.y > player[i].pos.y){
-				P.y = player[i].pos.y + 60;
+				if(P.y < player[i].pos.y){
+				P.y = player[i].pos.y - 60;
 				newposy = P.y;
 				jump_a = 0;
 				}
