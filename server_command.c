@@ -150,10 +150,14 @@ int ExecuteCommand(char command,int pos)
         break;
 
     case GAMEOVER_COMMAND:
-        dataSize = 0;
-        SetCharData2DataBlock(data, command, &dataSize);
-        SetIntData2DataBlock(data, pos, &dataSize);
-        SendData(ALL_CLIENTS, data, dataSize);
+        for(i = 0; i<gClientNum; i++){
+                if(i != pos){
+                    dataSize = 0;
+                    SetCharData2DataBlock(data, command, &dataSize);
+                    SetIntData2DataBlock(data, pos, &dataSize);
+                    SendData(i, data, dataSize);
+                }
+        }
 
     default:
         /* 未知のコマンドが送られてきた */
