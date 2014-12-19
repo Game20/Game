@@ -1075,6 +1075,8 @@ void GameOver(int ClientNum){
 
     InitStatus();
 
+int revival = 0;
+
     for(j=0; j<=max_map_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
             gameRect.x = object[j].dst.x-420+(object[j].flaghold * bit);
@@ -1083,10 +1085,11 @@ void GameOver(int ClientNum){
             object[j].src.y = 60;
             SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &revivalflag); // flag貼り付け
             object[j].src.y = 0;
+			revival = 1;
 	}
     }
 
-if(j == max_map_object+1){
+if(revival == 0){
 gameRect.x = 0;
 }
 
