@@ -172,6 +172,7 @@ extern void SendStartCommand(void);
 extern void SendGameoverCommand(void);
 extern void SendNewposCommand(void);
 extern void SendGameclearCommand(void);
+extern void SendWindowCommand(void);
 
 /* 未定 */
 void story(void);

@@ -13,6 +13,7 @@ static void RecvMoveData(void);
 static void RecvObjectData(void);
 static void RecvGameoverData(void);
 static void RecvNewposData(void);
+static void RecvWindowCommand(void);
 
 extern int mynum;
 extern int gClientNum;
@@ -57,6 +58,9 @@ int ExecuteCommand(char command)
         break;
     case CLEAR_COMMAND:
         GameClear();
+        break;
+    case WINDOW_COMMAND:
+        RecvWindowCommand();
         break;
     }
     return endFlag;
@@ -187,6 +191,17 @@ void SendGameclearCommand(void)
 
     dataSize = 0;
     SetCharData2DataBlock(data, CLEAR_COMMAND, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendWindowCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, WINDOW_COMMAND, &dataSize);
+    SetIntData2DataBlock(data, gameRect.x, &dataSize);
     SendData(data, dataSize);
 }
 
@@ -350,3 +365,9 @@ static void RecvNewposData(void)
     RecvIntData(&gClientNum);
 
 }
+
+static void RecvWindowCommand()
+{
+    RecvIntData(&gameRect.x);
+}
+
