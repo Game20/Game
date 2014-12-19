@@ -1086,6 +1086,10 @@ void GameOver(int ClientNum){
 	}
     }
 
+if(j == max_map_object+1){
+gameRect.x = 0;
+}
+
     if(keyhold == 1)
         keyhold = 0;
 
