@@ -895,7 +895,7 @@ void exepaste(void){
 // 残り時間などの表示
 void DisplayStatus(void){
     char title[ 160 ];
-    sprintf(title,"本日のこころぴょんぴょん指数 : %d いいなさい", time);
+    sprintf(title,"Time : %d ", time);
 
     /* ウインドウのタイトルをセット */
     SDL_WM_SetCaption(title,NULL);
