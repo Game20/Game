@@ -29,6 +29,7 @@
 #define OBJECT_COMMAND 'O' //オブジェクトの受け渡しに使うコマンド
 
 #define NEWPOS_COMMAND 'N'//ゲーム開始時の座標のやり取り
+#define WINDOW_COMMAND 'W'
 
 #define GAMEOVER_COMMAND 'G'//ゲームオーバーを知らせる
 
