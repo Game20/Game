@@ -352,7 +352,7 @@ void hitjudge(void){
                             }
                         }
                         if(hitx != 1){
-                            object[i].movex = ((newposx - P.x) / 4);
+                            object[i].movex = ((newposx - P.x)*2/5);
                             newposx = P.x + object[i].movex;
                         }
                     }
@@ -389,9 +389,19 @@ void hitjudge(void){
                     }
                 }
                 else if(switchcount == 1){
-                    object[i].status = 0;
-                    switchblock[object[i].flaghold].flaghold = 0;
+					object[i].status = 0;
+					switchblock[object[i].flaghold].flaghold = 0;
                     switchcount = 0;
+                        //他プレイヤーが乗っていれば再点火 まだ未検証
+                        for(j=0; j<MAX_CLIENTS; j++){
+                            if(j != mynum){
+						    if(player[j].pos.x+gameRect.x >= object[i].dst.x - 35 && player[j].pos.x+gameRect.x <= object[i].dst.x + 35 &&
+						       player[j].pos.y+75 >= object[i].dst.y+35 && player[j].pos.y <= object[i].dst.y-35){
+						        object[i].status = 1;
+						        switchblock[object[i].flaghold].flaghold = 1;
+                            }
+							}
+                        }
                 }
 
                 for(j=0; j<=max_map_object; j++){
@@ -469,7 +479,7 @@ void hitjudge(void){
                    P.y+75 >= object[i].dst.y+30 && P.y <= object[i].dst.y-35 && jump_a <= 0){
                     newposy = object[i].dst.y - 40;
                     jump_LR = 0;
-                    if(object[i].status == 0 && jump_a <= 0){
+                    if(object[i].status == 0 && jump_a < -1){
                         object[i].status = 1;//PUSH
                         object[object[i].flaghold].status = -1;//PULL
             SendObjectCommand(object[i].flaghold, object[object[i].flaghold].status, object[object[i].flaghold].dst.x, object[object[i].flaghold].dst.y,
@@ -818,13 +828,10 @@ P.y = 25*bit;
 newposy = P.y;
 object[29].dst.y = 25*bit;
 object[49].dst.y = 25*bit;
-if(gClientNum == 1 && player[0].pos.y >= 20*bit)
-StageClear();
-if(gClientNum == 2 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit)
-StageClear();
-if(gClientNum == 3 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit)
-StageClear();
-if(gClientNum == 4 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit && player[3].pos.y >= 20*bit)
+if( (gClientNum == 1 && player[0].pos.y >= 20*bit) ||
+	(gClientNum == 2 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit) ||
+	(gClientNum == 3 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit) ||
+	(gClientNum == 4 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit && player[3].pos.y >= 20*bit))
 StageClear();
 }
 
