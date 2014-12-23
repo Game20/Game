@@ -1153,30 +1153,30 @@ void keycont(void){
     }
     if(stepflag == 2){
         if(key[SDLK_UP] == SDL_PRESSED){	//上移動
-            newposy -= 2;
+            newposy -= 3;
             UD = 1;
             jumpflag = 0;
         }
         if(key[SDLK_DOWN] == SDL_PRESSED){	//下移動
-            newposy += 4;
+            newposy += 6;
             UD = -1;
         }
     }
 
 if(LR != 0)
-newposx = P.x + 4 * LR;
+newposx = P.x + 5 * LR;
 if(stepflag == 2){
 if(stepUD == 1)
-newposy = P.y-2;
+newposy = P.y-3;
 if(stepUD == -1)
-newposy = P.y+4;
+newposy = P.y+6;
 }
 
 
 /*その他詳細設定*/
 
-    if(jump_LR == 1 || jump_LR == -1)
-        newposx = P.x + 4 * jump_LR; //空中なら静止しない
+//    if(jump_LR == 1 || jump_LR == -1)
+//        newposx = P.x + 6 * jump_LR; //空中なら静止しない
 
     if(jumpflag == 1 && jump_a > -8)
         jump_a -= 1; //重力加速　
