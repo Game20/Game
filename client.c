@@ -117,10 +117,14 @@ int main(int argc, char* argv[]) {
 */
 
 	// SDL初期化
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) < 0) {
 		printf("failed to initialize SDL.\n");
 		exit(-1);
 	}
+
+
+loadSounds();//サウンドデータをロード
+
 
 SDL_JoystickEventState(SDL_ENABLE);
 Joystick = SDL_JoystickOpen(0);
@@ -156,7 +160,15 @@ Joystick = SDL_JoystickOpen(0);
     /*初期設定*/
     InitWindow();
 
+
     title();
+
+
+
+playBGM(1);
+
+
+
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.x = 0;
     }
@@ -166,8 +178,9 @@ Joystick = SDL_JoystickOpen(0);
 /*    while(!player[0].pos.x && !player[1].pos.x
           && !player[2].pos.x && !player[3].pos.x) {
 */
-
+playBGM(1);
     while(start_flag == 0){
+
         endFlag = SendRecvManager();
     }
 
