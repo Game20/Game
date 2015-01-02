@@ -939,13 +939,16 @@ void eventdisp(){
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
+                playSE(0);
                 if(jumpflag == 0)//{
                     jumpflag = 1;
                 jump_a = 12; //初速
                 //} //←{}を消したら無限ジャンプ
+
                 break;
 
             case SDLK_ESCAPE:	// エスケープキー
+                playSE(2);
                 EXIT();
                 break;
 
@@ -1341,8 +1344,10 @@ void newpositionjadge(){
             //P.x = 0;//画面外に出ない
 
             if(P.y >= WIND_Height * bit) {//画面下にいけば
+
                 SendGameoverCommand();
                 GameOver(mynum);
+
             }
 
 }

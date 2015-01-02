@@ -286,7 +286,6 @@ void hitjudge(void){
     //下
     if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit+1] == 1 ||
         gMaps[(P.x+gameRect.x+45)/bit][(newposy+15)/bit+1] == 1	)
-
         hity = -1;
 
 
@@ -296,8 +295,12 @@ void hitjudge(void){
         gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit] == 3 ||
         gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit] == 3 ||
 		P.y >= 14*bit) && clearpoint == 0){
+        Mix_PauseMusic();
+        playSE(1);
+
         SendGameoverCommand();
         GameOver(mynum);
+        Mix_ResumeMusic();
     }
     //ゴール
     //	if( object[29].status == 1 && jumpflag == 0 &&
@@ -382,6 +385,7 @@ void hitjudge(void){
                         hity = -2;
                         newposy = object[i].dst.y - 35;
                         if(object[i].status == 0 && switchcount == 0){
+                            playSE(2);
                             object[i].status = 1; //ステータス：押されてる
                             switchblock[object[i].flaghold].flaghold = 1;
                             switchcount = 1;
@@ -449,6 +453,7 @@ void hitjudge(void){
 
             //バネのとき
             if(object[i].gimmick == 3){
+playSE(3);
                 if(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45 &&
                    P.y+90 >= object[i].dst.y && P.y <= object[i].dst.y - 35){
                     if(P.y+60 >= object[i].dst.y && jump_a <= 0)
@@ -490,17 +495,20 @@ void hitjudge(void){
 
     //カギのとき
     if(object[i].gimmick == 4 && jumpflag == 0){
+    //    playSE(4);
 		if(keycommand == -1){
         white.x = object[i].dst.x;
         white.y = object[i].dst.y;
         SDL_BlitSurface(mapwindow, &white, objectwindow, &object[i].dst); // object貼り付け準備
         if(object[i].status == 0){
+            playSE(5);
             object[i].status = mynum+1;
             object[i].dst.x = P.x;
             object[i].dst.y = P.y-44;
             keyhold = 1;
         }
         else if(object[i].status == mynum+1){
+            playSE(6);
             object[i].status = 0;
             object[i].dst.x = P.x+gameRect.x+(LR*60);
             object[i].dst.y = P.y;
@@ -547,6 +555,7 @@ void hitjudge(void){
             if(gMaps[(object[j].dst.x)/bit][object[j].dst.y/bit+1] == 0 &&
                gMaps[(object[j].dst.x+59)/bit][object[j].dst.y/bit+1] == 0 &&
                object[j].dst.y <= 20 * 60 && object[j].flaghold != -1){
+                //playSE(4);
                 object[j].flaghold = 1;
 
                 for(k=0; k<=SUM_switchblock; k++){
@@ -622,7 +631,9 @@ void hitjudge(void){
 
         //中間ポイントのとき
         if(object[j].gimmick == 0 && object[j].status == 2){
+            playSE(4);
             if(object[j].flaghold == -1){
+
                 SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
                 object[j].flaghold = 0;
             }
@@ -1050,6 +1061,7 @@ void DrawChara(void)
 
 void GameOver(int ClientNum){
 
+
     //PA.x = 3 * bit;
     //PA.y = 3 * 75;
 
@@ -1120,6 +1132,7 @@ void StageClear(void){
   break;
   }
 */
+
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     SDL_BlitSurface(mapwindow, &gameRect, window, NULL); // マップ貼り付け
     SDL_BlitSurface(objectwindow, &gameRect, window, NULL); // マップ貼り付け
@@ -1134,9 +1147,13 @@ void StageClear(void){
             object[j].status = 0;
     }
 
+
     keyhold = 0;
 	clearpoint = 0;
     stageP++;
+if(stageP == 2)
+playBGM(2);
+
     if(stageP == 3) {
 	//SendGameclearCommand();
 	GameClear();
@@ -1147,7 +1164,7 @@ void StageClear(void){
 }
 
 void GameClear(void){
-
+    playBGM(3);
 /*    SendStartCommand();
     start_flag = 0;
     while(start_flag == 0){

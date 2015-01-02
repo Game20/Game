@@ -10,13 +10,31 @@ void loadSounds()
 if(Mix_OpenAudio(22050,AUDIO_S16,2,4096)==1)    // SDL_Mixerオープン
     SDL_Quit();
  Mix_AllocateChannels(16);//同時発生数を設定
-///サウンドを読み込む
-bgm[0] = Mix_LoadMUS("SE/start.wav");
-bgm[1] = Mix_LoadMUS("SE/samba.wav");
-bgm[2] = Mix_LoadMUS("SE/1.wav");
-se[0] = Mix_LoadWAV("SE/???.wav");
+///BGMを読み込む
+bgm[0] = Mix_LoadMUS("BGM/op.wav");
+bgm[1] = Mix_LoadMUS("BGM/stage1.wav");
+bgm[2] = Mix_LoadMUS("BGM/stage2.wav");
+bgm[3] = Mix_LoadMUS("BGM/boss.wav");
+bgm[4] = Mix_LoadMUS("BGM/clear.wav");
+///SEを読み込む
+se[0] = Mix_LoadWAV("SE/jamp2.wav");
+se[1] = Mix_LoadWAV("SE/death.wav");
+se[2] = Mix_LoadWAV("SE/switch5.wav");
+se[3] = Mix_LoadWAV("SE/bane.wav");
+se[4] = Mix_LoadWAV("SE/save_p.wav");
+se[5] = Mix_LoadWAV("SE/key_up.wav");
+se[6] = Mix_LoadWAV("SE/key_put.wav");
 }
 
+
+/**
+num = 0　：オープニング
+num = 1　：ステージ１
+num = 2　：ステージ２
+num = 3　；ボス
+num = 4　：クリアー
+num = 5　：NULL
+*/
 void playBGM(int num)
 {
     if(Mix_PausedMusic() == 1){
