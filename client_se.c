@@ -11,11 +11,11 @@ if(Mix_OpenAudio(22050,AUDIO_S16,2,4096)==1)    // SDL_Mixerオープン
     SDL_Quit();
  Mix_AllocateChannels(16);//同時発生数を設定
 ///BGMを読み込む
-bgm[0] = Mix_LoadMUS("BGM/op.wav");
-bgm[1] = Mix_LoadMUS("BGM/stage1.wav");
-bgm[2] = Mix_LoadMUS("BGM/stage2.wav");
-bgm[3] = Mix_LoadMUS("BGM/boss.wav");
-bgm[4] = Mix_LoadMUS("BGM/clear.wav");
+bgm[0] = Mix_LoadMUS("BGM/op.mp3");
+bgm[1] = Mix_LoadMUS("BGM/stage1.mp3");
+bgm[2] = Mix_LoadMUS("BGM/stage2.mp3");
+bgm[3] = Mix_LoadMUS("BGM/boss.mp3");
+bgm[4] = Mix_LoadMUS("BGM/clear.mp3");
 ///SEを読み込む
 se[0] = Mix_LoadWAV("SE/jamp2.wav");
 se[1] = Mix_LoadWAV("SE/death.wav");
