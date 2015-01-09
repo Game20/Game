@@ -1124,6 +1124,7 @@ gameRect.x = 0;
     while(start_flag == 0){
         SendRecvManager();
     }
+    scroll();
 }
 
 void StageClear(void){
