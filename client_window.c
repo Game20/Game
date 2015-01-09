@@ -1100,7 +1100,7 @@ int revival = 0;
 
     for(j=0; j<=max_map_object; j++){
 	if(object[j].gimmick == 0 && object[j].status == 1){
-            //gameRect.x = object[j].dst.x-420+(object[j].flaghold * bit);
+            gameRect.x = object[j].dst.x-420+(object[j].flaghold * bit);
             P.y = object[j].dst.y+60;
             newposy = P.y;
             object[j].src.y = 60;
@@ -1111,13 +1111,14 @@ int revival = 0;
     }
 
 if(revival == 0){
-//gameRect.x = 0;
+gameRect.x = 0;
 }
 
     if(keyhold == 1)
         keyhold = 0;
 
-    SendMoveCommand(player[mynum].pos.x, player[mynum].pos.y, player[mynum].anim.x, player[mynum].anim.y);
+    //SendMoveCommand(player[mynum].pos.x, player[mynum].pos.y, player[mynum].anim.x, player[mynum].anim.y);
+    SendMoveCommand(P.x, P.y, player[mynum].anim.x, player[mynum].anim.y);
     SendStartCommand();
     start_flag = 0;
     while(start_flag == 0){
