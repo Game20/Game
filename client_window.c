@@ -1116,7 +1116,7 @@ gameRect.x = 0;
 
     if(keyhold == 1)
         keyhold = 0;
-
+SendMoveCommand(player[ClientNum].pos.x, player[ClientNum].pos.y, player[ClientNum].anim.x, player[ClientNum].anim.y);
     SendStartCommand();
     start_flag = 0;
     while(start_flag == 0){
