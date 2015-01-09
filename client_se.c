@@ -24,6 +24,7 @@ se[3] = Mix_LoadWAV("SE/bane.wav");
 se[4] = Mix_LoadWAV("SE/save_p.wav");
 se[5] = Mix_LoadWAV("SE/key_up.wav");
 se[6] = Mix_LoadWAV("SE/key_put.wav");
+se[7] = Mix_LoadWAV("SE/fall.wav");
 }
 
 
@@ -47,7 +48,20 @@ void playBGM(int num)
 }
 
 
-
+/**
+以下のnumに対応した添字をつけて呼び出すことでSEを再生する
+num = 0 :キャラのジャンプ音
+num = 1 :死亡判定音
+num = 2 :スイッチを押した時の音
+num = 3 :バネでジャンプした時の音
+num = 4 :中間ポイントの音
+num = 5 :鍵を拾った時の音
+num = 6 :鍵をおいた時の音
+num = 7 :ものが落ちる時の音
+num = 8 :NULL
+num = 9 :NULL
+num = 10:NULL
+*/
 void playSE(int num)
 {
 Mix_PlayChannel(num, se[num], 0);
