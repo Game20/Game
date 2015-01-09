@@ -6,6 +6,7 @@
 //#include <SDL/SDL_gfxPrimitives.h>	// gfxによる図形処理をするために必要なヘッダファイルをインクルード
 #include <SDL/SDL_ttf.h>	// TrueTypeフォントを表示するために必要なヘッダファイルをインクルード
 //#include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
+#include <SDL/SDL_mixer.h> //SDLで効果音等を扱うために必要なヘッダファイルをインクルード
 #include"common.h"
 
 #include <libcwiimote/wiimote.h>
@@ -139,6 +140,10 @@ extern int fm;
 
 extern int i;
 
+/** 効果音・サウンド用 */
+extern Mix_Music *bgm[5]; ///BGM用
+extern Mix_Chunk *se[10]; ///SE用
+
 /* client_system.c */
 void EXIT(void);
 void objectinit1(void);
@@ -173,6 +178,12 @@ extern void SendGameoverCommand(void);
 extern void SendNewposCommand(void);
 extern void SendGameclearCommand(void);
 extern void SendWindowCommand(void);
+
+/** client_se.c */
+extern void loadSounds();///サウンド,BGMを読み込む
+extern void playBGM(num);///BGM再生
+extern void playSE(num);///効果音再生
+
 
 /* 未定 */
 void story(void);
