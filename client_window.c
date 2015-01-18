@@ -1167,6 +1167,7 @@ playBGM(2);
 }
 
 void GameClear(void){
+    playSE(8);
     playBGM(3);
 /*    SendStartCommand();
     start_flag = 0;
