@@ -61,7 +61,7 @@ typedef enum {
 
 
 #define SUM_object 60
-#define SUM_switchblock 30
+#define SUM_switchblock 31
 #define SUM_steps 7
 
 extern Player player[MAX_CLIENTS];
@@ -148,7 +148,6 @@ extern Mix_Chunk *se[10]; ///SE用
 void EXIT(void);
 void objectinit1(void);
 void objectinit2(void);
-void Operation(void);
 
 /* client_net.c */
 extern int SetUpClient(char* hostName,int *clientID,int *num,char clientName[][MAX_NAME_SIZE]);

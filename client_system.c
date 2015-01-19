@@ -65,7 +65,6 @@ void InitStatus(void){ // キャラのステータスの初期化
 
     exit_p = 0;
     titlep = 1;
-    titlep2 = 0;
 
 }
 
@@ -427,6 +426,7 @@ void objectinit2(void){
     switchblock[11].dst.x = 191;
     switchblock[11].dst.y = 5;
 
+
     switchblock[12].gimmick = 1;//縦幅
     switchblock[12].status = 5;//横幅
     switchblock[12].dst.x = 253;
@@ -524,10 +524,10 @@ void objectinit2(void){
     switchblock[29].dst.x = 230;
     switchblock[29].dst.y = 7;
 
-//	switchblock[30].gimmick = 1;//縦幅
-//	switchblock[30].status = 3;//横幅
-//	switchblock[30].dst.x = 240;
-//	switchblock[30].dst.y = 5;
+	switchblock[30].gimmick = 1;//縦幅
+	switchblock[30].status = 1;//横幅
+	switchblock[30].dst.x = 177;
+	switchblock[30].dst.y = 1;
 
 
     for(j=0; j<SUM_switchblock; j++){
@@ -541,7 +541,7 @@ void objectinit2(void){
 	switchblock[j].dst.x *= bit;
 	switchblock[j].dst.y *= bit;
 
-        if((j >= 5 && j <= 9) || (j >= 13 && j <= 18) || j == 24 || (j >= 26 && j <= 28))
+        if((j >= 5 && j <= 9) || (j >= 13 && j <= 18) || j == 24 || (j >= 26 && j <= 28) || j == 30)
             switchblock[j].src.x = 60;
 
 
@@ -700,6 +700,7 @@ void objectinit2(void){
     object[19].dst.x = 89;
     object[19].dst.y = 12;
 
+//ループ
     object[20].gimmick = 3;
     object[20].status = 6;
     object[20].dst.x = 93;
@@ -722,6 +723,7 @@ void objectinit2(void){
     object[24].status = 6;
     object[24].dst.x = 143;
     object[24].dst.y = 12;
+//ループ
 
     object[25].gimmick = 0;
     object[25].dst.x = 158;
@@ -752,10 +754,9 @@ void objectinit2(void){
     object[30].dst.x = 177;
     object[30].dst.y = 5;
 
-    object[31].gimmick = 2; //スイッチ
-    object[31].flaghold = 7;
-    object[31].dst.x = 188;
-    object[31].dst.y = 11;
+    object[31].gimmick = 1;
+    object[31].dst.x = 177;
+    object[31].dst.y = 0;
 
 
     object[32].gimmick = 2; //スイッチ
@@ -896,6 +897,8 @@ void objectinit2(void){
 	object[j].src.h = 60;
 	object[j].dst.x *= bit;
 	object[j].dst.y *= bit;
+	if(object[j].gimmick == 4)
+		object[j].src.y = 60;
 	if(object[j].gimmick == 6){
             object[j].src.w = 120;
             object[j].src.h = 120;
@@ -1055,83 +1058,6 @@ void eventdisp(){
 }
 
 
-
-/* リモコン操作 */
-void Operation(){
-
-    /* Wiiリモコンの状態を取得・更新する */
-//        if (wiimote_update(&wiimote) < 0)// {
-//            wiimote_disconnect(&wiimote);
-//            break;
-//        }
-
-    /* Wiiのキー（ボタン）ごとに処理
-       if(wiimote.keys.up) { // 左
-       LR = -1;
-//        newposx -= 4;
-if(jumpflag == 1)
-jump_LR = -1;
-}
-else if(wiimote.keys.down) { // 右
-LR = 1;
-//   		newposx += 4;
-if(jumpflag == 1)
-jump_LR = 1;
-}
-else
-LR = 0;
-
-if(wiimote.keys.right || wiimote.keys.left){
-stepflag = 1;
-}
-else{
-stepflag = 0;
-UD = 0;
-}
-
-if(stepflag == 2){
-if(wiimote.keys.right){ // 上
-newposy -= 2;
-UD = 1;
-jumpflag = 0;
-}
-
-<<<<<<< HEAD
-    if(wiimote.keys.one) { // 1ボタン
-	DEBAG2 = 5;
-    }
-	else
-	DEBAG2 = 0;
-=======
-if(wiimote.keys.left){ // 下
-newposy += 4;
-UD = -1;
-}
-}
->>>>>>> aace77a996e722d7a84e8ef657d6aef44bd5c1ac
-
-if(wiimote.keys.one) { // 1ボタン
-DEBAG = 5;
-}
-else
-DEBAG = 0;
-
-if (wiimote.keys.two) { // 2ボタン
-if(jumpflag == 0 && bottun2 == 0){
-jumpflag = 1;
-jump_a = 12; //初速
-bottun2 = 1;
-} //←{}を消したら無限ジャンプ
-
-}
-else
-bottun2 = 0;
-    */
-}
-
-
-
-
 void keycont(void){
     newposx = P.x;
     newposy = P.y;
@@ -1226,16 +1152,14 @@ newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
 
 
 void EXIT(void){
-    //int a = P.x;
-    //int b = P.y;
-    P.x = 100;
-    P.y = 350;
-    PA.x = 0;
-    PA.y = 0;
 
-    titlep2 = 1;//ループ条件
+SDL_Rect icon = {100, 350};
+SDL_Rect iconD = {240, 60, 60, 60};
+
+titlep = 0;
+
     // 無限ループ
-    while(titlep2){
+    while(1){
         SDL_FillRect(window, NULL, 0x00808080);	// ウィンドウ背景初期化
         // イベントを取得したなら
         if(SDL_PollEvent(&event)){
@@ -1243,34 +1167,29 @@ void EXIT(void){
             switch (event.type) {
             case SDL_QUIT:
                 exit_p = 1;
-                titlep = 0;
-                titlep2 = 0;
                 break;
             case SDL_KEYDOWN:// キーボードのキーが押された時
                 switch(event.key.keysym.sym){
                 case SDLK_RIGHT:
-                    P.x += 300;
-                    if(P.x >= 700)
-                        P.x = 100;
+                    icon.x += 300;
+                    if(icon.x >= 700)
+                        icon.x = 100;
                     break;
                 case SDLK_LEFT:
-                    P.x -= 300;
-                    if(P.x <= 0)
-                        P.x = 400;
+                    icon.x -= 300;
+                    if(icon.x <= 0)
+                        icon.x = 400;
                     break;
 
                 case SDLK_RETURN: //エンターを押した時
-                    if(P.x == 400){
+                    if(icon.x == 100)
+                        titlep = 1;
+                    if(icon.x == 400)
                         exit_p = 1;
-                        titlep = 0;
-                    }
-                    titlep2 = 0;
                     break;
 
                 case SDLK_ESCAPE:	// エスケープキー
                     exit_p = 1;
-                    titlep = 0;
-                    titlep2 = 0;
                     break;
                 }
 			case SDL_JOYAXISMOTION:
@@ -1278,22 +1197,21 @@ void EXIT(void){
 				if(event.jaxis.axis == 0)
 				{
 					if(event.jaxis.value < -0x7000)
-					P.x += 300;
-					if(P.x >= 700)
-					P.x = 100;
+					icon.x += 300;
+					if(icon.x >= 700)
+					icon.x = 100;
 					if(event.jaxis.value >  0x7000)
-					P.x -= 300;
-					if(P.x <= 0)
-					P.x = 400;
+					icon.x -= 300;
+					if(icon.x <= 0)
+					icon.x = 400;
 				}
 				break;
 			case SDL_JOYBUTTONDOWN:
 					if(event.type!=SDL_KEYDOWN){
-					if(P.x == 400){
+                    if(icon.x == 100)
+                        titlep = 1;
+					if(icon.x == 400)
 					exit_p = 1;
-					titlep = 0;
-					}
-					titlep2 = 0;
 					break;
 					}
             }
@@ -1301,7 +1219,7 @@ void EXIT(void){
 
         /* メッセージ表示 */
         SDL_Rect srcRect = {0,0,0,0};
-        SDL_Rect dstRect = {220,370};
+        SDL_Rect dstRect = {170,370};
 
         for(fm=3; fm <= 4; fm++){
             srcRect.x = srcRect.y = 0;
@@ -1312,12 +1230,14 @@ void EXIT(void){
             dstRect.x += 300;
         }
 
-        SDL_BlitSurface(usa2, &PA, SDL_GetVideoSurface(), &P);
-        SDL_Flip(window);// 画面に図形を表示（反映）
-    }
+        SDL_BlitSurface(objectimage, &iconD, SDL_GetVideoSurface(), &icon);
 
-    //P.x = a;
-    //P.y = b;
+        SDL_Flip(window);// 画面に図形を表示（反映）
+
+if(titlep == 1 || exit_p == 1)
+break;
+
+    }
 
 }
 
