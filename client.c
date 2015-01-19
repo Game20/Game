@@ -6,10 +6,6 @@
 #include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
 #include "client_func.h"
 
-#include <libcwiimote/wiimote.h>
-#include <libcwiimote/wiimote_api.h>
-
-
 //void DisplayStatus(void);
 //void checkhit(void);
 //void InitStatus(void); // キャラのステータスの初期化
@@ -50,7 +46,7 @@ int hithold = 0;
 int shiftdef = 0;
 
 int fm = 0;		//
-int titlep = 1, titlep2 = 0;//
+int titlep = 1;//
 int exit_p = 0;	//
 
 int i;
@@ -69,17 +65,11 @@ SDL_Event quit_event = {SDL_QUIT};	// 特定のイベント名を格納
 
 SDL_Surface *usa;  // 画像データへのポインタ
 
-//SDL_TimerID timer_id;	//タイマ割り込みを行うためのタイマのID
-
 Player player[MAX_CLIENTS]; // プレイヤーの状態を格納
 int mynum;
 int gClientNum;
 
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
-/* Wiiリモコンを用いるための構造体を宣言（初期化）
-wiimote_t wiimote = WIIMOTE_INIT; // Wiiリモコンの状態格納用
-wiimote_report_t report = WIIMOTE_REPORT_INIT; // レポートタイプ用
-*/
 
 /* フォント関連 */
 
@@ -91,30 +81,13 @@ TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
 extern TTF_Font* sTTF;
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 
-static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる", "1P"};
+static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる", "1P"};
 
 
 
 
 // メイン関数 /////////////////////////////////////////////////////////////////////////
 int main(int argc, char* argv[]) {
-
-    /* Wiiリモコン処理
-    if (argc < 2) { // Wiiリモコン識別情報がコマンド引数で与えられなければ
-        printf("Designate the wiimote ID to the application.");
-        exit(1);
-    }*/
-
-    /* Wiiリモコンの接続（１つのみ）
-    if (wiimote_connect(&wiimote, argv[1]) < 0) { // コマンド引数に指定したWiiリモコン識別情報を渡して接続
-        printf("unable to open wiimote: %s\n", wiimote_get_error());
-        exit(1);MAX_CLIENTS
-    }
-
-    wiimote.led.one  = 1; // WiiリモコンのLEDの一番左を点灯（接続通知）
-
-    wiimote.mode.acc = 1; // 加速度センサをON（センサを受け付ける）
-*/
 
 	// SDL初期化
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) < 0) {
@@ -160,10 +133,7 @@ Joystick = SDL_JoystickOpen(0);
     /*初期設定*/
     InitWindow();
 
-
     title();
-
-
 
 playBGM(1);
 
@@ -175,9 +145,6 @@ playBGM(1);
 
     SendNewposCommand();
 
-/*    while(!player[0].pos.x && !player[1].pos.x
-          && !player[2].pos.x && !player[3].pos.x) {
-*/
 playBGM(1);
     while(start_flag == 0){
 
@@ -194,6 +161,9 @@ playBGM(1);
         }
     }
 
+if(exit_p == 1)
+endFlag = 0;
+
     InitStatus(); // キャラのステータスの初期化
 
     // 無限ループ
@@ -202,18 +172,9 @@ playBGM(1);
 	SDL_Delay(20);
 	time++;
 
-    /* Wiiリモコンの状態を取得・更新する
-    if (wiimote_update(&wiimote) < 0) {
-        wiimote_disconnect(&wiimote);
-        break;
-    }*/
-
 	// イベントを取得したら
 	if(SDL_PollEvent(&event))
             eventdisp();	// イベント処理
-
-//	if(wiimote_is_open(&wiimote))
-//	Operation();
 
 	keycont();	/*キーボード操作*/
 
@@ -236,13 +197,10 @@ playBGM(1);
 	DisplayStatus();
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
-            break;
+       break;
 
     } //whileループ
 
-/*終了設定*/
-//	if(wiimote_is_open(&wiimote))
-//    wiimote_disconnect(&wiimote); // Wiiリモコンとの接続を解除
 	SDL_JoystickClose(Joystick);
     EXITsetting();
     return 0;
@@ -272,9 +230,7 @@ void SS(void){
         object[0].dst.y = 1 * bit;
 
     exit_p = 0;
-
     titlep = 1;
-    titlep2 = 0;
 
 }
 

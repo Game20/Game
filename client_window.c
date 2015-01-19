@@ -2,11 +2,11 @@
 //#include<SDL/SDL.h>
 #include "client_func.h"
 
-#define MSG_NUM 5           /* メッセージの数 */
+#define MSG_NUM 11           /* メッセージの数 */
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
-static char gMsgStrings[ 100 ][ 100 ] = { "はじめる", "あそびかた", "おわる", "つづける", "おわる"};
+static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる", "1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
 
@@ -151,7 +151,7 @@ void InitWindow(){
     }
 
     sTTF = TTF_OpenFont( gFontFile, 30 );
-    gMessages[5] = TTF_RenderUTF8_Blended(sTTF, gMsgStrings[5], black);
+    gMessages[10] = TTF_RenderUTF8_Blended(sTTF, gMsgStrings[10], black);
 
 }
 
@@ -428,14 +428,14 @@ void hitjudge(void){
                 }
 
                 if(stageP == 2){
+                    if(i == 30 && object[i].status == 1)
+                        switchblock[30].flaghold = 1;
                     if(i == 33){
                         switchblock[10].flaghold = object[i].status;
                         switchblock[11].flaghold = object[i].status;
-                        switchblock[12].flaghold = object[i].status;
                     }
                     if(i == 34 && object[i].status == 1 && object[i-1].status == 1 && object[35].flaghold != -1)
                         switchblock[11].flaghold = 0;
-//
                     if(i == 37){
                         switchblock[20].flaghold = object[i].status;
                         switchblock[27].flaghold = object[i].status;
@@ -521,8 +521,12 @@ playSE(3);
 
     //ループギミックのとき
     if(object[i].gimmick == -1){
-	gameRect.x -= 25*bit;
-
+//	gameRect.x -= 25*bit;
+//	P.x -= 25*bit;
+//	newposx = P.x;
+	object[i].status = 1;
+	SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                          object[i].movex, object[i].movey); // オブジェクトのデータの送信
     }
 
 
@@ -596,7 +600,6 @@ playSE(3);
                                     if(k == 33){
                                         switchblock[10].flaghold = 1;
                                         switchblock[11].flaghold = 1;
-                                        switchblock[12].flaghold = 1;
                                     }
                                     if(k == 40){
                                         switchblock[25].flaghold = 1;
@@ -692,7 +695,7 @@ playSE(3);
         if(object[j].gimmick == 5 && (object[j].status == -1 || object[j].status == -2)){
             if(P.x+gameRect.x >= object[j].dst.x - 45 && P.x+gameRect.x <= object[j].dst.x + 45 &&
                P.y+75 >= object[j].dst.y+20 && P.y+75 <= object[j].dst.y+50){
-                if(object[j].status == -1)
+                if(object[j].status == -1 && jump_a == 0)
                     jump_a = 5*6;
                 if(object[j].status == -2)
                     jump_a = 6*6;
@@ -713,6 +716,17 @@ playSE(3);
 
         }
     }
+/*
+//ループ発生
+    if(stageP == 2)
+	if(object[21].status == 1 || object[22].status == 1){
+	gameRect.x -= 25*bit;
+//	P.x -= 25*bit;
+//	newposx = P.x;
+	object[21].status = 0;
+	object[22].status = 0;
+	}
+*/
 
 //スイッチブロックの当たり判定と描写
     for(j=0; j<=SUM_switchblock; j++){
@@ -740,8 +754,11 @@ playSE(3);
                 hitx = 1;
             if(P.x+gameRect.x >= switchblock[j].dst.x-60+20 && P.x+gameRect.x <= switchblock[j].dst.x+switchblock[j].status*bit-60 + 40 &&
                newposy >= switchblock[j].dst.y-75 && newposy <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 43){
-                if(newposy >= switchblock[j].dst.y-60)
+                if(switchblock[j].src.x == 0 && newposy >= switchblock[j].dst.y-60)
                     newposy = switchblock[j].dst.y+45;//上にヒット
+//                if(switchblock[j].src.x == 60 && newposx >= switchblock[j].dst.x-45 && newposx <= switchblock[j].dst.x+45)
+//                    newposx = switchblock[j].dst.x-50;//上にヒット
+
                 if(newposy <= switchblock[j].dst.y)
                     hity = -1;//下にヒット
             }
@@ -919,14 +936,16 @@ void DisplayStatus(void){
 
 //タイトル
 void title(void){
+
+SDL_Rect info = {155, 0};
+SDL_Rect infoD = {0, 0, 660, 60};
+
     P.x = 150;
     P.y = 400;
     PA.x = 0;
     PA.y = 0;
 
 playBGM(0);///OPテーマを流す
-
-
 
     titlep = 1;//ループ条件
     // 無限ループ
@@ -953,21 +972,9 @@ playBGM(0);///OPテーマを流す
                     break;
 
                 case SDLK_RETURN: //エンターを押した時
-                    if(P.y == 400){
-                        titlep = 0;
-                        titlep2 = 0;
-                    }
-                    ///*
-                    if(P.y == 500){
-                        //ステージ２から
-                        //if(stageP == 1)
+                    if(P.y == 500)
                         stageP = 2;
-                        //if(stageP == 2)
-                        //stageP = 1;
-                        titlep = 0;
-                        titlep2 = 0;
-                    }
-                    //*/
+                    titlep = 0;
                     if(P.y == 600)
                         EXIT();
                     break;
@@ -995,15 +1002,9 @@ playBGM(0);///OPテーマを流す
 			//ボタン
 			case SDL_JOYBUTTONDOWN:
 					if(event.type!=SDL_KEYDOWN){
-					if(P.y == 400){
+					if(P.y == 500)
+						stageP = 2;
 					titlep = 0;
-					titlep2 = 0;
-					}
-					if(P.y == 500){
-					stageP = 2;
-					titlep = 0;
-					titlep2 = 0;
-					}
 					if(P.y == 600)
 					EXIT();
 					break;
@@ -1012,6 +1013,7 @@ playBGM(0);///OPテーマを流す
             }
         }
 
+	if(exit_p != 1){
         /* メッセージ表示 */
         SDL_Rect srcRect = {0,0,0,0};
         SDL_Rect dstRect = {270,420};
@@ -1025,11 +1027,37 @@ playBGM(0);///OPテーマを流す
             dstRect.y += 100;
         }
 
-        SDL_BlitSurface(usa2, &PA, SDL_GetVideoSurface(), &P);
+info.y = P.y - 40;
+fm = mynum + 5;
+SDL_BlitSurface(gMessages[fm], &infoD, SDL_GetVideoSurface(), &info);
+
+j = mynum;
+        if(j == 0) {
+            SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
+        }
+
+        if(j == 1) {//neko
+            SDL_BlitSurface(neko, &PA, window, &P); //キャラ貼り付け
+        }
+
+        if(j == 2) {
+            SDL_BlitSurface(inu, &PA, window, &P); //キャラ貼り付け
+        }
+
+        if(j == 3) {
+            SDL_BlitSurface(panda, &PA, window, &P); //キャラ貼り付け
+        }
+
+SDL_Rect titleinfo = {270,170};
+SDL_BlitSurface(gMessages[10], &infoD, SDL_GetVideoSurface(), &titleinfo);
+titleinfo.x = 220;
+titleinfo.y = 200;
+SDL_BlitSurface(gMessages[9], &infoD, SDL_GetVideoSurface(), &titleinfo);
+
         SDL_Flip(window);// 画面に図形を表示（反映）
+	}
     }
     P.y = 640;
-
 
 }
 
@@ -1176,13 +1204,12 @@ void GameClear(void){
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(2000);
 
+time = 0;
+stageP = 1;
+InitStatus();
+titlep = 1;
 
-//stageP = 1;
-//InitStatus();
-//titlep = 1;
-//titlep2 = 1;
-
-    exit_p = 1;
+//    exit_p = 1;
 }
 
 
