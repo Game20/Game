@@ -961,11 +961,13 @@ playBGM(0);///OPテーマを流す
             case SDL_KEYDOWN:// キーボードのキーが押された時
                 switch(event.key.keysym.sym){
                 case SDLK_UP:
+                    playSE(5);
                     P.y -= 100;
                     if(P.y == 300)
                         P.y = 600;
                     break;
                 case SDLK_DOWN:
+                    playSE(5);
                     P.y += 100;
                     if(P.y == 700)
                         P.y = 400;
