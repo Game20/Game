@@ -62,6 +62,9 @@ int ExecuteCommand(char command)
     case WINDOW_COMMAND:
         RecvWindowCommand();
         break;
+    case ESCAPE_COMMAND:
+        EXIT();
+        break;
     }
     return endFlag;
 }
@@ -202,6 +205,16 @@ void SendWindowCommand(void)
     dataSize = 0;
     SetCharData2DataBlock(data, WINDOW_COMMAND, &dataSize);
     SetIntData2DataBlock(data, gameRect.x, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendEscapeCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, ESCAPE_COMMAND, &dataSize);
     SendData(data, dataSize);
 }
 

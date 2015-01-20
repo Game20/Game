@@ -30,6 +30,7 @@
 
 #define NEWPOS_COMMAND 'N'//ゲーム開始時の座標のやり取り
 #define WINDOW_COMMAND 'W'
+#define ESCAPE_COMMAND 'Q' // ポーズ画面
 
 #define GAMEOVER_COMMAND 'G'//ゲームオーバーを知らせる
 

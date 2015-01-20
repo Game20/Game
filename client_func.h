@@ -177,6 +177,7 @@ extern void SendGameoverCommand(void);
 extern void SendNewposCommand(void);
 extern void SendGameclearCommand(void);
 extern void SendWindowCommand(void);
+extern void SendEscapeCommand(void);
 
 /** client_se.c */
 extern void loadSounds();///サウンド,BGMを読み込む

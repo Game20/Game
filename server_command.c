@@ -158,6 +158,11 @@ int ExecuteCommand(char command,int pos)
                     SendData(i, data, dataSize);
                 }
         }
+    case ESCAPE_COMMAND:
+        dataSize = 0;
+        SetCharData2DataBlock(data, command, &dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
+        break;
 
     default:
         /* 未知のコマンドが送られてきた */

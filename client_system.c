@@ -952,6 +952,7 @@ void eventdisp(){
 
             case SDLK_ESCAPE:	// エスケープキー
                 playSE(2);
+                SendEscapeCommand();
                 EXIT();
                 break;
 
