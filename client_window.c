@@ -16,7 +16,7 @@ TTF_Font* sTTF;
 SDL_Surface *gMessages[ 100 ];
 
 SDL_Surface *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
-SDL_Surface *gameclear;
+SDL_Surface *gameclear, *titleCG;
 
 char gMapDataFile[] = "map.data";
 char gMapDataFile2[] = "map2.data";
@@ -132,6 +132,8 @@ void InitWindow(){
         printf("failed to open gameclear.jpg .\n");
         exit(0);
     }
+
+	titleCG = IMG_Load("images/title2.png");
 
 
     // フォントからメッセージ作成
@@ -894,6 +896,11 @@ GameOver(mynum);
 	object[22].status = 0;
 	}
 
+if(gameRect.x >= 130*60 && gameRect.x <= 131*60){
+	object[21].status = 0;
+	object[22].status = 0;
+}
+
 if(gameRect.x >= 149*60 && loopend != 1)
 loopend = 1;
 
@@ -1036,6 +1043,8 @@ playBGM(0);///OPテーマを流す
             }
         }
 
+//SDL_BlitSurface(titleCG, NULL, window, NULL); // マップ貼り付け
+
 	if(exit_p != 1){
         /* メッセージ表示 */
         SDL_Rect srcRect = {0,0,0,0};
@@ -1054,23 +1063,23 @@ info.y = P.y - 40;
 fm = mynum + 5;
 SDL_BlitSurface(gMessages[fm], &infoD, SDL_GetVideoSurface(), &info);
 
-j = mynum;
-        if(j == 0) {
+        if(mynum == 0) {
             SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
         }
 
-        if(j == 1) {//neko
+        if(mynum == 1) {//neko
             SDL_BlitSurface(neko, &PA, window, &P); //キャラ貼り付け
         }
 
-        if(j == 2) {
+        if(mynum == 2) {
             SDL_BlitSurface(inu, &PA, window, &P); //キャラ貼り付け
         }
 
-        if(j == 3) {
+        if(mynum == 3) {
             SDL_BlitSurface(panda, &PA, window, &P); //キャラ貼り付け
         }
 
+//タイトルロゴ
 SDL_Rect titleinfo = {270,170};
 SDL_BlitSurface(gMessages[10], &infoD, SDL_GetVideoSurface(), &titleinfo);
 titleinfo.x = 220;
