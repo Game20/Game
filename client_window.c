@@ -41,6 +41,7 @@ int j, k, l;
 int keyhold = 0;
 int switchcount = 0;
 int clearpoint = 0;
+int loopend = 0;
 
 int DEBAG1 = 0;
 int DEBAG2 = 0;
@@ -521,17 +522,12 @@ playSE(3);
 
     //ループギミックのとき
     if(object[i].gimmick == -1){
-//	gameRect.x -= 25*bit;
-//	P.x -= 25*bit;
-//	newposx = P.x;
 	object[i].status = 1;
-	SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
-                          object[i].movex, object[i].movey); // オブジェクトのデータの送信
     }
 
 
             //オブジェクト全体の当たり判定
-            if(object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
+            if(object[i].gimmick != -1 && object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
                 if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
                     (P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 35) )
                     hitx = 1;
@@ -716,17 +712,6 @@ playSE(3);
 
         }
     }
-/*
-//ループ発生
-    if(stageP == 2)
-	if(object[21].status == 1 || object[22].status == 1){
-	gameRect.x -= 25*bit;
-//	P.x -= 25*bit;
-//	newposx = P.x;
-	object[21].status = 0;
-	object[22].status = 0;
-	}
-*/
 
 //スイッチブロックの当たり判定と描写
     for(j=0; j<=SUM_switchblock; j++){
@@ -879,11 +864,49 @@ void scroll(void){
 	if(player[j].pos.x - shiftdef >= 24*60)
 	shiftdef = 0;
 	}
+	if(loopend == 1 && gameRect.x >= 100*60 && gameRect.x + shiftdef <= 150*60)
+	shiftdef = 0;
+
+//強制スクロール
+if(stageP == 2 && gameRect.x >= 90*60 && gameRect.x <= 150*60){
+shiftdef = 0;
+gameRect.x += 3;
+P.x -= 3;
+if(P.x < 0){
+if( gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 0 ||
+    gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 0 )
+P.x = 0;
+if(P.x < -75){
+SendGameoverCommand();
+GameOver(mynum);
+}
+}
+	//ループ発生
+	if(gameRect.x >= 130*60 && (object[21].status != 0 || object[22].status != 0)){
+	gameRect.x = 105*60;
+	if(object[21].status == 1)
+	SendObjectCommand(21, 2, object[21].dst.x, object[21].dst.y,
+                          object[21].movex, object[21].movey); // オブジェクトのデータの送信
+	if(object[22].status == 1)
+	SendObjectCommand(22, 2, object[22].dst.x, object[22].dst.y,
+                          object[22].movex, object[22].movey); // オブジェクトのデータの送信
+	object[21].status = 0;
+	object[22].status = 0;
+	}
+
+if(gameRect.x >= 149*60 && loopend != 1)
+loopend = 1;
+
+}
 
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
     }
+
+
+
+
 }
 
 

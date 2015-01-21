@@ -707,11 +707,11 @@ void objectinit2(void){
     object[20].dst.y = 12;
 
     object[21].gimmick = -1; //ループギミック
-    object[21].dst.x = 130;
+    object[21].dst.x = 128;
     object[21].dst.y = 7;
 
     object[22].gimmick = -1; //ループギミック
-    object[22].dst.x = 130;
+    object[22].dst.x = 128;
     object[22].dst.y = 3;
 
     object[23].gimmick = 3;
