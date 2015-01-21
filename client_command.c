@@ -342,7 +342,6 @@ static void RecvObjectData(void)
             if(i == 33){
                 switchblock[10].flaghold = object[i].status;
                 switchblock[11].flaghold = object[i].status;
-                switchblock[12].flaghold = object[i].status;
             }
             if(i == 34 && object[i].status == 1 && object[i-1].status == 1 && object[35].flaghold != -1)
                 switchblock[11].flaghold = 0;
@@ -360,11 +359,6 @@ static void RecvObjectData(void)
                 switchblock[21].flaghold = object[i].status;
             }
 
-            if(i == 33){
-            switchblock[10].flaghold = 1;
-            switchblock[11].flaghold = 1;
-            switchblock[12].flaghold = 1;
-            }
             if(i == 40){
             switchblock[25].flaghold = 1;
             }
