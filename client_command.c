@@ -63,7 +63,9 @@ int ExecuteCommand(char command)
         RecvWindowCommand();
         break;
     case ESCAPE_COMMAND:
-        EXIT();
+        if(titlep == 1)
+            EXIT();
+        else titlep = 1;
         break;
     }
     return endFlag;

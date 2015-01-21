@@ -158,10 +158,16 @@ int ExecuteCommand(char command,int pos)
                     SendData(i, data, dataSize);
                 }
         }
+        break;
+
     case ESCAPE_COMMAND:
-        dataSize = 0;
-        SetCharData2DataBlock(data, command, &dataSize);
-        SendData(ALL_CLIENTS, data, dataSize);
+        for(i = 0; i<gClientNum; i++){
+            if(i != pos){
+                dataSize = 0;
+                SetCharData2DataBlock(data, command, &dataSize);
+                SendData(i, data, dataSize);
+            }
+        }
         break;
 
     default:

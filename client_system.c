@@ -1161,6 +1161,7 @@ titlep = 0;
 
     // 無限ループ
     while(1){
+        SendRecvManager();
         SDL_FillRect(window, NULL, 0x00808080);	// ウィンドウ背景初期化
         // イベントを取得したなら
         if(SDL_PollEvent(&event)){
@@ -1184,6 +1185,7 @@ titlep = 0;
 
                 case SDLK_RETURN: //エンターを押した時
                     if(icon.x == 100)
+                        SendEscapeCommand();
                         titlep = 1;
                     if(icon.x == 400)
                         exit_p = 1;
