@@ -14,6 +14,7 @@ static void RecvObjectData(void);
 static void RecvGameoverData(void);
 static void RecvNewposData(void);
 static void RecvWindowCommand(void);
+static void RecvTimeCommand(void);
 
 extern int mynum;
 extern int gClientNum;
@@ -66,6 +67,9 @@ int ExecuteCommand(char command)
         if(titlep == 1)
             EXIT();
         else titlep = 1;
+        break;
+    case TIME_COMMAND:
+        RecvTimeCommand();
         break;
     }
     return endFlag;
@@ -217,6 +221,17 @@ void SendEscapeCommand(void)
 
     dataSize = 0;
     SetCharData2DataBlock(data, ESCAPE_COMMAND, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendTimeCommand(void)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, TIME_COMMAND, &dataSize);
+    SetIntData2DataBlock(data, time, &dataSize);
     SendData(data, dataSize);
 }
 
@@ -381,8 +396,14 @@ static void RecvNewposData(void)
 
 }
 
-static void RecvWindowCommand()
+static void RecvWindowCommand(void)
 {
     RecvIntData(&gameRect.x);
 }
+
+static void RecvTimeCommand(void)
+{
+    RecvIntData(&time);
+}
+
 

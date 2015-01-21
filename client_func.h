@@ -178,6 +178,7 @@ extern void SendNewposCommand(void);
 extern void SendGameclearCommand(void);
 extern void SendWindowCommand(void);
 extern void SendEscapeCommand(void);
+extern void SendTimeCommand(void);
 
 /** client_se.c */
 extern void loadSounds();///サウンド,BGMを読み込む

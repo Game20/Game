@@ -11,6 +11,7 @@
 
 int gClientNum;
 int cnt = 0;///START_COMMANDの数
+int time;
 /************OBJECT_COMMAND用の変数宣言*************/
 static int object_num;//オブジェクト配列の添字
 static int object_status;//オブジェクトの状態
@@ -169,6 +170,13 @@ int ExecuteCommand(char command,int pos)
             }
         }
         break;
+
+    case TIME_COMMAND:
+        RecvIntData(pos, &time);
+        dataSize = 0;
+        SetCharData2DataBlock(data, command, &dataSize);
+        SetIntData2DataBlock(data, time, &dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
 
     default:
         /* 未知のコマンドが送られてきた */

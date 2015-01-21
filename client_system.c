@@ -952,6 +952,7 @@ void eventdisp(){
 
             case SDLK_ESCAPE:	// エスケープキー
                 playSE(2);
+                SendTimeCommand();
                 SendEscapeCommand();
                 EXIT();
                 break;
@@ -1162,6 +1163,7 @@ titlep = 0;
     // 無限ループ
     while(1){
         SendRecvManager();
+        DisplayStatus();
         SDL_FillRect(window, NULL, 0x00808080);	// ウィンドウ背景初期化
         // イベントを取得したなら
         if(SDL_PollEvent(&event)){

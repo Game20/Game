@@ -32,6 +32,8 @@
 #define WINDOW_COMMAND 'W'
 #define ESCAPE_COMMAND 'Q' // ポーズ画面
 
+#define TIME_COMMAND 'T' // 時間を共有
+
 #define GAMEOVER_COMMAND 'G'//ゲームオーバーを知らせる
 
 #endif
