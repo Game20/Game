@@ -16,7 +16,7 @@ TTF_Font* sTTF;
 SDL_Surface *gMessages[ 100 ];
 
 SDL_Surface *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
-SDL_Surface *gameclear;
+SDL_Surface *gameclear, *titleCG;
 
 char gMapDataFile[] = "map.data";
 char gMapDataFile2[] = "map2.data";
@@ -41,6 +41,7 @@ int j, k, l;
 int keyhold = 0;
 int switchcount = 0;
 int clearpoint = 0;
+int loopend = 0;
 
 int DEBAG1 = 0;
 int DEBAG2 = 0;
@@ -131,6 +132,8 @@ void InitWindow(){
         printf("failed to open gameclear.jpg .\n");
         exit(0);
     }
+
+	titleCG = IMG_Load("images/title2.png");
 
 
     // フォントからメッセージ作成
@@ -521,17 +524,12 @@ playSE(3);
 
     //ループギミックのとき
     if(object[i].gimmick == -1){
-//	gameRect.x -= 25*bit;
-//	P.x -= 25*bit;
-//	newposx = P.x;
 	object[i].status = 1;
-	SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
-                          object[i].movex, object[i].movey); // オブジェクトのデータの送信
     }
 
 
             //オブジェクト全体の当たり判定
-            if(object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
+            if(object[i].gimmick != -1 && object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
                 if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
                     (P.y >= object[i].dst.y - 74 && P.y <= object[i].dst.y + 35) )
                     hitx = 1;
@@ -716,17 +714,6 @@ playSE(3);
 
         }
     }
-/*
-//ループ発生
-    if(stageP == 2)
-	if(object[21].status == 1 || object[22].status == 1){
-	gameRect.x -= 25*bit;
-//	P.x -= 25*bit;
-//	newposx = P.x;
-	object[21].status = 0;
-	object[22].status = 0;
-	}
-*/
 
 //スイッチブロックの当たり判定と描写
     for(j=0; j<=SUM_switchblock; j++){
@@ -879,11 +866,54 @@ void scroll(void){
 	if(player[j].pos.x - shiftdef >= 24*60)
 	shiftdef = 0;
 	}
+	if(loopend == 1 && gameRect.x >= 100*60 && gameRect.x + shiftdef <= 150*60)
+	shiftdef = 0;
+
+//強制スクロール
+if(stageP == 2 && gameRect.x >= 90*60 && gameRect.x <= 150*60){
+shiftdef = 0;
+gameRect.x += 3;
+P.x -= 3;
+if(P.x < 0){
+if( gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 0 ||
+    gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 0 )
+P.x = 0;
+if(P.x < -75){
+SendGameoverCommand();
+GameOver(mynum);
+}
+}
+	//ループ発生
+	if(gameRect.x >= 130*60 && (object[21].status != 0 || object[22].status != 0)){
+	gameRect.x = 105*60;
+	if(object[21].status == 1)
+	SendObjectCommand(21, 2, object[21].dst.x, object[21].dst.y,
+                          object[21].movex, object[21].movey); // オブジェクトのデータの送信
+	if(object[22].status == 1)
+	SendObjectCommand(22, 2, object[22].dst.x, object[22].dst.y,
+                          object[22].movex, object[22].movey); // オブジェクトのデータの送信
+	object[21].status = 0;
+	object[22].status = 0;
+	}
+
+if(gameRect.x >= 130*60 && gameRect.x <= 131*60){
+	object[21].status = 0;
+	object[22].status = 0;
+}
+
+if(gameRect.x >= 149*60 && loopend != 1)
+loopend = 1;
+
+}
 
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
     }
+
+
+
+
 }
 
 
@@ -961,13 +991,11 @@ playBGM(0);///OPテーマを流す
             case SDL_KEYDOWN:// キーボードのキーが押された時
                 switch(event.key.keysym.sym){
                 case SDLK_UP:
-                    playSE(5);
                     P.y -= 100;
                     if(P.y == 300)
                         P.y = 600;
                     break;
                 case SDLK_DOWN:
-                    playSE(5);
                     P.y += 100;
                     if(P.y == 700)
                         P.y = 400;
@@ -1015,6 +1043,8 @@ playBGM(0);///OPテーマを流す
             }
         }
 
+//SDL_BlitSurface(titleCG, NULL, window, NULL); // マップ貼り付け
+
 	if(exit_p != 1){
         /* メッセージ表示 */
         SDL_Rect srcRect = {0,0,0,0};
@@ -1033,23 +1063,23 @@ info.y = P.y - 40;
 fm = mynum + 5;
 SDL_BlitSurface(gMessages[fm], &infoD, SDL_GetVideoSurface(), &info);
 
-j = mynum;
-        if(j == 0) {
+        if(mynum == 0) {
             SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
         }
 
-        if(j == 1) {//neko
+        if(mynum == 1) {//neko
             SDL_BlitSurface(neko, &PA, window, &P); //キャラ貼り付け
         }
 
-        if(j == 2) {
+        if(mynum == 2) {
             SDL_BlitSurface(inu, &PA, window, &P); //キャラ貼り付け
         }
 
-        if(j == 3) {
+        if(mynum == 3) {
             SDL_BlitSurface(panda, &PA, window, &P); //キャラ貼り付け
         }
 
+//タイトルロゴ
 SDL_Rect titleinfo = {270,170};
 SDL_BlitSurface(gMessages[10], &infoD, SDL_GetVideoSurface(), &titleinfo);
 titleinfo.x = 220;
