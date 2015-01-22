@@ -456,11 +456,12 @@ void hitjudge(void){
 
             //バネのとき
             if(object[i].gimmick == 3){
-playSE(3);
                 if(P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45 &&
                    P.y+90 >= object[i].dst.y && P.y <= object[i].dst.y - 35){
-                    if(P.y+60 >= object[i].dst.y && jump_a <= 0)
+                    if(P.y+60 >= object[i].dst.y && jump_a <= 0){
                         object[i].src.y = 60;
+                        playSE(3);
+                    }
                     else
                         object[i].src.y = 0;
                     white.x = object[i].dst.x;
