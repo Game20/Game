@@ -994,6 +994,7 @@ void eventdisp(){
 						keycommand = -1;
 						break;
 					case 3:
+                        playSE(0);
 				        if(jumpflag == 0)//{
 				            jumpflag = 1;
 				            jump_a = 12; //初速
