@@ -879,8 +879,12 @@ if( gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 0 ||
     gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 0 )
 P.x = 0;
 if(P.x < -75){
-SendGameoverCommand();
-GameOver(mynum);
+        Mix_PauseMusic();
+        playSE(1);
+
+        SendGameoverCommand();
+        GameOver(mynum);
+        Mix_ResumeMusic();
 }
 }
 	//ループ発生
