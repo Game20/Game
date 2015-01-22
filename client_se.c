@@ -25,6 +25,8 @@ se[4] = Mix_LoadWAV("SE/save_p.wav");
 se[5] = Mix_LoadWAV("SE/key_up.wav");
 se[6] = Mix_LoadWAV("SE/key_put.wav");
 se[7] = Mix_LoadWAV("SE/fall.wav");
+se[8] = Mix_LoadWAV("SE/key_op.wav");
+se[9] = Mix_LoadWAV("SE/clear.wav");
 }
 
 
@@ -58,8 +60,8 @@ num = 4 :中間ポイントの音
 num = 5 :鍵を拾った時の音
 num = 6 :鍵をおいた時の音
 num = 7 :ものが落ちる時の音
-num = 8 :NULL
-num = 9 :NULL
+num = 8 :鍵を使って扉を開ける時の音
+num = 9 :ゲームクリアーしたときの音
 num = 10:NULL
 */
 void playSE(int num)
