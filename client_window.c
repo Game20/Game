@@ -1227,8 +1227,9 @@ playBGM(2);
 }
 
 void GameClear(void){
-    playSE(8);
-    playBGM(3);
+    Mix_FadeOutMusic(2000);
+    Mix_HaltMusic();
+    playSE(9);
 /*    SendStartCommand();
     start_flag = 0;
     while(start_flag == 0){
