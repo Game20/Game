@@ -983,6 +983,7 @@ playBGM(0);///OPテーマを流す
     titlep = 1;//ループ条件
     // 無限ループ
     while(titlep){
+        SendRecvManager();
         SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化
         // イベントを取得したなら
         if(SDL_PollEvent(&event)){
@@ -1021,32 +1022,45 @@ playBGM(0);///OPテーマを流す
                 //上下の動き
                 if(event.jaxis.axis == 1)
                 {
-                    if(event.jaxis.value < -0x7000)
+                    if(event.jaxis.value < -0x7000){
+                        if(P.y == 400){
+                            P.y = 700;
+                        }
                         P.y -= 100;
-                    if(P.y == 300)
-                        P.y = 600;
+                        SendTitleCommand(P.y, titlep); // タイトルの情報送信
+                    }
 
-                    if(event.jaxis.value >  0x7000)
+                    if(event.jaxis.value >  0x7000){
+                        if(P.y == 600){
+                            P.y = 300;
+                        }
                         P.y += 100;
-                    if(P.y == 700)
-                        P.y = 400;
+                        SendTitleCommand(P.y, titlep); // タイトルの情報送信
+                    }
                 }
+
                 break;
 			//ボタン
 			case SDL_JOYBUTTONDOWN:
 					if(event.type!=SDL_KEYDOWN){
 					if(P.y == 500)
 						stageP = 2;
+
 					titlep = 0;
-					if(P.y == 600)
-					EXIT();
+					SendTitleCommand(P.y, titlep); // タイトルの情報送信
+
+					if(P.y == 600){
+                        EXIT();
+                        SendEscapeCommand();
+					}
+
 					break;
 					}
 				break;
             }
         }
 
-SDL_BlitSurface(titleCG, NULL, window, NULL); // マップ貼り付け
+        SDL_BlitSurface(titleCG, NULL, window, NULL); // マップ貼り付け
 
 	if(exit_p != 1){
         /* メッセージ表示 */

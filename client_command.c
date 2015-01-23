@@ -15,6 +15,7 @@ static void RecvGameoverData(void);
 static void RecvNewposData(void);
 static void RecvWindowCommand(void);
 static void RecvTimeCommand(void);
+static void RecvTitleCommand(void);
 
 extern int mynum;
 extern int gClientNum;
@@ -70,6 +71,9 @@ int ExecuteCommand(char command)
         break;
     case TIME_COMMAND:
         RecvTimeCommand();
+        break;
+    case TITLEPOSITION_COMMAND:
+        RecvTitleCommand();
         break;
     }
     return endFlag;
@@ -232,6 +236,18 @@ void SendTimeCommand(void)
     dataSize = 0;
     SetCharData2DataBlock(data, TIME_COMMAND, &dataSize);
     SetIntData2DataBlock(data, time, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendTitleCommand(int y, int titlep)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, TITLEPOSITION_COMMAND, &dataSize);
+    SetIntData2DataBlock(data, y, &dataSize);
+    SetIntData2DataBlock(data, titlep, &dataSize);
     SendData(data, dataSize);
 }
 
@@ -410,4 +426,18 @@ static void RecvTimeCommand(void)
     RecvIntData(&time);
 }
 
+static void RecvTitleCommand(void)
+{
+    RecvIntData(&P.y);
+    RecvIntData(&titlep);
+
+    if(titlep == 0){
+        if(P.y == 500)
+            stageP = 2;
+            /*
+        if(P.y == 600)
+            EXIT();*/
+    }
+
+}
 

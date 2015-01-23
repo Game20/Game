@@ -146,9 +146,6 @@ Joystick = SDL_JoystickOpen(0);
     start_flag = 0;
 
     title();
-
-
-
 //playBGM(1);
     for(i = 0; i < gClientNum; i++){
         if(player[i].pos.x != 0) {
