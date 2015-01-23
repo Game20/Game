@@ -1150,6 +1150,9 @@ void GameOver(int ClientNum){
     PA.y = 3 * 75;
 
     SDL_BlitSurface(usa2, &PA, window, &player[ClientNum].pos);
+
+    SDL_Flip(window); // 貼り付け
+
 //    SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(700);
 
