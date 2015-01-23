@@ -1017,25 +1017,22 @@ playBGM(0);///OPテーマを流す
                 if(event.jaxis.axis == 1)
                 {
                     if(event.jaxis.value < -0x7000){
+                        if(P.y == 400){
+                            P.y = 700;
+                        }
                         P.y -= 100;
                         SendTitleCommand(P.y, titlep); // タイトルの情報送信
                     }
 
-                    if(P.y <= 300){
-                        P.y = 600;
-                        SendTitleCommand(P.y, titlep); // タイトルの情報送信
-                    }
-
                     if(event.jaxis.value >  0x7000){
+                        if(P.y == 600){
+                            P.y = 300;
+                        }
                         P.y += 100;
                         SendTitleCommand(P.y, titlep); // タイトルの情報送信
                     }
-
-                    if(P.y >= 700){
-                        P.y = 400;
-                        SendTitleCommand(P.y, titlep); // タイトルの情報送信
-                    }
                 }
+
                 break;
 			//ボタン
 			case SDL_JOYBUTTONDOWN:
