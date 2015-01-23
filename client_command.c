@@ -323,7 +323,7 @@ static void RecvObjectData(void)
     if(object[i].gimmick == 2) {
 
         switchblock[object[i].flaghold].flaghold = object[i].status;
-        if(object[i].status == 1)
+        if(object[i].status != 0)
             playSE(2);
 
 	if(object[i].status)

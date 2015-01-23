@@ -694,6 +694,7 @@ void hitjudge(void){
         if(object[j].gimmick == 5 && (object[j].status == -1 || object[j].status == -2)){
             if(P.x+gameRect.x >= object[j].dst.x - 45 && P.x+gameRect.x <= object[j].dst.x + 45 &&
                P.y+75 >= object[j].dst.y+20 && P.y+75 <= object[j].dst.y+50){
+                   playSE(3);
                 if(object[j].status == -1 && jump_a == 0)
                     jump_a = 5*6;
                 if(object[j].status == -2)
