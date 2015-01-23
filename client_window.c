@@ -388,7 +388,7 @@ void hitjudge(void){
                         hity = -2;
                         newposy = object[i].dst.y - 35;
                         if(object[i].status == 0 && switchcount == 0){
-                            playSE(2);
+                         //   playSE(2);
                             object[i].status = 1; //ステータス：押されてる
                             switchblock[object[i].flaghold].flaghold = 1;
                             switchcount = 1;

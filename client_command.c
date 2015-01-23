@@ -321,7 +321,11 @@ static void RecvObjectData(void)
     RecvIntData(&object[i].movey);
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
     if(object[i].gimmick == 2) {
+
         switchblock[object[i].flaghold].flaghold = object[i].status;
+        if(object[i].status == 1)
+            playSE(2);
+
 	if(object[i].status)
 	switchblock[object[i].flaghold].flaghold = 1;
 	//特殊動作
