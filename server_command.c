@@ -12,6 +12,7 @@
 int gClientNum;
 int cnt = 0;///START_COMMANDの数
 int time;
+
 /************OBJECT_COMMAND用の変数宣言*************/
 static int object_num;//オブジェクト配列の添字
 static int object_status;//オブジェクトの状態
@@ -177,6 +178,20 @@ int ExecuteCommand(char command,int pos)
         SetCharData2DataBlock(data, command, &dataSize);
         SetIntData2DataBlock(data, time, &dataSize);
         SendData(ALL_CLIENTS, data, dataSize);
+        break;
+
+    case TITLEPOSITION_COMMAND:
+        dataSize = 0;
+        int titley, titlep;
+
+        RecvIntData(pos, &titley);
+        RecvIntData(pos, &titlep);
+
+        SetCharData2DataBlock(data, command, &dataSize);
+        SetIntData2DataBlock(data, titley, &dataSize);
+        SetIntData2DataBlock(data, titlep, &dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
+        break;
 
     default:
         /* 未知のコマンドが送られてきた */
