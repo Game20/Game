@@ -133,26 +133,23 @@ Joystick = SDL_JoystickOpen(0);
     /*初期設定*/
     InitWindow();
 
-    title();
-
-playBGM(1);
-
-
-
     for(i = 0; i < MAX_CLIENTS; i++){
         player[i].pos.x = 0;
     }
 
     SendNewposCommand();
 
-playBGM(1);
     while(start_flag == 0){
-
         endFlag = SendRecvManager();
     }
 
     start_flag = 0;
 
+    title();
+
+playBGM(1);
+
+//playBGM(1);
     for(i = 0; i < gClientNum; i++){
         if(player[i].pos.x != 0) {
             P_START.x = player[i].pos.x;
