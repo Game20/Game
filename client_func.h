@@ -179,6 +179,8 @@ extern void SendGameclearCommand(void);
 extern void SendWindowCommand(void);
 extern void SendEscapeCommand(void);
 extern void SendTimeCommand(void);
+extern void SendTitleCommand(int y, int titlep); // タイトルに関する情報を送信
+
 
 /** client_se.c */
 extern void loadSounds();///サウンド,BGMを読み込む

@@ -36,4 +36,6 @@
 
 #define GAMEOVER_COMMAND 'G'//ゲームオーバーを知らせる
 
+#define TITLEPOSITION_COMMAND 'P' // タイトルに関するデータ
+
 #endif
