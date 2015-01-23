@@ -50,7 +50,7 @@ void InitStatus(void){ // キャラのステータスの初期化
     }
 
 //ステージ２移行時
-    if(stageP != mapread)
+    if(stageP == 2)
         Mapshift();
 
     if(stageP == 1)

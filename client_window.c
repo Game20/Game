@@ -835,21 +835,6 @@ SDL_BlitSurface(objectimage, &object[30].src, mapwindow, &object[30].dst); // ob
         }
     }
 
-
-
-if(clearpoint == 1){
-hitx = 1;
-P.y = 25*bit;
-newposy = P.y;
-object[29].dst.y = 25*bit;
-object[49].dst.y = 25*bit;
-if( (gClientNum == 1 && player[0].pos.y >= 20*bit) ||
-	(gClientNum == 2 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit) ||
-	(gClientNum == 3 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit) ||
-	(gClientNum == 4 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit && player[3].pos.y >= 20*bit))
-StageClear();
-}
-
 }
 
 void scroll(void){
@@ -912,7 +897,20 @@ loopend = 1;
     }
 
 
+printf("\n%d,%d,%d\n", P.x, P.y, gameRect.x);
 
+if(clearpoint == 1){
+hitx = 1;
+P.y = 25*bit;
+newposy = P.y;
+object[29].dst.y = 25*bit;
+object[49].dst.y = 25*bit;
+if( (gClientNum == 1 && player[0].pos.y >= 20*bit) ||
+	(gClientNum == 2 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit) ||
+	(gClientNum == 3 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit) ||
+	(gClientNum == 4 && player[0].pos.y >= 20*bit && player[1].pos.y >= 20*bit && player[2].pos.y >= 20*bit && player[3].pos.y >= 20*bit))
+StageClear();
+}
 
 }
 
@@ -1240,12 +1238,18 @@ void GameClear(void){
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(2000);
 
+
 time = 0;
 stageP = 1;
-InitStatus();
-titlep = 1;
+for(j=0; j<SUM_object; j++){
+if(object[j].gimmick == 0)
+object[j].status = 0;
+}
 
-//    exit_p = 1;
+title();
+MapLayout();
+InitStatus();
+
 }
 
 
