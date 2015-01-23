@@ -275,11 +275,17 @@ void hitjudge(void){
     //左右
     if( gMaps[(newposx+gameRect.x+10)/bit][(P.y+15)/bit] == 1 ||
         gMaps[(newposx+gameRect.x+10)/bit][(P.y+10)/bit+1] == 1 ||
-        gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 ||
+		gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 1 ||
         gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 1	||
 		newposx < 0 || newposx > 24*60)
-
         hitx = 1;
+
+    //応急処置
+    if( gMaps[(P.x+gameRect.x+15)/bit][(P.y+15)/bit] == 1 ||
+        gMaps[(P.x+gameRect.x+15)/bit][(P.y+10)/bit+1] == 1 ||
+		gMaps[(P.x+gameRect.x+41)/bit][(P.y+15)/bit] == 1 ||
+        gMaps[(P.x+gameRect.x+41)/bit][(P.y+10)/bit+1] == 1 )
+		P.x = (P.x+10)/bit*bit;	
 
     //上
     if( gMaps[(P.x+gameRect.x+10)/bit][(newposy+15)/bit] == 1 ||
@@ -1259,13 +1265,6 @@ steps[j].dst.x = 0;
 clearset = 1;
 
 }
-
-
-
-
-
-
-
 
 
 
