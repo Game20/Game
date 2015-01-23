@@ -1220,8 +1220,9 @@ playSE(8);
     keyhold = 0;
 	clearpoint = 0;
     stageP++;
-if(stageP == 2)
-playBGM(2);
+
+//if(stageP == 2)
+//playBGM(2);
 
     if(stageP == 3) {
 	//SendGameclearCommand();

@@ -53,10 +53,14 @@ void InitStatus(void){ // キャラのステータスの初期化
     if(stageP == 2)
         Mapshift();
 
-    if(stageP == 1)
+    if(stageP == 1){
 	objectinit1();
-    if(stageP == 2)
+    playBGM(1);
+    }
+    if(stageP == 2){
 	objectinit2();
+    playBGM(2);
+    }
 
     for(i = 0; i < gClientNum; i++){
         player[i].pos.w = 60;
