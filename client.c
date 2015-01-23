@@ -193,6 +193,14 @@ endFlag = 0;
 
 	DisplayStatus();
 
+	//ゲームクリア後の初期化
+	if(clearset == 1){
+	title();
+	MapLayout();
+	InitStatus();
+	clearset = 0;
+	}
+
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
        break;
 

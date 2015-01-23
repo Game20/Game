@@ -132,9 +132,9 @@ void objectinit1(void){
     switchblock[10].dst.x = 263;
     switchblock[10].dst.y = 12;
 
-
-
     for(j=0; j<SUM_switchblock; j++){
+	if(switchblock[j].dst.x == 0)
+	break;
 	switchblock[j].flaghold = 0;
 	switchblock[j].src.x = 0;
 	switchblock[j].src.y = 0;
@@ -176,6 +176,8 @@ void objectinit1(void){
 
 
     for(j=0; j<SUM_steps; j++){
+	if(steps[j].dst.x == 0)
+	break;
 	steps[j].src.x = 60;
 	steps[j].src.y = 60;
 	steps[j].src.w = 60;
@@ -992,6 +994,7 @@ void eventdisp(){
 						break;
 					/**/
 					case 1:
+//						gameRect.x = 245*60;
 						DEBAG2 = 5;
 						break;
 					case 2:

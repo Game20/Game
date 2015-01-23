@@ -131,7 +131,7 @@ extern int exit_p;
 extern int jump_a;
 
 extern int titlep;
-extern int titlep2;
+extern int clearset;
 
 extern int stageP;
 extern int mapread;
