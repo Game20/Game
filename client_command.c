@@ -378,7 +378,13 @@ static void RecvGameoverData(void)
     int num;
 
     RecvIntData(&num);
+
+    Mix_PauseMusic();///音楽一時停止
+    playSE(1);///ゲームオーバー音
+
     GameOver(num);
+
+    Mix_ResumeMusic();///音楽再開
 }
 
 static void RecvNewposData(void)

@@ -298,12 +298,12 @@ void hitjudge(void){
         gMaps[(P.x+gameRect.x+10)/bit][(P.y+15)/bit] == 3 ||
         gMaps[(P.x+gameRect.x+45)/bit][(P.y+15)/bit] == 3 ||
 		P.y >= 14*bit) && clearpoint == 0){
-        Mix_PauseMusic();
-        playSE(1);
+  //      Mix_PauseMusic();
+  //      playSE(1);
 
         SendGameoverCommand();
         GameOver(mynum);
-        Mix_ResumeMusic();
+  //      Mix_ResumeMusic();
     }
     //ゴール
     //	if( object[29].status == 1 && jumpflag == 0 &&
@@ -880,12 +880,12 @@ if( gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 0 ||
     gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 0 )
 P.x = 0;
 if(P.x < -75){
-        Mix_PauseMusic();
-        playSE(1);
+     //   Mix_PauseMusic();
+      //  playSE(1);
 
         SendGameoverCommand();
         GameOver(mynum);
-        Mix_ResumeMusic();
+      //  Mix_ResumeMusic();
 }
 }
 	//ループ発生
