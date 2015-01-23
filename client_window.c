@@ -49,6 +49,7 @@ int DEBAG2 = 0;
 int mynum;
 int gClientNum;
 int start_flag;
+int clearset = 0;
 
 /*初期設定*/
 void InitWindow(){
@@ -322,12 +323,6 @@ void hitjudge(void){
     for(i=0; i<=max_map_object; i++){
 	if( (newposx+gameRect.x >= object[i].dst.x - 45 && newposx+gameRect.x <= object[i].dst.x + 45) &&
             (newposy >= object[i].dst.y - 75 && newposy <= object[i].dst.y + 45)){
-/*
-  break;
-  }
-  //ギミック動作発生
-  if(i != max_map_object){
-*/
 
             //中間ポイントのとき
             if(object[i].gimmick == 0){
@@ -896,13 +891,11 @@ loopend = 1;
 
 }
 
+
     if(gameRect.x + shiftdef >= 0 && gameRect.x + shiftdef <= (MAP_Width - WIND_Width) * 60){
         gameRect.x += shiftdef;
         P.x -= shiftdef;
     }
-
-
-printf("\n%d,%d,%d\n", P.x, P.y, gameRect.x);
 
 if(clearpoint == 1){
 hitx = 1;
@@ -1046,7 +1039,7 @@ playBGM(0);///OPテーマを流す
             }
         }
 
-//SDL_BlitSurface(titleCG, NULL, window, NULL); // マップ貼り付け
+SDL_BlitSurface(titleCG, NULL, window, NULL); // マップ貼り付け
 
 	if(exit_p != 1){
         /* メッセージ表示 */
@@ -1062,9 +1055,9 @@ playBGM(0);///OPテーマを流す
             dstRect.y += 100;
         }
 
-info.y = P.y - 40;
-fm = mynum + 5;
-SDL_BlitSurface(gMessages[fm], &infoD, SDL_GetVideoSurface(), &info);
+//	info.y = P.y - 40;
+//	fm = mynum + 5;
+//	SDL_BlitSurface(gMessages[fm], &infoD, SDL_GetVideoSurface(), &info);
 
         if(mynum == 0) {
             SDL_BlitSurface(usa2, &PA, window, &P); //キャラ貼り付け
@@ -1247,7 +1240,6 @@ void GameClear(void){
     SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(2000);
 
-
 time = 0;
 stageP = 1;
 for(j=0; j<SUM_object; j++){
@@ -1255,9 +1247,14 @@ if(object[j].gimmick == 0)
 object[j].status = 0;
 }
 
-title();
-MapLayout();
-InitStatus();
+for(j=0; j<SUM_switchblock; j++){
+switchblock[j].dst.x = 0;
+}
+for(j=0; j<SUM_steps; j++){
+steps[j].dst.x = 0;
+}
+
+clearset = 1;
 
 }
 
