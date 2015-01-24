@@ -1059,7 +1059,7 @@ playBGM(0);///OPテーマを流す
 
 					if(P.y == 600){
                         EXIT();
-                        SendEscapeCommand();
+                        SendEscapeCommand(titlep);
 					}
 
 					break;
