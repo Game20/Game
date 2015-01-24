@@ -833,11 +833,19 @@ SDL_BlitSurface(objectimage, &object[30].src, mapwindow, &object[30].dst); // ob
 
     for(i=0; i <= max_map_object; i++){
         if(object[i].oldsrc.y != object[i].src.y || object[i].olddst.x != object[i].dst.x || object[i].olddst.y != object[i].dst.y){
+            if(object[i].gimmick != 1)
             SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
                               object[i].movex, object[i].movey); // オブジェクトのデータの送信
         }
     }
 
+        for(i=0; i <= max_map_object; i++){
+        if(object[i].oldsrc.y != object[i].src.y || object[i].olddst.x != object[i].dst.x || object[i].olddst.y != object[i].dst.y){
+            if(object[i].gimmick == 1)
+            SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y,
+                              object[i].movex, object[i].movey); // オブジェクトのデータの送信
+        }
+    }
 }
 
 void scroll(void){
