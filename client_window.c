@@ -42,6 +42,7 @@ int keyhold = 0;
 int switchcount = 0;
 int clearpoint = 0;
 int loopend = 0;
+int loophint = 0;
 
 int DEBAG1 = 0;
 int DEBAG2 = 0;
@@ -336,7 +337,7 @@ void hitjudge(void){
                    P.y >= object[i].dst.y+20 && P.y <= object[i].dst.y+45 && object[i].status == 0 && P.y > newposy){
                     object[i].status = 2;
                     SendObjectCommand(i, object[i].status, object[i].dst.x, object[i].dst.y, object[i].movex, object[i].movey); // オブジェクトのデータの送信
-                    //	newposy = object[i].dst.y+60;
+//                    newposy = P.y;//object[i].dst.y+60;
                 }
             }
 
@@ -400,22 +401,14 @@ void hitjudge(void){
 					object[i].status = 0;
 					switchblock[object[i].flaghold].flaghold = 0;
                     switchcount = 0;
-                        //他プレイヤーが乗っていれば再点火 まだ未検証
-                        for(j=0; j<MAX_CLIENTS; j++){
-                            if(j != mynum){
-						    if(player[j].pos.x+gameRect.x >= object[i].dst.x - 35 && player[j].pos.x+gameRect.x <= object[i].dst.x + 35 &&
-						       player[j].pos.y+75 >= object[i].dst.y+35 && player[j].pos.y <= object[i].dst.y-35){
-						        object[i].status = 1;
-						        switchblock[object[i].flaghold].flaghold = 1;
-                            }
-							}
-                        }
-                }
 
                 for(j=0; j<=max_map_object; j++){
-                    if(object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].status == 1)
-                        switchblock[object[i].flaghold].flaghold = 1;
+                    if(i != j && object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].src.y == 60)
+                    switchblock[object[i].flaghold].flaghold = 1;
                 }
+                }
+
+
 
                 //特殊動作
                 if(stageP == 1){
@@ -494,8 +487,25 @@ void hitjudge(void){
                         object[object[i].flaghold].status = -1;//PULL
             SendObjectCommand(object[i].flaghold, object[object[i].flaghold].status, object[object[i].flaghold].dst.x, object[object[i].flaghold].dst.y,
                               object[object[i].flaghold].movex, object[object[i].flaghold].movey); // オブジェクトのデータの送信
+
                     }
                 }
+		j = i;
+        //動作
+        if(object[j].gimmick == 5 && (object[j].status == -1 || object[j].status == -2)){
+            if(P.x+gameRect.x >= object[j].dst.x - 45 && P.x+gameRect.x <= object[j].dst.x + 45 &&
+               P.y+75 >= object[j].dst.y+20 && P.y+75 <= object[j].dst.y+50){
+                   playSE(3);
+                if(object[j].status == -1)
+                    jump_a = 5*6;
+                if(object[j].status == -2)
+                    jump_a = 6*6;
+            }
+            if(object[j].status == -1)
+                object[j].status = 0;
+            if(object[j].status == -2)
+                object[j].gimmick = -2;//
+        }
             }
 
     //カギのとき
@@ -523,12 +533,6 @@ void hitjudge(void){
     	SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
 		}
 	}
-
-    //ループギミックのとき
-    if(object[i].gimmick == -1){
-	object[i].status = 1;
-    }
-
 
             //オブジェクト全体の当たり判定
             if(object[i].gimmick != -1 && object[i].gimmick != 2 && object[i].gimmick != 4 && object[i].gimmick != 5 && object[i].gimmick != 6){
@@ -572,13 +576,12 @@ void hitjudge(void){
 
                 if(object[j].flaghold == 1 && object[j].movex != 0)
                     object[j].movex = 0;
-
             }
 
             //オブジェクト同士の当たり判定
             if(object[j].movex != 0  || object[j].movey != 0 || object[j].flaghold == 1){
                 for(k=0; k<=max_map_object; k++){
-                    if(j != k && object[j].dst.x+60 >= object[k].dst.x && object[j].dst.x <= object[k].dst.x+60){
+                    if(j != k && object[j].dst.x+60 > object[k].dst.x && object[j].dst.x < object[k].dst.x+60){
                         if(object[j].dst.y+30 >= object[k].dst.y && object[j].dst.y-30 <= object[k].dst.y){
                             object[j].movex = 0;
                         }
@@ -657,11 +660,23 @@ void hitjudge(void){
                 SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
                 SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
             }
-/*			for(k=0; k<=max_map_object; k++){
-			if(object[k].gimmick == 2 && object[j].flaghold == object[k].flaghold && object[k].status == 1)
-			switchblock[object[j].flaghold].status = 1;
-			}*/
+			for(k=0; k<=max_map_object; k++){
+			if(k != j && object[k].gimmick == 2 && object[j].flaghold == object[k].flaghold && object[k].src.y == 60)
+			switchblock[object[j].flaghold].flaghold = 1;
+			}
+
         }
+
+		//シーソー描写
+		if(object[j].gimmick == 5 && object[j].status == 1){
+			object[j].src.y = 60;
+			object[object[j].flaghold].src.y = 0;
+            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
+            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
+            SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+            SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
+            SDL_BlitSurface(objectimage, &object[50].src, objectwindow, &object[50].dst);
+		}
 
         //フラグホールドの処理
         if(object[j].flaghold == 1){
@@ -690,34 +705,6 @@ void hitjudge(void){
 
 
 ////再判定2
-    for(j=0; j<=max_map_object; j++){
-        //バネシーソーのとき
-        if(object[j].gimmick == 5 && (object[j].status == -1 || object[j].status == -2)){
-            if(P.x+gameRect.x >= object[j].dst.x - 45 && P.x+gameRect.x <= object[j].dst.x + 45 &&
-               P.y+75 >= object[j].dst.y+20 && P.y+75 <= object[j].dst.y+50){
-                   playSE(3);
-                if(object[j].status == -1 && jump_a == 0)
-                    jump_a = 5*6;
-                if(object[j].status == -2)
-                    jump_a = 6*6;
-            }
-            if(object[j].status == -1)
-                object[j].status = 0;
-            if(object[j].status == -2)
-                object[j].gimmick = -2;//
-            object[object[j].flaghold].status = 1;
-
-            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
-            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
-            object[j].src.y = 0;
-            object[object[j].flaghold].src.y = object[object[j].flaghold].status*bit;
-            SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
-            SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
-            SDL_BlitSurface(objectimage, &object[50].src, objectwindow, &object[50].dst);
-
-        }
-    }
-
 //スイッチブロックの当たり判定と描写
     for(j=0; j<=SUM_switchblock; j++){
         if(switchblock[j].src.y != switchblock[j].flaghold*60){
@@ -746,8 +733,8 @@ void hitjudge(void){
                newposy >= switchblock[j].dst.y-75 && newposy <= switchblock[j].dst.y+switchblock[j].gimmick*bit-60 + 43){
                 if(switchblock[j].src.x == 0 && newposy >= switchblock[j].dst.y-60)
                     newposy = switchblock[j].dst.y+45;//上にヒット
-//                if(switchblock[j].src.x == 60 && newposx >= switchblock[j].dst.x-45 && newposx <= switchblock[j].dst.x+45)
-//                    newposx = switchblock[j].dst.x-50;//上にヒット
+                if(switchblock[j].src.x == 60 && P.x+gameRect.x+10 >= switchblock[j].dst.x-45 && P.x+gameRect.x <= switchblock[j].dst.x+45)
+                    P.x = switchblock[j].dst.x-gameRect.x-50;//ヒット
 
                 if(newposy <= switchblock[j].dst.y)
                     hity = -1;//下にヒット
@@ -868,8 +855,8 @@ void scroll(void){
 //強制スクロール
 if(stageP == 2 && gameRect.x >= 90*60 && gameRect.x <= 150*60){
 shiftdef = 0;
-gameRect.x += 3;
-P.x -= 3;
+gameRect.x += 4;
+P.x -= 4;
 if(P.x < 0){
 if( gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 0 ||
     gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 0 )
@@ -877,29 +864,27 @@ P.x = 0;
 if(P.x < -75){
         Mix_PauseMusic();
         playSE(1);
-
         SendGameoverCommand();
         GameOver(mynum);
         Mix_ResumeMusic();
 }
 }
 	//ループ発生
-	if(gameRect.x >= 130*60 && (object[21].status != 0 || object[22].status != 0)){
+	if(object[22].status == 1 && gameRect.x >= 130*60 && gameRect.x <= 131*60){
 	gameRect.x = 105*60;
-	if(object[21].status == 1)
-	SendObjectCommand(21, 2, object[21].dst.x, object[21].dst.y,
-                          object[21].movex, object[21].movey); // オブジェクトのデータの送信
-	if(object[22].status == 1)
-	SendObjectCommand(22, 2, object[22].dst.x, object[22].dst.y,
-                          object[22].movex, object[22].movey); // オブジェクトのデータの送信
-	object[21].status = 0;
 	object[22].status = 0;
+	loophint++;
+	if(loophint >= 2){
+	SDL_Rect hint = {0, 60, 60, 60};
+	SDL_Rect hintD = {129*60, 10*60};
+//	SDL_BlitSurface(objectimage, &hint, mapwindow, &hintD);
+	SDL_BlitSurface(objectimage, &hint, objectwindow, &hintD);
 	}
-
-if(gameRect.x >= 130*60 && gameRect.x <= 131*60){
-	object[21].status = 0;
-	object[22].status = 0;
-}
+	}
+	//発生条件
+	if(P.x+gameRect.x >= 129*60 && P.x+gameRect.x <= 130*60 && P.y <= 8*60)
+	SendObjectCommand(22, 1, object[22].dst.x, object[22].dst.y,
+                      object[22].movex, object[22].movey); // オブジェクトのデータの送信
 
 if(gameRect.x >= 149*60 && loopend != 1)
 loopend = 1;
