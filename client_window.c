@@ -824,11 +824,11 @@ object[30].src.x = 8*bit;
 SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
 SDL_BlitSurface(objectimage, &object[30].src, mapwindow, &object[30].dst); // object貼り付け
 }
-//if(object[56].status == 1 && object[56].src.x == 6*bit){
-//object[56].src.x = 8*bit;
-//SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
-//SDL_BlitSurface(objectimage, &object[56].src, mapwindow, &object[56].dst); // object貼り付け
-//}
+if(object[56].status == 1 && object[56].src.x == 6*bit){
+object[56].src.x = 8*bit;
+SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
+SDL_BlitSurface(objectimage, &object[56].src, mapwindow, &object[56].dst); // object貼り付け
+}
 
 
     for(i=0; i <= max_map_object; i++){
