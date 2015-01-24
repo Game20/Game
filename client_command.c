@@ -434,7 +434,7 @@ static void RecvTitleCommand(void)
     if(titlep == 0){
         if(P.y == 500)
             stageP = 2;
-            titlep = 1;
+            //titlep = 1;
             /*
         if(P.y == 600)
             EXIT();*/
