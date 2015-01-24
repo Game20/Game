@@ -660,13 +660,11 @@ void objectinit2(void){
     object[10].dst.x = 45;
     object[10].dst.y = 12;
 
-    object[11].gimmick = 3;
-    object[11].status = 6;
-    object[11].dst.x = 74;
-    object[11].dst.y = 12;
+    object[11].gimmick = 0;
+    object[11].dst.x = 28;
+    object[11].dst.y = 6;
 
-    object[12].gimmick = 0;
-//	object[12].flaghold = -1;
+    object[12].gimmick = 0; //
     object[12].dst.x = 74;
     object[12].dst.y = 2;
 
@@ -712,9 +710,10 @@ void objectinit2(void){
     object[20].dst.x = 93;
     object[20].dst.y = 12;
 
-    object[21].gimmick = -1; //ループギミック
-    object[21].dst.x = 128;
-    object[21].dst.y = 7;
+    object[21].gimmick = 0; //ループ前中間ポイント
+    object[21].flaghold = 9;
+    object[21].dst.x = 92;
+    object[21].dst.y = 9;
 
     object[22].gimmick = -1; //ループギミック
     object[22].dst.x = 128;
@@ -732,6 +731,7 @@ void objectinit2(void){
 //ループ
 
     object[25].gimmick = 0;
+//		    object[25].status = 1;
     object[25].dst.x = 158;
     object[25].dst.y = 8;
 
@@ -886,6 +886,11 @@ void objectinit2(void){
     object[56].gimmick = 6; //扉
     object[56].dst.x = 266;
     object[56].dst.y = 2;
+		
+	object[57].gimmick = 0;
+    object[57].flaghold = 4;
+    object[57].dst.x = 259;
+    object[57].dst.y = 5;
 
 
     for(j=0; j<SUM_object; j++){
