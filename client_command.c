@@ -14,6 +14,7 @@ static void RecvObjectData(void);
 static void RecvGameoverData(void);
 static void RecvNewposData(void);
 static void RecvWindowCommand(void);
+static void RecvEscapeData(void);
 static void RecvTimeCommand(void);
 static void RecvTitleCommand(void);
 
@@ -22,6 +23,8 @@ extern int gClientNum;
 extern int start_flag = 0;
 
 int gClientNum;
+
+int EscapeCnt = 0;
 
 /*****************************************************************
 関数名	: ExecuteCommand
@@ -41,6 +44,7 @@ int ExecuteCommand(char command)
 #endif*/
     switch(command){
     case END_COMMAND:
+        exit_p = 1;
         endFlag = 0;
         break;
     case START_COMMAND:
@@ -65,9 +69,7 @@ int ExecuteCommand(char command)
         RecvWindowCommand();
         break;
     case ESCAPE_COMMAND:
-        if(titlep == 1)
-            EXIT();
-        else titlep = 1;
+        RecvEscapeData();
         break;
     case TIME_COMMAND:
         RecvTimeCommand();
@@ -218,13 +220,14 @@ void SendWindowCommand(void)
     SendData(data, dataSize);
 }
 
-void SendEscapeCommand(void)
+void SendEscapeCommand(int titlep)
 {
     unsigned char	data[MAX_DATA];
     int			dataSize;
 
     dataSize = 0;
     SetCharData2DataBlock(data, ESCAPE_COMMAND, &dataSize);
+    SetIntData2DataBlock(data, titlep, &dataSize);
     SendData(data, dataSize);
 }
 
@@ -419,6 +422,15 @@ static void RecvNewposData(void)
 static void RecvWindowCommand(void)
 {
     RecvIntData(&gameRect.x);
+}
+
+static void RecvEscapeData(void)
+{
+    RecvIntData(&titlep);
+
+    if(titlep == 0){
+        EXIT();
+    }
 }
 
 static void RecvTimeCommand(void)

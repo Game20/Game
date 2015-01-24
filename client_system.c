@@ -959,7 +959,7 @@ void eventdisp(){
             case SDLK_ESCAPE:	// エスケープキー
                 playSE(2);
                 SendTimeCommand();
-                SendEscapeCommand();
+                SendEscapeCommand(0);
                 EXIT();
                 break;
 
@@ -1169,7 +1169,7 @@ SDL_Rect iconD = {240, 60, 60, 60};
 titlep = 0;
 
     // 無限ループ
-    while(1){
+    while(!titlep){
         SendRecvManager();
         DisplayStatus();
         SDL_FillRect(window, NULL, 0x00808080);	// ウィンドウ背景初期化
@@ -1194,9 +1194,10 @@ titlep = 0;
                     break;
 
                 case SDLK_RETURN: //エンターを押した時
-                    if(icon.x == 100)
-                        SendEscapeCommand();
+                    if(icon.x == 100) {
                         titlep = 1;
+                        SendEscapeCommand(titlep);
+                    }
                     if(icon.x == 400)
                         exit_p = 1;
                     break;
@@ -1223,9 +1224,10 @@ titlep = 0;
 					if(event.type!=SDL_KEYDOWN){
                     if(icon.x == 100)
                         titlep = 1;
-					if(icon.x == 400)
+					if(icon.x == 400) {
 					exit_p = 1;
 					SendEndCommand();
+					}
 					break;
 					}
             }

@@ -12,6 +12,7 @@
 int gClientNum;
 int cnt = 0;///START_COMMANDの数
 int time;
+int titlep;
 
 /************OBJECT_COMMAND用の変数宣言*************/
 static int object_num;//オブジェクト配列の添字
@@ -141,7 +142,7 @@ int ExecuteCommand(char command,int pos)
         SetCharData2DataBlock(data, command, &dataSize);//コマンドをセット
         SetIntData2DataBlock(data, object_num, &dataSize);//オブジェクトの添字をセット
         SetIntData2DataBlock(data, object_status, &dataSize);//オブジェクトの状態をセット
-//        SetIntData2DataBlock(data, object_cpy.x, &dataSize);//オブジェクトの貼り付け元x座標をセット
+//        SetIntData2DataBlock(data,ExecuteCommand object_cpy.x, &dataSize);//オブジェクトの貼り付け元x座標をセット
 //        SetIntData2DataBlock(data, object_cpy.y, &dataSize);//オブジェクトの貼り付け元y座標をセット
         SetIntData2DataBlock(data, object_place.x, &dataSize);//オブジェクトのx座標をセット
         SetIntData2DataBlock(data, object_place.y, &dataSize);//オブジェクトのy座標をセット
@@ -163,10 +164,13 @@ int ExecuteCommand(char command,int pos)
         break;
 
     case ESCAPE_COMMAND:
+        RecvIntData(pos, &titlep);
+
         for(i = 0; i<gClientNum; i++){
             if(i != pos){
                 dataSize = 0;
                 SetCharData2DataBlock(data, command, &dataSize);
+                SetIntData2DataBlock(data, titlep, &dataSize);
                 SendData(i, data, dataSize);
             }
         }
