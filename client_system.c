@@ -1225,6 +1225,7 @@ titlep = 0;
                         titlep = 1;
 					if(icon.x == 400)
 					exit_p = 1;
+					SendEndCommand();
 					break;
 					}
             }
