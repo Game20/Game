@@ -1115,7 +1115,7 @@ SDL_BlitSurface(gMessages[9], &infoD, SDL_GetVideoSurface(), &titleinfo);
 	}
     }
     P.y = 640;
-    //titlep = 1;
+    titlep = 1;
 }
 
 /************プレイヤー表示関数**********************/

@@ -146,7 +146,7 @@ Joystick = SDL_JoystickOpen(0);
     start_flag = 0;
 
     title();
-//playBGM(1);
+
     for(i = 0; i < gClientNum; i++){
         if(player[i].pos.x != 0) {
             P_START.x = player[i].pos.x;
@@ -159,7 +159,7 @@ if(exit_p == 1)
 endFlag = 0;
 
     InitStatus(); // キャラのステータスの初期化
-
+titlep = 1;
     // 無限ループ
     while(endFlag){
 
