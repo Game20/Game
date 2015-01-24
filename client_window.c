@@ -503,8 +503,11 @@ void hitjudge(void){
             }
             if(object[j].status == -1)
                 object[j].status = 0;
-            if(object[j].status == -2)
+            if(object[j].status == -2){
                 object[j].gimmick = -2;//
+				SendObjectCommand(j, object[j].status, object[j].dst.x, object[j].dst.y,
+                              object[j].movex, object[j].movey); // オブジェクトのデータの送信
+			}
         }
             }
 
@@ -668,15 +671,27 @@ void hitjudge(void){
         }
 
 		//シーソー描写
-		if(object[j].gimmick == 5 && object[j].status == 1){
+		if(object[j].gimmick == 5 && object[j].status == 1 && object[j].src.y != 60){
 			object[j].src.y = 60;
 			object[object[j].flaghold].src.y = 0;
             SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
             SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
             SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
             SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
+		}
+
+		if(object[j].status == -2 && object[j].src.y != 0){
+			object[j].src.y = 0;
+			object[object[j].flaghold].src.y = 60;
+            SDL_BlitSurface(objectimage, &object[50].src, mapwindow, &object[50].dst);
+            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
+            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
+            SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+            SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
             SDL_BlitSurface(objectimage, &object[50].src, objectwindow, &object[50].dst);
 		}
+
+
 
         //フラグホールドの処理
         if(object[j].flaghold == 1){
@@ -1228,6 +1243,11 @@ playSE(8);
 	clearpoint = 0;
     stageP++;
 
+for(j=0; j<SUM_object; j++){
+if(object[j].gimmick == 0)
+object[j].status = 0;
+}
+
 //if(stageP == 2)
 //playBGM(2);
 
@@ -1257,10 +1277,6 @@ void GameClear(void){
 
 time = 0;
 stageP = 1;
-for(j=0; j<SUM_object; j++){
-if(object[j].gimmick == 0)
-object[j].status = 0;
-}
 
 for(j=0; j<SUM_switchblock; j++){
 switchblock[j].dst.x = 0;
