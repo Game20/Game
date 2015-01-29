@@ -953,8 +953,8 @@ void eventdisp(){
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
-                playSE(0);
                 if(jumpflag == 0){
+                    playSE(0);
                     jumpflag = 1;
                 jump_a = 12; //初速
                 } //←{}を消したら無限ジャンプ

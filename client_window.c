@@ -376,8 +376,11 @@ void hitjudge(void){
                 if( object[i].flaghold == 1 &&
                     (P.x+gameRect.x >= object[i].dst.x - 45 && P.x+gameRect.x <= object[i].dst.x + 45) &&
                     (P.y >= object[i].dst.y + 30 && P.y <= object[i].dst.y + 43) && jump_a != -8) {
+                     Mix_PauseMusic();
+                    playSE(1);
                     SendGameoverCommand();
                     GameOver(mynum);
+                    Mix_ResumeMusic();
                 }
             }
 
