@@ -885,7 +885,7 @@ void objectinit2(void){
     object[56].gimmick = 6; //扉
     object[56].dst.x = 266;
     object[56].dst.y = 2;
-		
+
 	object[57].gimmick = 0;
 //							object[57].status = 1;
     object[57].flaghold = 4;
@@ -954,10 +954,10 @@ void eventdisp(){
 
             case SDLK_SPACE: //スペースキーを押した時
                 playSE(0);
-                if(jumpflag == 0)//{
+                if(jumpflag == 0){
                     jumpflag = 1;
                 jump_a = 12; //初速
-                //} //←{}を消したら無限ジャンプ
+                } //←{}を消したら無限ジャンプ
 
                 break;
 
@@ -1006,10 +1006,10 @@ void eventdisp(){
 						break;
 					case 3:
                         playSE(0);
-				        if(jumpflag == 0)//{
+				        if(jumpflag == 0){
 				            jumpflag = 1;
 				            jump_a = 12; //初速
-				        //} //←{}を消したら無限ジャンプ
+				        } //←{}を消したら無限ジャンプ
 						break;
 
 //					default:
