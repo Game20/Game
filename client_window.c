@@ -1185,6 +1185,8 @@ void GameOver(int ClientNum){
 	SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
     }
 
+    keycommand = 0;
+
     InitStatus();
 
 int revival = 0;
