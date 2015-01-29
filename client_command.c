@@ -73,6 +73,7 @@ int ExecuteCommand(char command)
         break;
     case TIME_COMMAND:
         RecvTimeCommand();
+        start_flag = 1;
         break;
     case TITLEPOSITION_COMMAND:
         RecvTitleCommand();

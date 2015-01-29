@@ -6,7 +6,7 @@
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
-static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる", 
+static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる",
 "1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
@@ -1273,6 +1273,17 @@ void GameClear(void){
         SendRecvManager();
     }
 */
+
+    if(mynum == 0){
+        SendTimeCommand();
+    }
+
+    start_flag = 0;
+
+    while(!start_flag){
+        SendRecvManager();
+    }
+
 
 DisplayStatus();
 
