@@ -887,7 +887,7 @@ void objectinit2(void){
     object[56].dst.y = 2;
 		
 	object[57].gimmick = 0;
-							object[57].status = 1;
+//							object[57].status = 1;
     object[57].flaghold = 4;
     object[57].dst.x = 250;
     object[57].dst.y = 5;
@@ -1132,10 +1132,10 @@ newposy = P.y+6;
     if(jumpflag == 1 && UD == 0)
 	newposy -= jump_a;//加速度で移動(y軸なのでマイナス)
 
-///*
+/*
 //デバッグ用処理　速度10倍
 newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
-//*/
+*/
     hitjudge();
 
 	if(clearpoint == 0)
