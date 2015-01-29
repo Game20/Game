@@ -67,8 +67,8 @@ void InitStatus(void){ // キャラのステータスの初期化
         player[i].pos.h = 75;
     }
 
-    exit_p = 0;
-    titlep = 1;
+//    exit_p = 0;
+//    titlep = 1;
 
 }
 
@@ -731,7 +731,6 @@ void objectinit2(void){
 //ループ
 
     object[25].gimmick = 0;
-//		    object[25].status = 1;
     object[25].dst.x = 158;
     object[25].dst.y = 8;
 
@@ -888,7 +887,7 @@ void objectinit2(void){
     object[56].dst.y = 2;
 		
 	object[57].gimmick = 0;
-	object[57].status = 1;
+							object[57].status = 1;
     object[57].flaghold = 4;
     object[57].dst.x = 250;
     object[57].dst.y = 5;

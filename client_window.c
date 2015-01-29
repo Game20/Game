@@ -2,11 +2,12 @@
 //#include<SDL/SDL.h>
 #include "client_func.h"
 
-#define MSG_NUM 11           /* メッセージの数 */
+#define MSG_NUM 12           /* メッセージの数 */
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
-static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる", "1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス"};
+static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる", 
+"1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
 
@@ -16,7 +17,7 @@ TTF_Font* sTTF;
 SDL_Surface *gMessages[ 100 ];
 
 SDL_Surface *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
-SDL_Surface *gameclear, *titleCG;
+SDL_Surface *gameclear, *titleCG, *TFP;
 
 char gMapDataFile[] = "map.data";
 char gMapDataFile2[] = "map2.data";
@@ -61,7 +62,7 @@ void InitWindow(){
         exit(-1);
     }
 
-    SDL_WM_SetCaption("こころぴょんぴょん", NULL);	// ウィンドウ名などを指定
+    SDL_WM_SetCaption("Rabbit × Labyrinth", NULL);	// ウィンドウ名などを指定
 
     // ウィンドウ生成
     if((window = SDL_SetVideoMode(WIND_Width * bit, WIND_Height * bit, 32, SDL_SWSURFACE/* | SDL_FULLSCREEN*/)) == NULL) {
@@ -136,6 +137,8 @@ void InitWindow(){
     }
 
 	titleCG = IMG_Load("images/title2.png");
+
+	TFP = IMG_Load("images/title@.jpg");
 
 
     // フォントからメッセージ作成
@@ -1271,9 +1274,26 @@ void GameClear(void){
     }
 */
 
-    SDL_BlitSurface(gameclear, NULL, window, NULL); // マップ貼り付け
+DisplayStatus();
+
+SDL_BlitSurface(gameclear, NULL, window, NULL);
+
+fm = 11;
+sprintf (gMsgStrings[fm], "クリアタイム：　%d", time);
+gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
+        /* メッセージ表示 */
+        SDL_Rect srcRect = {0,0,0,0};
+        SDL_Rect dstRect = {150,600};
+        srcRect.w = gMessages[fm]->w;
+        srcRect.h = gMessages[fm]->h;
+        SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
+
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SDL_Delay(2000);
+    SDL_Delay(4000);
+
+    SDL_BlitSurface(TFP, NULL, window, NULL);
+    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Delay(3000);
 
 time = 0;
 stageP = 1;
