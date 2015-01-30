@@ -1332,17 +1332,22 @@ void GameClear(void){
         SendRecvManager();
     }
 
+//ポイント通信
+SendJewelCommand(jewelpoint);
+
 
 DisplayStatus();
 
 SDL_BlitSurface(gameclear, NULL, window, NULL);
+    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Delay(1000);
 
 fm = 11;
 sprintf (gMsgStrings[fm], "クリアタイム：　%d", time);
 gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
         /* メッセージ表示 */
         SDL_Rect srcRect = {0,0,0,0};
-        SDL_Rect dstRect = {150,600};
+        SDL_Rect dstRect = {150,300};
         srcRect.w = gMessages[fm]->w;
         srcRect.h = gMessages[fm]->h;
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
@@ -1351,8 +1356,8 @@ gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
     SDL_Delay(2000);
 
 fm = 12;
-        SDL_Rect srcRect = {0,0,0,0};
-        SDL_Rect dstRect = {150,700};
+        dstRect.x = 150;
+        dstRect.y += 100;
         srcRect.w = gMessages[fm]->w;
         srcRect.h = gMessages[fm]->h;
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
@@ -1362,38 +1367,79 @@ fm = 12;
 
 fm = 13;
 int jewelpoint1 = 0, jewelpoint2 = 0, jewelpoint3 = 0, jewelpoint4 = 0;
- 
+        dstRect.x = 150;
+        dstRect.y += 80;
+
+
 while(1){
 
+SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
+gClientNum = 2;
+if(gClientNum == 1)
+sprintf (gMsgStrings[fm], "1P： %d", jewelpoint1, jewelpoint2);
+if(gClientNum == 2)
+sprintf (gMsgStrings[fm], "1P： %d  2P: %d", jewelpoint1, jewelpoint2);
+if(gClientNum == 3)
+sprintf (gMsgStrings[fm], "1P： %d  2P: %d  3P： %d", jewelpoint1, jewelpoint2, jewelpoint3);
+if(gClientNum == 4)
 sprintf (gMsgStrings[fm], "1P： %d  2P: %d  3P： %d  4P: %d", jewelpoint1, jewelpoint2, jewelpoint3, jewelpoint4);
+
+
 gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
+
         /* メッセージ表示 */
-        SDL_Rect srcRect = {0,0,0,0};
-        SDL_Rect dstRect = {100,600};
         srcRect.w = gMessages[fm]->w;
         srcRect.h = gMessages[fm]->h;
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
     SDL_Flip(window);// 画面に図形を表示（反映）
 
-//if(jewelpoint1 < Player[0].jewelP)
+if( jewelpoint1 == player[0].jewelP && 
+	jewelpoint2 == player[1].jewelP && 
+	jewelpoint3 == player[2].jewelP && 
+	jewelpoint4 == player[3].jewelP )
+break;
+
+if(jewelpoint1 < player[0].jewelP)
 jewelpoint1++;
-
+if(jewelpoint2 < player[1].jewelP)
 jewelpoint2++;
-
+if(jewelpoint3 < player[2].jewelP)
 jewelpoint3++;
-
+if(jewelpoint4 < player[3].jewelP)
 jewelpoint4++;
 
-//if(jewelpoint1 == Player[0].jewelP && )
-
-
 }
+
     SDL_Delay(2000);
+
+dstRect.y += 30;
+srcRect.x = 0;
+srcRect.y = 0;
+srcRect.w = 288;
+srcRect.h = 384;
+
+int winP = 0;
+if(player[winP].jewelP <= player[1].jewelP)
+winP = 1;
+if(player[winP].jewelP <= player[2].jewelP)
+winP = 2;
+if(player[winP].jewelP <= player[3].jewelP)
+winP = 3;
+
+for(i=0; i<gClientNum; i++){
+if(player[winP].jewelP == player[i].jewelP){
+dstRect.x = 100+(i*250);
+SDL_BlitSurface(usausa, &srcRect, SDL_GetVideoSurface(), &dstRect);
+SDL_Flip(window);// 画面に図形を表示（反映）
+}
+}
+
+    SDL_Delay(3000);
 
 
     SDL_BlitSurface(TFP, NULL, window, NULL);
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SDL_Delay(3000);
+    SDL_Delay(4000);
 
 time = 0;
 jewelpoint = 0;
