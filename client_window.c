@@ -17,7 +17,7 @@ TTF_Font* sTTF;
 SDL_Surface *gMessages[ 100 ];
 
 SDL_Surface *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
-SDL_Surface *gameclear, *titleCG, *TFP;
+SDL_Surface *gameclear, *titleCG, *TFP, *jewels;
 
 char gMapDataFile[] = "map.data";
 char gMapDataFile2[] = "map2.data";
@@ -44,6 +44,7 @@ int switchcount = 0;
 int clearpoint = 0;
 int loopend = 0;
 int loophint = 0;
+int help = 0;
 
 int DEBAG1 = 0;
 int DEBAG2 = 0;
@@ -52,6 +53,7 @@ int mynum;
 int gClientNum;
 int start_flag;
 int clearset = 0;
+int jewelpoint = 0;
 
 /*初期設定*/
 void InitWindow(){
@@ -139,6 +141,8 @@ void InitWindow(){
 	titleCG = IMG_Load("images/title2.png");
 
 	TFP = IMG_Load("images/title@.jpg");
+
+	jewels = IMG_Load("images/jewel.png");
 
 
     // フォントからメッセージ作成
@@ -327,6 +331,26 @@ void hitjudge(void){
         object[i].olddst.x = object[i].dst.x;
         object[i].olddst.y = object[i].dst.y;
     }
+
+
+    for(i=0; i<=SUM_jewel; i++){
+	if( (newposx+gameRect.x >= jewel[i].dst.x - 45 && newposx+gameRect.x <= jewel[i].dst.x + 45) &&
+            (newposy >= jewel[i].dst.y - 75 && newposy <= jewel[i].dst.y + 45) && jewel[i].status == 0){
+	jewelpoint += 100;
+	jewel[i].status = 1;
+	//////////　　　-通信-　　　//////////
+	}
+	if(jewel[i].status == 1){
+	if(stageP == 1)
+	white.x = 0;
+	if(stageP == 2)
+	white.x = 180;
+	white.y = 0;
+	SDL_BlitSurface(gMapImage, &white, objectwindow, &jewel[i].dst); // jewel消去
+	SDL_BlitSurface(gMapImage, &white, mapwindow, &jewel[i].dst); // jewel消去
+	jewel[i].status = -1;
+	}
+	}
 
     //オブジェクトの当たり判定
     ///////////////////////////////////////////////////////////////////////////
@@ -851,6 +875,15 @@ SDL_BlitSurface(objectimage, &object[56].src, mapwindow, &object[56].dst); // ob
                               object[i].movex, object[i].movey); // オブジェクトのデータの送信
         }
     }
+
+	//ヘルプ機能
+	if(help >= 3){
+	SDL_Rect hint = {0, 60, 60, 60};
+	SDL_Rect hintD = {476*30, 11*60};
+	SDL_BlitSurface(objectimage, &hint, objectwindow, &hintD);
+	help--;
+	}
+
 }
 
 void scroll(void){
@@ -895,7 +928,6 @@ if(P.x < -75){
 	if(loophint >= 2){
 	SDL_Rect hint = {0, 60, 60, 60};
 	SDL_Rect hintD = {129*60, 10*60};
-//	SDL_BlitSurface(objectimage, &hint, mapwindow, &hintD);
 	SDL_BlitSurface(objectimage, &hint, objectwindow, &hintD);
 	}
 	}
@@ -971,7 +1003,7 @@ void exepaste(void){
 // 残り時間などの表示
 void DisplayStatus(void){
     char title[ 160 ];
-    sprintf(title,"Time : %d ", time);
+    sprintf(title,"Time : %d トレジャーポイント : %d ", time, jewelpoint);
 
     /* ウインドウのタイトルをセット */
     SDL_WM_SetCaption(title,NULL);
@@ -1198,6 +1230,8 @@ int revival = 0;
             SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &revivalflag); // flag貼り付け
             object[j].src.y = 0;
 			revival = 1;
+	if(j == 36 && object[57].status == 0)
+	help++;
 	}
     }
 
@@ -1259,6 +1293,12 @@ object[j].status = 0;
 	GameClear();
     }
 
+for(j=0; j<SUM_jewel; j++){
+if(jewel[j].status != 0)
+jewel[j].status = 0;
+}
+jewelinit = 1;
+
     InitStatus();
 
 }
@@ -1307,6 +1347,7 @@ gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
     SDL_Delay(3000);
 
 time = 0;
+jewelpoint = 0;
 stageP = 1;
 
 for(j=0; j<SUM_switchblock; j++){

@@ -363,6 +363,9 @@ static void RecvObjectData(void)
 	}
 
 	if(stageP == 2){
+            if(i == 30){
+                switchblock[30].flaghold = object[i].status;
+            }
             if(i == 33){
                 switchblock[10].flaghold = object[i].status;
                 switchblock[11].flaghold = object[i].status;

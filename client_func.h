@@ -63,12 +63,14 @@ typedef enum {
 #define SUM_object 60
 #define SUM_switchblock 31
 #define SUM_steps 7
+#define SUM_jewel 30
 
 extern Player player[MAX_CLIENTS];
 
 Object object[SUM_object]; //構造体の配列化
 Object switchblock[SUM_switchblock];//スイッチ効果のブロック配列
 Object steps[SUM_steps];//ハシゴの配列
+Object jewel[SUM_jewel];//ジュエルの配列
 
 SDL_Surface *window, *mapwindow, *objectwindow; // ウィンドウデータへのポインタ
 
@@ -89,7 +91,7 @@ extern SDL_Surface *gMessages[ 100 ];
 extern TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
 
 extern SDL_Surface *usa, *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
-extern SDL_Surface *objectimage;
+extern SDL_Surface *objectimage, *jewels;
 extern SDL_Surface *blockimage;
 extern SDL_Surface *gameclear;
 
@@ -114,6 +116,7 @@ extern SDL_Rect dst;
 extern int DEBAG1;
 extern int DEBAG2;
 extern int clearpoint;
+extern int help;
 
 extern int max_map_object;
 
@@ -135,6 +138,7 @@ extern int clearset;
 
 extern int stageP;
 extern int mapread;
+extern int jewelinit;
 
 extern int fm;
 
