@@ -338,6 +338,7 @@ void hitjudge(void){
             (newposy >= jewel[i].dst.y - 75 && newposy <= jewel[i].dst.y + 45) && jewel[i].status == 0){
 	jewelpoint += 100;
 	jewel[i].status = 1;
+	SendObjectCommand(int 100+i, int jewel[i].status, int jewel[i].dst.x, int jewel[i].dst.y, int jewel[i].movex, int jewel[i].movey);
 	//////////　　　-通信-　　　//////////
 	}
 	if(jewel[i].status == 1){
