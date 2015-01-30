@@ -1097,7 +1097,7 @@ jewelinit = 0;
     object[56].dst.y = 2;
 
 	object[57].gimmick = 0;
-//							object[57].status = 1;
+							object[57].status = 1;
     object[57].flaghold = 4;
     object[57].dst.x = 250;
     object[57].dst.y = 5;
