@@ -1097,7 +1097,7 @@ jewelinit = 0;
     object[56].dst.y = 2;
 
 	object[57].gimmick = 0;
-							object[57].status = 1;
+//							object[57].status = 1;
     object[57].flaghold = 4;
     object[57].dst.x = 250;
     object[57].dst.y = 5;
@@ -1166,11 +1166,11 @@ void eventdisp(){
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
-                if(jumpflag == 0)//{
+                if(jumpflag == 0){
                     jumpflag = 1;
 	                jump_a = 12; //初速
                     playSE(0);
-                //} //←{}を消したら無限ジャンプ
+                } //←{}を消したら無限ジャンプ
 
                 break;
 
@@ -1347,7 +1347,7 @@ newposy = P.y+6;
 
 ///*
 //デバッグ用処理　速度10倍
-newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
+//newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
 //*/
     hitjudge();
 
