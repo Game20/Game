@@ -17,6 +17,7 @@ static void RecvWindowCommand(void);
 static void RecvEscapeData(void);
 static void RecvTimeCommand(void);
 static void RecvTitleCommand(void);
+static void RecvJewelCommand(void);
 
 extern int mynum;
 extern int gClientNum;
@@ -78,6 +79,10 @@ int ExecuteCommand(char command)
     case TITLEPOSITION_COMMAND:
         RecvTitleCommand();
         break;
+    case JEWEL_COMMAND:
+        RecvJewelCommand();
+        break;
+
     }
     return endFlag;
 }
@@ -252,6 +257,17 @@ void SendTitleCommand(int y, int titlep)
     SetCharData2DataBlock(data, TITLEPOSITION_COMMAND, &dataSize);
     SetIntData2DataBlock(data, y, &dataSize);
     SetIntData2DataBlock(data, titlep, &dataSize);
+    SendData(data, dataSize);
+}
+
+void SendJewelCommand(jewel)
+{
+    unsigned char	data[MAX_DATA];
+    int			dataSize;
+
+    dataSize = 0;
+    SetCharData2DataBlock(data, JEWEL_COMMAND, &dataSize);
+    SetIntData2DataBlock(data, jewel, &dataSize);
     SendData(data, dataSize);
 }
 
@@ -472,4 +488,11 @@ static void RecvTitleCommand(void)
     }
 
 }
+
+static void RecvJewelCommand(void)
+{
+    RecvIntData(&mynum);
+    RecvIntData(&player[mynum].jewelP);
+}
+
 
