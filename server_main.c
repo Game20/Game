@@ -22,7 +22,7 @@ while(1){
     printf("プレイ人数(2〜4)を入力してください:");
     scanf("%d", &player_amount);
 
-    if(player_amount >= 2 && player_amount <= MAX_CLIENTS){
+    if(player_amount >= 1 && player_amount <= MAX_CLIENTS){
         printf("プレイヤー人数は%d人です\n", player_amount);
         break;
     }
