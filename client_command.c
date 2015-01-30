@@ -332,14 +332,18 @@ static void RecvMoveData(void)
 static void RecvObjectData(void)
 {
     int i;
+
     RecvIntData(&i);
-    SDL_BlitSurface(mapwindow, &object[i].dst, objectwindow, &object[i].dst); // object貼り付け準備
-    RecvIntData(&object[i].status);
-    RecvIntData(&object[i].dst.x);
-    RecvIntData(&object[i].dst.y);
-    RecvIntData(&object[i].movex);
-    RecvIntData(&object[i].movey);
-    SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
+
+    if(i < 100){ //オブジェクトなら
+        SDL_BlitSurface(mapwindow, &object[i].dst, objectwindow, &object[i].dst); // object貼り付け準備
+        RecvIntData(&object[i].status);
+        RecvIntData(&object[i].dst.x);
+        RecvIntData(&object[i].dst.y);
+        RecvIntData(&object[i].movex);
+        RecvIntData(&object[i].movey);
+        SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
+
     if(object[i].gimmick == 2) {
 
         switchblock[object[i].flaghold].flaghold = object[i].status;
@@ -398,6 +402,17 @@ static void RecvObjectData(void)
 
 
     }
+    }
+
+    if(i >= 100){ // 宝石なら
+        i -= 100;
+        RecvIntData(&jewel[i].status);
+        RecvIntData(&jewel[i].dst.x);
+        RecvIntData(&jewel[i].dst.y);
+        RecvIntData(&jewel[i].movex);
+        RecvIntData(&jewel[i].movey);
+    }
+
 }
 
 static void RecvGameoverData(void)
