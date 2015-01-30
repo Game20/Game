@@ -1374,9 +1374,9 @@ int jewelpoint1 = 0, jewelpoint2 = 0, jewelpoint3 = 0, jewelpoint4 = 0;
 while(1){
 
 SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
-gClientNum = 2;
+
 if(gClientNum == 1)
-sprintf (gMsgStrings[fm], "1P： %d", jewelpoint1, jewelpoint2);
+sprintf (gMsgStrings[fm], "1P： %d", jewelpoint1);
 if(gClientNum == 2)
 sprintf (gMsgStrings[fm], "1P： %d  2P: %d", jewelpoint1, jewelpoint2);
 if(gClientNum == 3)
