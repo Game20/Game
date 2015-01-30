@@ -66,8 +66,8 @@ int SetUpServer(int num)
     }
     fprintf(stderr,"Listen OK\n");
 
-    printf("接続準備が出来ました\n");
-    printf("マニュアルに従い，クライアントに接続してもらってください\n");
+    printf("サーバーでの接続準備が出来ました.\n");
+    printf("マニュアルに従い，クライアントから接続してください．\n");
 
     /* クライアントと接続する */
     maxfd = MultiAccept(request_soc, gClientNum);
