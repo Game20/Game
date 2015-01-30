@@ -1166,11 +1166,11 @@ void eventdisp(){
                 break;
 
             case SDLK_SPACE: //スペースキーを押した時
-                if(jumpflag == 0){
-                    playSE(0);
+                if(jumpflag == 0)//{
                     jumpflag = 1;
-                jump_a = 12; //初速
-                } //←{}を消したら無限ジャンプ
+	                jump_a = 12; //初速
+                    playSE(0);
+                //} //←{}を消したら無限ジャンプ
 
                 break;
 
@@ -1218,10 +1218,10 @@ void eventdisp(){
 						keycommand = -1;
 						break;
 					case 3:
-                        playSE(0);
 				        if(jumpflag == 0){
 				            jumpflag = 1;
 				            jump_a = 12; //初速
+	                        playSE(0);
 				        } //←{}を消したら無限ジャンプ
 						break;
 
