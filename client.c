@@ -6,32 +6,12 @@
 #include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
 #include "client_func.h"
 
-//void DisplayStatus(void);
-//void checkhit(void);
-//void InitStatus(void); // キャラのステータスの初期化
-
-//void eventdisp(void);
-//void keycont(void);
-//void hitjudge(void);
-//void scroll(void);
-//void mapobject(void);
-//void exepaste(void);
-//void EXITsetting(void);
-
-/*サーバ移行予定の関数*/
-//void newpositionjadge(void);
-
-
-//SDL_Surface *window; // ウィンドウ（画像）データへのポインタ（グローバル）
 SDL_Joystick *Joystick;
 
-//変数などの宣言(main外)
-
+/**************************変数などの宣言(main外)**************************************/
 SDL_Rect gameRect = { 0,0, WIND_Width*bit, WIND_Height*bit }; // ゲームウィンドウの座標
 SDL_Rect whitedisplay = { 200,0, 60, 75 };
 int time = 0;	//時間
-
-
 int LR = 0;		//左右入力
 int UD = 0;		//上下入力
 int jumpflag = 0;//ジャンプフラグ　空中にいるか否か
@@ -39,7 +19,6 @@ int jump_a = 0;	//ジャンプにおける加速度
 int jump_LR = 0;//ジャンプ中の移動フラグ保持
 int newposx = 0, newposy = 0;//新規位置
 int hitx = 0, hity = 0;//当たり判定(xのと yのと)
-
 
 int timekey = 0;
 int hithold = 0;
@@ -51,7 +30,6 @@ int exit_p = 0;	//
 
 int i;
 int start_flag;
-
 
 SDL_Rect PA = { 0, 0, 60, 75 }; //プレイヤーキャラ座標読み取り　あとで構造体化
 SDL_Rect P = { 200, 705 };
@@ -72,40 +50,35 @@ int gClientNum;
 SDL_Surface *window, *mapwindow; // ウィンドウデータへのポインタ
 
 /* フォント関連 */
-
 #define MSG_NUM 6           /* メッセージの数 */
-
 SDL_Color black = {0x00, 0x00, 0x00};
 SDL_Color Yellow = {0xff, 0xff, 0x00};
 TTF_Font* gTTF;	// TrueTypeフォントデータへのポインタ
 extern TTF_Font* sTTF;
 static char gFontFile[] = "images/APJapanesefontT.ttf";
-
 static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる", "1P"};
 
 
-
-
-// メイン関数 /////////////////////////////////////////////////////////////////////////
+/***************************************************************************
+関数の名前:int main(int argc, char* argv[])
+作成者氏名:森祥悟,坪井正夢,船坂国之,高松翔馬
+最終更新日:2015.1.24
+関数の説明:クライアントのmain文
+***************************************************************************/
 int main(int argc, char* argv[]) {
+    // SDL初期化
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) < 0) {
+        printf("failed to initialize SDL.\n");
+        exit(-1);
+    }
 
-	// SDL初期化
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) < 0) {
-		printf("failed to initialize SDL.\n");
-		exit(-1);
-	}
+    loadSounds();//サウンドデータをロード
 
-
-loadSounds();//サウンドデータをロード
-
-
-SDL_JoystickEventState(SDL_ENABLE);
-Joystick = SDL_JoystickOpen(0);
-
+    SDL_JoystickEventState(SDL_ENABLE);
+    Joystick = SDL_JoystickOpen(0);
 
     int i, j; //forループで使用
     int		endFlag=1;
-//サーバーつなぐなら外して*********************/
     int		num;
     char	name[MAX_CLIENTS][MAX_NAME_SIZE];
     char	localHostName[]="localhost";
@@ -120,15 +93,15 @@ Joystick = SDL_JoystickOpen(0);
     	serverName = argv[1];
     }
     else{
-		fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
-		return -1;
+        fprintf(stderr, "Usage: %s, Cannot find a Server Name.\n", argv[0]);
+        return -1;
     }
 
     /* サーバーとの接続 */
     if(SetUpClient(serverName,&clientID,&num,name)==-1){
-		fprintf(stderr,"setup failed : SetUpClient\n");
-		return -1;
-	}
+        fprintf(stderr,"setup failed : SetUpClient\n");
+        return -1;
+    }
 
     /*初期設定*/
     InitWindow();
@@ -137,7 +110,7 @@ Joystick = SDL_JoystickOpen(0);
         player[i].pos.x = 0;
     }
 
-    SendNewposCommand();
+    SendNewposCommand(); // プレイヤーの初期座標を受信するためのコマンドを送信
 
     while(start_flag == 0){
         endFlag = SendRecvManager();
@@ -155,35 +128,31 @@ Joystick = SDL_JoystickOpen(0);
         }
     }
 
-if(exit_p == 1)
-endFlag = 0;
+    if(exit_p == 1)
+        endFlag = 0;
 
     InitStatus(); // キャラのステータスの初期化
-titlep = 1;
+    titlep = 1;
+
     // 無限ループ
-    while(endFlag){
+    while(endFlag || !exit_p){
 
 	SDL_Delay(20);
 	time++;
 
 	// イベントを取得したら
-	if(SDL_PollEvent(&event))
+	if(SDL_PollEvent(&event)){
             eventdisp();	// イベント処理
+        }
 
 	keycont();	/*キーボード操作*/
-
 	newpositionjadge(); /*当たり判定　後でサーバに移行*/
-
 	scroll(); //画面スクロール
-
 	exepaste(); /*貼り付け設定 & 実行*/
 
-//サーバーつなぐなら外して*********************/
-    for(i = 0; i <= 100; i++) { // データの受信
-        endFlag = SendRecvManager();
-    }
-
-    /**/
+        for(i = 0; i <= 100; i++) { // データの受信
+            endFlag = SendRecvManager();
+        }
 
         DrawChara(); // キャラの描画
         SDL_Flip(window); // 画面に図形を表示（反映）
@@ -192,94 +161,20 @@ titlep = 1;
 
 	//ゲームクリア後の初期化
 	if(clearset == 1){
-	title();
-	MapLayout();
-	InitStatus();
-	clearset = 0;
+            title();
+            MapLayout();
+            InitStatus();
+            clearset = 0;
 	}
 
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
-       break;
+            break;
 
     } //whileループ
 
-	SDL_JoystickClose(Joystick);
+    SDL_JoystickClose(Joystick);
     EXITsetting();
     return 0;
 } //main
-
-
-
-//ステータス初期化
-void SS(void){
-    P.x = 180;
-    P.y = 630;
-    PA.y = 0;
-    time = 0;
-	newposx = 180;
-	newposy = 630;
-	jumpflag = 0;
-
-        object[0].gimmick = 1; //岩
-        object[0].status = 0; //押されてない状態
-
-        object[0].src.x = 180;
-        object[0].src.y = 240;
-        object[0].src.w = 60;
-        object[0].src.h = 60;
-
-        object[0].dst.x = 2 * bit - gameRect.x;
-        object[0].dst.y = 1 * bit;
-
-    exit_p = 0;
-    titlep = 1;
-
-}
-
-
-
-
-/*貼り付け順*/
-//	pasteorder();
-
-/*貼り付け順決定（y軸上から）*/
-/*
-  int paste0 = 0 paste1 = 1, paste2 = 2, paste3 = 3;
-  int pasten = 0;
-
-  if(P[0].y > P[1].y){
-  pasten = paste0;
-  paste0 = paste1;
-  paste1 = pasten;
-  }
-  if(P[0].y > P[2].y){
-  pasten = paste0;
-  paste0 = paste2;
-  paste2 = pasten;
-  }
-  if(P[0].y > P[3].y){
-  pasten = paste0;
-  paste0 = paste3;
-  paste3 = pasten;
-  }
-  if(P[1].y > P[2].y){
-  pasten = paste1;
-  paste1 = paste2;
-  paste2 = paste1;
-  }
-  if(P[1].y > P[3].y){
-  pasten = paste1;
-  paste1 = paste3;
-  paste3 = paste1;
-  }
-  if(P[2].y > P[3].y){
-  pasten = paste2;
-  paste2 = paste3;
-  paste3 = paste2;
-  }
-*/
-
-
-
 
 

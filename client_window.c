@@ -2,12 +2,12 @@
 //#include<SDL/SDL.h>
 #include "client_func.h"
 
-#define MSG_NUM 12           /* メッセージの数 */
+#define MSG_NUM 14           /* メッセージの数 */
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる",
-"1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム"};
+"1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム", "獲得トレジャーポイント", "1P---"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
 
@@ -17,7 +17,7 @@ TTF_Font* sTTF;
 SDL_Surface *gMessages[ 100 ];
 
 SDL_Surface *usa2, *neko, *inu, *panda;  // 画像データへのポインタ
-SDL_Surface *gameclear, *titleCG, *TFP, *jewels;
+SDL_Surface *gameclear, *titleCG, *TFP, *jewels, *usausa;
 
 char gMapDataFile[] = "map.data";
 char gMapDataFile2[] = "map2.data";
@@ -143,6 +143,8 @@ void InitWindow(){
 	TFP = IMG_Load("images/title@.jpg");
 
 	jewels = IMG_Load("images/jewel.png");
+
+	usausa = IMG_Load("images/usa-p-3.png");
 
 
     // フォントからメッセージ作成
@@ -1330,27 +1332,114 @@ void GameClear(void){
         SendRecvManager();
     }
 
+//ポイント通信
+SendJewelCommand(jewelpoint);
+
 
 DisplayStatus();
 
 SDL_BlitSurface(gameclear, NULL, window, NULL);
+    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Delay(1000);
 
 fm = 11;
 sprintf (gMsgStrings[fm], "クリアタイム：　%d", time);
 gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
         /* メッセージ表示 */
         SDL_Rect srcRect = {0,0,0,0};
-        SDL_Rect dstRect = {150,600};
+        SDL_Rect dstRect = {150,300};
         srcRect.w = gMessages[fm]->w;
         srcRect.h = gMessages[fm]->h;
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
 
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SDL_Delay(4000);
+    SDL_Delay(2000);
+
+fm = 12;
+        dstRect.x = 150;
+        dstRect.y += 100;
+        srcRect.w = gMessages[fm]->w;
+        srcRect.h = gMessages[fm]->h;
+        SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
+
+    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Delay(2000);
+
+fm = 13;
+int jewelpoint1 = 0, jewelpoint2 = 0, jewelpoint3 = 0, jewelpoint4 = 0;
+        dstRect.x = 150;
+        dstRect.y += 80;
+
+
+while(1){
+
+SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
+
+if(gClientNum == 1)
+sprintf (gMsgStrings[fm], "1P： %d", jewelpoint1);
+if(gClientNum == 2)
+sprintf (gMsgStrings[fm], "1P： %d  2P: %d", jewelpoint1, jewelpoint2);
+if(gClientNum == 3)
+sprintf (gMsgStrings[fm], "1P： %d  2P: %d  3P： %d", jewelpoint1, jewelpoint2, jewelpoint3);
+if(gClientNum == 4)
+sprintf (gMsgStrings[fm], "1P： %d  2P: %d  3P： %d  4P: %d", jewelpoint1, jewelpoint2, jewelpoint3, jewelpoint4);
+
+
+gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
+
+        /* メッセージ表示 */
+        srcRect.w = gMessages[fm]->w;
+        srcRect.h = gMessages[fm]->h;
+        SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
+    SDL_Flip(window);// 画面に図形を表示（反映）
+
+if( jewelpoint1 == player[0].jewelP && 
+	jewelpoint2 == player[1].jewelP && 
+	jewelpoint3 == player[2].jewelP && 
+	jewelpoint4 == player[3].jewelP )
+break;
+
+if(jewelpoint1 < player[0].jewelP)
+jewelpoint1++;
+if(jewelpoint2 < player[1].jewelP)
+jewelpoint2++;
+if(jewelpoint3 < player[2].jewelP)
+jewelpoint3++;
+if(jewelpoint4 < player[3].jewelP)
+jewelpoint4++;
+
+}
+
+    SDL_Delay(2000);
+
+dstRect.y += 30;
+srcRect.x = 0;
+srcRect.y = 0;
+srcRect.w = 288;
+srcRect.h = 384;
+
+int winP = 0;
+if(player[winP].jewelP <= player[1].jewelP)
+winP = 1;
+if(player[winP].jewelP <= player[2].jewelP)
+winP = 2;
+if(player[winP].jewelP <= player[3].jewelP)
+winP = 3;
+
+for(i=0; i<gClientNum; i++){
+if(player[winP].jewelP == player[i].jewelP){
+dstRect.x = 100+(i*250);
+SDL_BlitSurface(usausa, &srcRect, SDL_GetVideoSurface(), &dstRect);
+SDL_Flip(window);// 画面に図形を表示（反映）
+}
+}
+
+    SDL_Delay(3000);
+
 
     SDL_BlitSurface(TFP, NULL, window, NULL);
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SDL_Delay(3000);
+    SDL_Delay(4000);
 
 time = 0;
 jewelpoint = 0;

@@ -17,6 +17,7 @@
 typedef struct{
     SDL_Rect pos; // 座標
     SDL_Rect anim;
+    int jewelP;
     //SDL_Rect anime; // アニメーション
     //int jumpf; // ジャンプフラグ
     //int jump_a; // jump acceleration
@@ -184,7 +185,7 @@ extern void SendWindowCommand(void);
 extern void SendEscapeCommand(int titlep);
 extern void SendTimeCommand(void);
 extern void SendTitleCommand(int y, int titlep); // タイトルに関する情報を送信
-
+extern void SendJewelCommand(int jewel); // jewelポイント送信
 
 /** client_se.c */
 extern void loadSounds();///サウンド,BGMを読み込む

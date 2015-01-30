@@ -38,4 +38,6 @@
 
 #define TITLEPOSITION_COMMAND 'P' // タイトルに関するデータ
 
+#define JEWEL_COMMAND 'J' // jewelポイントの送受信
+
 #endif

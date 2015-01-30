@@ -197,6 +197,18 @@ int ExecuteCommand(char command,int pos)
         SendData(ALL_CLIENTS, data, dataSize);
         break;
 
+    case JEWEL_COMMAND:
+        dataSize = 0;
+        int jewel;
+
+        RecvIntData(pos, &jewel);
+
+        SetCharData2DataBlock(data, command, &dataSize);
+        SetIntData2DataBlock(data, pos, &dataSize);
+        SetIntData2DataBlock(data, jewel, &dataSize);
+        SendData(ALL_CLIENTS, data, dataSize);
+        break;
+
     default:
         /* 未知のコマンドが送られてきた */
         fprintf(stderr,"0x%02x is not command!\n",command);
