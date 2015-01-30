@@ -9,24 +9,38 @@
 //static int Judge2(void *data);	/* 追加 */
 //static int Judge3(void *data);	/* 追加 */
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
-
-int main(int argc,char *argv[])
+//int argc,char *argv[]
+int main(void)
 {
+    int player_amount;
     int num;
     int	endFlag = 1;
 
     SDL_Thread *thr1;
 
+while(1){
+    printf("プレイ人数(2〜4)を入力してください:");
+    scanf("%d", &player_amount);
+
+    if(player_amount >= 2 && player_amount <= MAX_CLIENTS){
+        printf("プレイヤー人数は%d人です\n", player_amount);
+        break;
+    }
+    else{
+        printf("整数の2,3,4を入力してください\n");
+        exit(-1);
+    }
+}
+
+
+
     /* 引き数チェック */
-    if(argc != 2){
-        fprintf(stderr,"Usage: number of clients\n");
-        exit(-1);
-    }
-    if((num = atoi(argv[1])) < 0 ||  num > MAX_CLIENTS){
-        fprintf(stderr,"clients limit = %d \n",MAX_CLIENTS);
-        exit(-1);
-    }
-	
+  //  if(argc != 2){
+  //      fprintf(stderr,"Usage: number of clients\n");
+   //     exit(-1);
+   // }
+    num = player_amount;
+
     /* SDLの初期化 */
     if(SDL_Init(SDL_INIT_TIMER) < 0) {
         printf("failed to initialize SDL.\n");
@@ -38,7 +52,7 @@ int main(int argc,char *argv[])
         fprintf(stderr,"Cannot setup server\n");
         exit(-1);
     }
-	
+
     /* メインイベントループ */
     while(endFlag){
         endFlag = SendRecvManager();
