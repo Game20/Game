@@ -17,8 +17,7 @@ int oldx, oldy; // PlayerHitJudgeで使用.プレイヤーの古い座標を格�
 
 int max_map_object = 0;
 int bottun2 = 0;
-wiimote_t wiimote;
-
+int jewelinit = 1;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
@@ -49,15 +48,13 @@ void InitStatus(void){ // キャラのステータスの初期化
         player[i].anim.h = 75;//PA.h;
     }
 
-//ステージ２移行時
-    if(stageP == 2)
-        Mapshift();
-
     if(stageP == 1){
 	objectinit1();
     playBGM(1);
     }
     if(stageP == 2){
+	if(object[56].dst.x == 0)
+	Mapshift();
 	objectinit2();
     playBGM(2);
     }
@@ -74,6 +71,123 @@ void InitStatus(void){ // キャラのステータスの初期化
 
 
 void objectinit1(void){
+
+//ジュエル
+if(jewelinit == 1){
+
+jewel[0].dst.x = 92;
+jewel[0].dst.y = 8;
+
+jewel[1].dst.x = 32;
+jewel[1].dst.y = 11;
+
+jewel[2].dst.x = 142;
+jewel[2].dst.y = 3;
+
+jewel[3].dst.x = 213;
+jewel[3].dst.y = 9;
+
+jewel[4].dst.x = 56;
+jewel[4].dst.y = 9;
+
+jewel[5].dst.x = 62;
+jewel[5].dst.y = 9;
+
+jewel[6].dst.x = 244;
+jewel[6].dst.y = 2;
+
+jewel[7].dst.x = 282;
+jewel[7].dst.y = 2;
+
+jewel[8].dst.x = 310;
+jewel[8].dst.y = 2;
+
+jewel[9].dst.x = 330;
+jewel[9].dst.y = 5;
+
+jewel[10].dst.x = 400;
+jewel[10].dst.y = 7;
+
+jewel[11].dst.x = 387;
+jewel[11].dst.y = 10;
+
+jewel[12].dst.x = 387;
+jewel[12].dst.y = 8;
+
+jewel[13].dst.x = 387;
+jewel[13].dst.y = 6;
+
+jewel[14].dst.x = 387;
+jewel[14].dst.y = 4;
+
+jewel[15].dst.x = 428;
+jewel[15].dst.y = 2;
+
+jewel[16].dst.x = 412;
+jewel[16].dst.y = 10;
+
+jewel[17].dst.x = 444;
+jewel[17].dst.y = 10;
+
+jewel[18].dst.x = 454;
+jewel[18].dst.y = 1;
+
+jewel[19].dst.x = 466;
+jewel[19].dst.y = 2;
+
+jewel[20].dst.x = 468;
+jewel[20].dst.y = 2;
+
+jewel[20].dst.x = 473;
+jewel[20].dst.y = 1;
+
+jewel[21].dst.x = 477;
+jewel[21].dst.y = 0;
+
+jewel[22].dst.x = 481;
+jewel[22].dst.y = 1;
+
+jewel[23].dst.x = 488;
+jewel[23].dst.y = 7;
+
+jewel[24].dst.x = 511;
+jewel[24].dst.y = 8;
+
+jewel[25].dst.x = 517;
+jewel[25].dst.y = 2;
+
+jewel[26].dst.x = 538;
+jewel[26].dst.y = 1;
+
+jewel[27].dst.x = 521;
+jewel[27].dst.y = 7;
+/*
+jewel[28].dst.x = 497;
+jewel[28].dst.y = 6;
+
+jewel[29].dst.x = 330;
+jewel[29].dst.y = 5;
+
+jewel[30].dst.x = 400;
+jewel[30].dst.y = 7;
+*/
+
+    for(j=0; j<SUM_jewel; j++){
+	if(jewel[j].dst.x == 0)
+	break;
+	jewel[j].src.x = 0;
+	jewel[j].src.y = 0;
+	jewel[j].src.w = 60;
+	jewel[j].src.h = 60;
+	jewel[j].dst.x *= 30;
+	jewel[j].dst.y -= 1;
+	jewel[j].dst.y *= bit;
+if(j == 6 || j == 7 || j == 8 || j == 16)
+jewel[j].dst.y -= 30;
+    SDL_BlitSurface(jewels, &jewel[j].src, mapwindow, &jewel[j].dst);
+    }
+jewelinit = 0;
+}
 
 
     //スイッチブロック
@@ -345,10 +459,13 @@ void objectinit1(void){
             break;
 	object[j].movex = 0;
 	object[j].movey = 0;
-	if(object[j].gimmick == 1 || object[j].gimmick == 3)
-            object[j].flaghold = 0;
+	if(object[j].gimmick == 1 || object[j].gimmick == 3){
+        object[j].flaghold = 0;
+		object[j].movex = 0;
+		object[j].movey = 0;
+	}
 	if(object[j].gimmick == 2)
-            object[j].status = 0;
+        object[j].status = 0;
 	object[j].src.x = object[j].gimmick*bit;
 	object[j].src.y = 0;
 	object[j].src.w = 60;
@@ -370,6 +487,90 @@ void objectinit1(void){
 
 void objectinit2(void){
 
+//ジュエル
+if(jewelinit == 1){
+
+jewel[0].dst.x = 28;
+jewel[0].dst.y = 6;
+
+jewel[1].dst.x = 56;
+jewel[1].dst.y = 4;
+
+jewel[2].dst.x = 133;
+jewel[2].dst.y = 3;
+
+jewel[3].dst.x = 154;
+jewel[3].dst.y = 8;
+
+jewel[4].dst.x = 162;
+jewel[4].dst.y = 8;
+
+jewel[5].dst.x = 170;
+jewel[5].dst.y = 8;
+
+jewel[6].dst.x = 178;
+jewel[6].dst.y = 8;
+
+jewel[7].dst.x = 206;
+jewel[7].dst.y = 3;
+
+jewel[8].dst.x = 256;
+jewel[8].dst.y = 7;
+
+jewel[9].dst.x = 222;
+jewel[9].dst.y = 11;
+
+jewel[10].dst.x = 312;
+jewel[10].dst.y = 3;
+
+jewel[11].dst.x = 354;
+jewel[11].dst.y = 4;
+
+jewel[12].dst.x = 380;
+jewel[12].dst.y = 4;
+
+jewel[13].dst.x = 434;
+jewel[13].dst.y = 7;
+
+jewel[14].dst.x = 488;
+jewel[14].dst.y = 2;
+
+jewel[15].dst.x = 496;
+jewel[15].dst.y = 5;
+
+jewel[16].dst.x = 500;
+jewel[16].dst.y = 10;
+/*
+jewel[17].dst.x = 444;
+jewel[17].dst.y = 10;
+
+jewel[18].dst.x = 454;
+jewel[18].dst.y = 1;
+
+jewel[19].dst.x = 466;
+jewel[19].dst.y = 2;
+
+jewel[20].dst.x = 468;
+jewel[20].dst.y = 2;
+
+*/
+
+    for(j=0; j<SUM_jewel; j++){
+	if(jewel[j].dst.x == 0)
+	break;
+	jewel[j].src.x = 0;
+	jewel[j].src.y = 0;
+	jewel[j].src.w = 60;
+	jewel[j].src.h = 60;
+	jewel[j].dst.x *= 30;
+	jewel[j].dst.y -= 1;
+	jewel[j].dst.y *= bit;
+if(j == 11 || j == 15)
+jewel[j].dst.y -= 30;
+    SDL_BlitSurface(jewels, &jewel[j].src, mapwindow, &jewel[j].dst);
+    }
+jewelinit = 0;
+}
 
     //スイッチブロック
     switchblock[0].gimmick = 4;//縦幅
@@ -547,9 +748,17 @@ void objectinit2(void){
 	switchblock[j].dst.x *= bit;
 	switchblock[j].dst.y *= bit;
 
+		//青ブロック
         if((j >= 5 && j <= 9) || (j >= 13 && j <= 18) || j == 24 || (j >= 26 && j <= 28) || j == 30)
             switchblock[j].src.x = 60;
 
+	//ヘルプ機能
+	if(help >= 2){
+	switchblock[13].flaghold = 1;
+	SDL_Rect hint = {0, 60, 60, 60};
+	SDL_Rect hintD = {476*30, 11*60};
+	SDL_BlitSurface(objectimage, &hint, objectwindow, &hintD);
+	}
 
 	if(j != 12){
             for(l=0; l<switchblock[j].status; l++){
@@ -784,6 +993,7 @@ void objectinit2(void){
     object[35].dst.y = 4;
 
     object[36].gimmick = 0;
+//    		object[36].status = 1;
     object[36].flaghold = -1;
     object[36].dst.x = 217;
     object[36].dst.y = 6;
@@ -898,8 +1108,11 @@ void objectinit2(void){
             break;
 	object[j].movex = 0;
 	object[j].movey = 0;
-	if(object[j].gimmick == 1 || object[j].gimmick == 3)
-            object[j].flaghold = 0;
+	if(object[j].gimmick == 1 || object[j].gimmick == 3){
+        object[j].flaghold = 0;
+		object[j].movex = 0;
+		object[j].movey = 0;
+	}
 	if(object[j].gimmick == 2)
             object[j].status = 0;
 	object[j].src.x = object[j].gimmick*bit;
@@ -1132,10 +1345,10 @@ newposy = P.y+6;
     if(jumpflag == 1 && UD == 0)
 	newposy -= jump_a;//加速度で移動(y軸なのでマイナス)
 
-/*
+///*
 //デバッグ用処理　速度10倍
 newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
-*/
+//*/
     hitjudge();
 
 	if(clearpoint == 0)
