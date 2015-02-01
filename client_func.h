@@ -62,7 +62,7 @@ typedef enum {
 
 
 #define SUM_object 60
-#define SUM_switchblock 31
+#define SUM_switchblock 32
 #define SUM_steps 7
 #define SUM_jewel 30
 
@@ -118,6 +118,8 @@ extern int DEBAG1;
 extern int DEBAG2;
 extern int clearpoint;
 extern int help;
+extern int debugmode;
+extern int setstage;
 
 extern int max_map_object;
 

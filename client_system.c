@@ -8,6 +8,7 @@ int stageP = 1;
 int mapread = 1;
 int stepUD = 0;
 
+
 int mynum;
 int gClientNum;
 
@@ -18,6 +19,7 @@ int oldx, oldy; // PlayerHitJudgeで使用.プレイヤーの古い座標を格�
 int max_map_object = 0;
 int bottun2 = 0;
 int jewelinit = 1;
+int setstage = 0;
 
 //ステータス初期化
 void InitStatus(void){ // キャラのステータスの初期化
@@ -53,11 +55,19 @@ void InitStatus(void){ // キャラのステータスの初期化
     playBGM(1);
     }
     if(stageP == 2){
-	if(object[56].dst.x == 0)
+	if(setstage == 0)
 	Mapshift();
 	objectinit2();
     playBGM(2);
     }
+if(setstage == 0){
+for(j=0; j<SUM_object; j++){
+if(object[j].gimmick == 0)
+object[j].status = 0;
+}
+setstage = 1;
+}
+
 
     for(i = 0; i < gClientNum; i++){
         player[i].pos.w = 60;
@@ -87,7 +97,7 @@ jewel[2].dst.y = 3;
 jewel[3].dst.x = 213;
 jewel[3].dst.y = 9;
 
-jewel[4].dst.x = 56;
+jewel[4].dst.x = 52;
 jewel[4].dst.y = 9;
 
 jewel[5].dst.x = 62;
@@ -736,6 +746,11 @@ jewelinit = 0;
 	switchblock[30].dst.x = 177;
 	switchblock[30].dst.y = 1;
 
+	switchblock[31].gimmick = 2;//縦幅
+	switchblock[31].status = 1;//横幅
+	switchblock[31].dst.x = 191;
+	switchblock[31].dst.y = 2;
+
 
     for(j=0; j<SUM_switchblock; j++){
         if(switchblock[j].gimmick == 0)
@@ -749,7 +764,7 @@ jewelinit = 0;
 	switchblock[j].dst.y *= bit;
 
 		//青ブロック
-        if((j >= 5 && j <= 9) || (j >= 13 && j <= 18) || j == 24 || (j >= 26 && j <= 28) || j == 30)
+        if((j >= 5 && j <= 9) || (j >= 13 && j <= 18) || j == 24 || (j >= 26 && j <= 28) || j == 30 || j == 31)
             switchblock[j].src.x = 60;
 
 	//ヘルプ機能
@@ -1114,7 +1129,7 @@ jewelinit = 0;
 		object[j].movey = 0;
 	}
 	if(object[j].gimmick == 2)
-            object[j].status = 0;
+    	object[j].status = 0;
 	object[j].src.x = object[j].gimmick*bit;
 	object[j].src.y = 0;
 	object[j].src.w = 60;
@@ -1171,7 +1186,8 @@ void eventdisp(){
 	                jump_a = 12; //初速
                     playSE(0);
                 } //←{}を消したら無限ジャンプ
-
+if(debugmode == 1)
+jump_a = 12; //初速
                 break;
 
             case SDLK_ESCAPE:	// エスケープキー
@@ -1223,6 +1239,8 @@ void eventdisp(){
 				            jump_a = 12; //初速
 	                        playSE(0);
 				        } //←{}を消したら無限ジャンプ
+if(debugmode == 1)
+jump_a = 12; //初速
 						break;
 
 //					default:
@@ -1347,7 +1365,8 @@ newposy = P.y+6;
 
 ///*
 //デバッグ用処理　速度10倍
-//newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
+if(debugmode == 1)
+newposx += (newposx - P.x) * (DEBAG1+DEBAG2)*3;
 //*/
     hitjudge();
 
@@ -1384,6 +1403,11 @@ SDL_Rect icon = {100, 350};
 SDL_Rect iconD = {240, 60, 60, 60};
 
 titlep = 0;
+
+if(debugmode == 0)
+debugmode = 1;
+else if(debugmode == 1)
+debugmode = 0;
 
     // 無限ループ
     while(!titlep){

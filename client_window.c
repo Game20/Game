@@ -10,7 +10,7 @@ static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2�
 "1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム", "獲得トレジャーポイント", "1P---"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
-
+int debugmode = 11;
 
 TTF_Font* sTTF;
 
@@ -617,7 +617,7 @@ void hitjudge(void){
             //オブジェクト同士の当たり判定
             if(object[j].movex != 0  || object[j].movey != 0 || object[j].flaghold == 1){
                 for(k=0; k<=max_map_object; k++){
-                    if(j != k && object[j].dst.x+60 > object[k].dst.x && object[j].dst.x < object[k].dst.x+60){
+                    if(j != k && object[j].dst.x+60 >= object[k].dst.x && object[j].dst.x <= object[k].dst.x+60){
                         if(object[j].dst.y+30 >= object[k].dst.y && object[j].dst.y-30 <= object[k].dst.y){
                             object[j].movex = 0;
                         }
@@ -843,6 +843,7 @@ if(keycommand == 1){
         SendObjectCommand(30, object[30].status, object[30].dst.x, object[30].dst.y, object[30].movex, object[30].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
 		clearpoint = 1;
+object[29].status = 0;
 	}
 	if(stageP == 2 && (object[49].status == mynum+1 || object[56].status == 1) && P.x+gameRect.x >= 266*60+20 && P.x+gameRect.x <= 268*60-80 && P.y == 3*60-15){
 		object[49].src.x = -60;
@@ -851,6 +852,7 @@ if(keycommand == 1){
         SendObjectCommand(56, object[56].status, object[56].dst.x, object[56].dst.y, object[56].movex, object[56].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
 		clearpoint = 1;
+object[49].status = 0;
 	}
 keycommand = 0;
 }
@@ -1052,6 +1054,10 @@ playBGM(0);///OPテーマを流す
                     P.y += 100;
                     if(P.y == 700)
                         P.y = 400;
+                    break;
+
+                case SDLK_RIGHT:
+                    debugmode-=2;
                     break;
 
                 case SDLK_RETURN: //エンターを押した時
@@ -1287,11 +1293,7 @@ playSE(8);
     keyhold = 0;
 	clearpoint = 0;
     stageP++;
-
-for(j=0; j<SUM_object; j++){
-if(object[j].gimmick == 0)
-object[j].status = 0;
-}
+	setstage = 0;
 
 //if(stageP == 2)
 //playBGM(2);
