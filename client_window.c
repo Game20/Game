@@ -1332,8 +1332,19 @@ void GameClear(void){
         SendRecvManager();
     }
 
-//ポイント通信
-SendJewelCommand(jewelpoint);
+    //ポイント通信
+    SendJewelCommand(jewelpoint);
+
+    int jewelcnt;
+    for(jewelcnt = 0; jewelcnt < gClientNum; jewelcnt++){
+        player[jewelcnt].jewelP = -1;
+    }
+
+    for(jewelcnt = 0; jewelcnt < gClientNum; jewelcnt++){
+        while(player[jewelcnt].jewelP < 0){
+            SendRecvManager();
+        }
+    }
 
 
 DisplayStatus();
@@ -1393,9 +1404,9 @@ gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
     SDL_Flip(window);// 画面に図形を表示（反映）
 
-if( jewelpoint1 == player[0].jewelP && 
-	jewelpoint2 == player[1].jewelP && 
-	jewelpoint3 == player[2].jewelP && 
+if( jewelpoint1 == player[0].jewelP &&
+	jewelpoint2 == player[1].jewelP &&
+	jewelpoint3 == player[2].jewelP &&
 	jewelpoint4 == player[3].jewelP )
 break;
 
