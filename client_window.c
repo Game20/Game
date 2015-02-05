@@ -1221,10 +1221,15 @@ void GameOver(int ClientNum){
 
     SDL_BlitSurface(usa2, &PA, window, &player[ClientNum].pos);
 
-    SDL_Flip(window); // 貼り付け
-
-//    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Flip(window);// 画面に図形を表示（反映）
     SDL_Delay(700);
+
+    SendMoveCommand(P.x, P.y, player[mynum].anim.x, player[mynum].anim.y);
+    SendStartCommand();
+    start_flag = 0;
+    while(start_flag == 0){
+        SendRecvManager();
+    }
 
     for(j=0; j<=max_map_object; j++){
 	white.x = object[j].dst.x;
@@ -1259,15 +1264,8 @@ gameRect.x = 0;
     if(keyhold == 1)
         keyhold = 0;
 
-    //SendMoveCommand(player[mynum].pos.x, player[mynum].pos.y, player[mynum].anim.x, player[mynum].anim.y);
-    SendMoveCommand(P.x, P.y, player[mynum].anim.x, player[mynum].anim.y);
-    SendStartCommand();
-    start_flag = 0;
-    while(start_flag == 0){
-        SendRecvManager();
-    }
     scroll();
-    InitStatus();
+
 }
 
 void StageClear(void){
