@@ -62,7 +62,7 @@ typedef enum {
 
 
 #define SUM_object 60
-#define SUM_switchblock 32
+#define SUM_switchblock 33
 #define SUM_steps 7
 #define SUM_jewel 30
 
