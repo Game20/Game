@@ -1096,7 +1096,8 @@ SDL_Rect infoD = {0, 0, 660, 60};
 playBGM(0);///OPテーマを流す
 
     titlep = 1;//ループ条件
-    // 無限ループ
+
+    // ループ
     while(titlep){
         SendRecvManager();
         SDL_FillRect(window, NULL, 0xffffffff);	// ウィンドウ背景初期化

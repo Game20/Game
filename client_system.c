@@ -1445,8 +1445,10 @@ debugmode = 0;
                         titlep = 1;
                         SendEscapeCommand(titlep);
                     }
-                    if(icon.x == 400)
+                    if(icon.x == 400){
                         exit_p = 1;
+                        SendEndCommand();
+                    }
                     break;
 
                 case SDLK_ESCAPE:	// エスケープキー
