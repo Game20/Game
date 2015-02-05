@@ -41,6 +41,7 @@ int keycommand = 0;
 int j, k, l;
 int keyhold = 0;
 int switchcount = 0;
+int switchcount2 = 0;
 int clearpoint = 0;
 int loopend = 0;
 int loophint = 0;
@@ -428,21 +429,14 @@ void hitjudge(void){
                          //   playSE(2);
                             object[i].status = 1; //ステータス：押されてる
                             switchblock[object[i].flaghold].flaghold = 1;
-                            switchcount = 1;
+							switchcount2 = 1;
                         }
                     }
                 }
-                else if(switchcount == 1){
-					object[i].status = 0;
-					switchblock[object[i].flaghold].flaghold = 0;
-                    switchcount = 0;
-
-                for(j=0; j<=max_map_object; j++){
-                    if(i != j && object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].src.y == 60)
-                    switchblock[object[i].flaghold].flaghold = 1;
-                }
-                }
-
+				else if(switchcount2 == 1){
+                switchcount = i;	
+				switchcount2 = 0;
+				}
 
 
                 //特殊動作
@@ -588,6 +582,10 @@ void hitjudge(void){
                         jump_LR = 0;
                         newposy = object[i].dst.y - 75;
                     }
+					if(object[i].gimmick == 0 && object[i].flaghold != -1){
+                        jumpflag = 0;
+                        jump_LR = 0;
+					}
                 }
             }
         }
@@ -811,6 +809,18 @@ void hitjudge(void){
         }
     }
 
+				//スイッチ押し込み回避判定
+                if(switchcount != 0){
+				i = switchcount;
+					object[i].status = 0;
+					switchblock[object[i].flaghold].flaghold = 0;
+                    switchcount = 0;
+                for(j=0; j<=max_map_object; j++){
+                    if(i != j && object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].src.y == 60)
+                    switchblock[object[i].flaghold].flaghold = 1;
+                }
+                }
+
 //カギの判定
 if(stageP == 1 && object[29].status == mynum+1){
     white.x = object[29].dst.x;
@@ -845,7 +855,6 @@ if(keycommand == 1){
         SendObjectCommand(30, object[30].status, object[30].dst.x, object[30].dst.y, object[30].movex, object[30].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[30].src, objectwindow, &object[30].dst); // object貼り付け
 		clearpoint = 1;
-object[29].status = 0;
 	}
 	if(stageP == 2 && (object[49].status == mynum+1 || object[56].status == 1) && P.x+gameRect.x >= 266*60+20 && P.x+gameRect.x <= 268*60-80 && P.y == 3*60-15){
 		object[49].src.x = -60;
@@ -854,7 +863,6 @@ object[29].status = 0;
         SendObjectCommand(56, object[56].status, object[56].dst.x, object[56].dst.y, object[56].movex, object[56].movey); // オブジェクトのデータの送信
 		SDL_BlitSurface(objectimage, &object[56].src, objectwindow, &object[56].dst); // object貼り付け
 		clearpoint = 1;
-object[49].status = 0;
 	}
 keycommand = 0;
 }
@@ -922,7 +930,7 @@ if(P.x < 0){
 if( gMaps[(newposx+gameRect.x+45)/bit][(P.y+15)/bit] == 0 ||
     gMaps[(newposx+gameRect.x+45)/bit][(P.y+10)/bit+1] == 0 )
 P.x = 0;
-if(P.x < -75){
+if(P.x <= -75){
         Mix_PauseMusic();
         playSE(1);
         SendGameoverCommand();
@@ -1047,7 +1055,7 @@ playBGM(0);///OPテーマを流す
                 break;
             case SDL_KEYDOWN:// キーボードのキーが押された時
                 switch(event.key.keysym.sym){
-                case SDLK_UP:
+/*                case SDLK_UP:
                     P.y -= 100;
                     if(P.y == 300)
                         P.y = 600;
@@ -1057,7 +1065,7 @@ playBGM(0);///OPテーマを流す
                     if(P.y == 700)
                         P.y = 400;
                     break;
-
+*/
                 case SDLK_RIGHT:
 					if(debugmode!=1)
                     debugmode-=2;
@@ -1196,10 +1204,6 @@ void DrawChara(void)
 
 void GameOver(int ClientNum){
 
-
-    //PA.x = 3 * bit;
-    //PA.y = 3 * 75;
-
     int endFlag = 1;
 
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
@@ -1208,11 +1212,12 @@ void GameOver(int ClientNum){
 
     DrawChara();
 
-    white.x = player[ClientNum].pos.x;
+    white.x = player[ClientNum].pos.x + gameRect.x;
     white.y = player[ClientNum].pos.y;
     white.h = 75;
 
     SDL_BlitSurface(mapwindow, &white, window, &player[ClientNum].pos); // 死亡キャラ貼り付け準備
+    SDL_BlitSurface(objectwindow, &white, window, &player[ClientNum].pos); // 死亡キャラ貼り付け準備
 
     white.h = 60;
 
@@ -1291,6 +1296,14 @@ playSE(8);
             object[j].status = 0;
     }
 
+if(stageP == 1){
+object[29].status = 0;
+object[30].status = 0;
+}
+if(stageP == 2){
+object[49].status = 0;
+object[56].status = 0;
+}
 
     keyhold = 0;
 	clearpoint = 0;

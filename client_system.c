@@ -464,6 +464,12 @@ jewelinit = 0;
     object[30].dst.x = 248;
     object[30].dst.y = 6;
 
+    object[31].gimmick = 0;
+    object[31].flaghold = 5;
+    object[31].dst.x = 247;
+    object[31].dst.y = 5;
+
+
     for(j=0; j<SUM_object; j++){
         if(object[j].dst.x == NULL)
             break;
@@ -1143,7 +1149,7 @@ jewelinit = 0;
             object[j].src.h = 120;
             SDL_BlitSurface(objectimage, &object[j].src, mapwindow, &object[j].dst); // objectをmapに貼り付け
         }
-	if(object[j].flaghold != -1 || object[j].status == 1)
+	if(object[j].flaghold != -1 || object[j].status == 1 || (object[j].gimmick == 4 && object[56].status == 0))
             SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
     }
     max_map_object = j;
