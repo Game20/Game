@@ -165,13 +165,17 @@ int main(int argc, char* argv[]) {
             MapLayout();
             InitStatus();
             clearset = 0;
+            break;
 	}
-
+if(stageP == 3) // ゲームクリアしたなら終了
+    break;
 	if(exit_p == 1)//終了フラグが立てばwhilebreak
             break;
 
     } //whileループ
 
+    SDL_FreeSurface(window); // ウィンドウの解放
+    SDL_FreeSurface(mapwindow);
     SDL_JoystickClose(Joystick);
     EXITsetting();
     return 0;

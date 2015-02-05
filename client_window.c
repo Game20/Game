@@ -1601,8 +1601,8 @@ for(j=0; j<SUM_steps; j++){
 steps[j].dst.x = 0;
 }
 */
-clearset = 1;
-exit_p = 1;
+//clearset = 1;
+//exit_p = 1;
 
 /*
 SDL_JoystickClose(Joystick);
@@ -1614,8 +1614,8 @@ SendRecvManager();
 SDL_Quit();	// SDLの利用終了
 //return 0;
 */
-SDL_Quit();	// SDLの利用終了
-
+//SDL_Quit();	// SDLの利用終了
+//SendEndCommand();
 }
 
 

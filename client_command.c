@@ -47,6 +47,7 @@ int ExecuteCommand(char command)
     case END_COMMAND:
         exit_p = 1;
         endFlag = 0;
+        clearset = 1;
         break;
     case START_COMMAND:
         start_flag = 1;
