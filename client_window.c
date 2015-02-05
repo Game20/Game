@@ -342,6 +342,7 @@ void hitjudge(void){
 	jewel[i].status = 1;
 	SendObjectCommand(100+i, jewel[i].status, jewel[i].dst.x, jewel[i].dst.y, jewel[i].movex, jewel[i].movey);
 	//////////　　　-通信-　　　//////////
+    playSE(5);
 	}
 	if(jewel[i].status == 1){
 	if(stageP == 1)
