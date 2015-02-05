@@ -138,7 +138,7 @@ void InitWindow(){
         exit(0);
     }
 
-	titleCG = IMG_Load("images/title2.png");
+	titleCG = IMG_Load("images/title2.jpg");
 
 	TFP = IMG_Load("images/title@.jpg");
 
@@ -1057,6 +1057,7 @@ playBGM(0);///OPテーマを流す
                     break;
 
                 case SDLK_RIGHT:
+					if(debugmode!=1)
                     debugmode-=2;
                     break;
 
