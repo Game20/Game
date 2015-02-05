@@ -459,6 +459,8 @@ jewelinit = 0;
     object[29].status = 0;
     object[29].dst.x = 255;
     object[29].dst.y = 11;
+if(object[30].status == 1)
+object[29].dst.y = 25;
 
     object[30].gimmick = 6; //扉
     object[30].dst.x = 248;
@@ -466,8 +468,8 @@ jewelinit = 0;
 
     object[31].gimmick = 0;
     object[31].flaghold = 5;
-    object[31].dst.x = 247;
-    object[31].dst.y = 5;
+    object[31].dst.x = 246;
+    object[31].dst.y = 1;
 
 
     for(j=0; j<SUM_object; j++){
@@ -752,7 +754,7 @@ jewelinit = 0;
 	switchblock[30].dst.x = 177;
 	switchblock[30].dst.y = 1;
 
-	switchblock[31].gimmick = 2;//縦幅
+	switchblock[31].gimmick = 3;//縦幅
 	switchblock[31].status = 1;//横幅
 	switchblock[31].dst.x = 191;
 	switchblock[31].dst.y = 2;
@@ -1088,6 +1090,8 @@ jewelinit = 0;
     object[49].status = 0;
     object[49].dst.x = 261;
     object[49].dst.y = 7;
+if(object[56].status == 1)
+object[49].dst.y = 25;
 
     object[50].gimmick = 1;
     object[50].dst.x = 252;
@@ -1118,7 +1122,7 @@ jewelinit = 0;
     object[56].dst.y = 2;
 
 	object[57].gimmick = 0;
-//							object[57].status = 1;
+//											object[57].status = 1;
     object[57].flaghold = 4;
     object[57].dst.x = 250;
     object[57].dst.y = 5;
