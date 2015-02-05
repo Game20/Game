@@ -2,15 +2,16 @@
 //#include<SDL/SDL.h>
 #include "client_func.h"
 
-#define MSG_NUM 14           /* メッセージの数 */
+#define MSG_NUM 21          /* メッセージの数 */
 
 // static
 static char gFontFile[] = "images/APJapanesefontT.ttf";
 static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2から", "おわる", "つづける", "おわる",
-"1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム", "獲得トレジャーポイント", "1P---"};
+"1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム", "獲得トレジャーポイント",
+ "1P", "2P", "3P", "4P", "おつかれさまでした！", "ゲームを終了します"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
-int debugmode = 0;
+int debugmode = -1;
 
 TTF_Font* sTTF;
 
@@ -903,7 +904,7 @@ if(stageP == 2 && object[49].status == mynum+1){
 
 if(keycommand == 1){
 	if(stageP == 1 && (object[29].status == mynum+1 || object[30].status == 1) && P.x+gameRect.x >= 248*60+20 && P.x+gameRect.x <= 250*60-80 && P.y == 7*60-15){
-		object[29].src.x = -60;
+		object[29].dst.y = 25*60;
 		object[30].src.x += 120;
 		object[30].status = 1;
         SendObjectCommand(30, object[30].status, object[30].dst.x, object[30].dst.y, object[30].movex, object[30].movey); // オブジェクトのデータの送信
@@ -911,7 +912,7 @@ if(keycommand == 1){
 		clearpoint = 1;
 	}
 	if(stageP == 2 && (object[49].status == mynum+1 || object[56].status == 1) && P.x+gameRect.x >= 266*60+20 && P.x+gameRect.x <= 268*60-80 && P.y == 3*60-15){
-		object[49].src.x = -60;
+		object[49].dst.y = 25*60;
 		object[56].src.x += 120;
 		object[56].status = 1;
         SendObjectCommand(56, object[56].status, object[56].dst.x, object[56].dst.y, object[56].movex, object[56].movey); // オブジェクトのデータの送信
@@ -1258,6 +1259,9 @@ void DrawChara(void)
 
 void GameOver(int ClientNum){
 
+	if(clearpoint == 1)
+	clearpoint = 0;
+
     int endFlag = 1;
 
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
@@ -1367,10 +1371,6 @@ object[56].status = 0;
 //if(stageP == 2)
 //playBGM(2);
 
-    if(stageP == 3) {
-	//SendGameclearCommand();
-	GameClear();
-    }
 
 for(j=0; j<SUM_jewel; j++){
 if(jewel[j].status != 0)
@@ -1379,6 +1379,12 @@ jewel[j].status = 0;
 jewelinit = 1;
 
     InitStatus();
+
+    if(stageP == 3) {
+	//SendGameclearCommand();
+	GameClear();
+//	clearset = 1;
+    }
 
 }
 
@@ -1449,30 +1455,74 @@ fm = 12;
 
 fm = 13;
 int jewelpoint1 = 0, jewelpoint2 = 0, jewelpoint3 = 0, jewelpoint4 = 0;
-        dstRect.x = 150;
-        dstRect.y += 80;
+
+white.x = 0;
+white.y = 0;
+white.h = 75;
+SDL_Rect charaD = {180, 0};
+charaD.y = dstRect.y+60;
+
+dstRect.y += 80;
 
 
 while(1){
 
-SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
-
-if(gClientNum == 1)
-sprintf (gMsgStrings[fm], "1P： %d", jewelpoint1);
-if(gClientNum == 2)
-sprintf (gMsgStrings[fm], "1P： %d  2P: %d", jewelpoint1, jewelpoint2);
-if(gClientNum == 3)
-sprintf (gMsgStrings[fm], "1P： %d  2P: %d  3P： %d", jewelpoint1, jewelpoint2, jewelpoint3);
-if(gClientNum == 4)
-sprintf (gMsgStrings[fm], "1P： %d  2P: %d  3P： %d  4P: %d", jewelpoint1, jewelpoint2, jewelpoint3, jewelpoint4);
-
-
+sprintf (gMsgStrings[ fm ], "%d", jewelpoint1);
 gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
-
+        dstRect.x = 250;
         /* メッセージ表示 */
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         srcRect.w = gMessages[fm]->w;
         srcRect.h = gMessages[fm]->h;
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
+charaD.x = 170;
+SDL_BlitSurface(usa2, &white, window, &charaD); //キャラ貼り付け
+
+
+if(gClientNum >= 2){
+sprintf (gMsgStrings[fm+1], "%d", jewelpoint2);
+gMessages[fm+1] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm+1], black);
+        dstRect.x += 250;
+        /* メッセージ表示 */
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
+        srcRect.w = gMessages[fm+1]->w;
+        srcRect.h = gMessages[fm+1]->h;
+        SDL_BlitSurface(gMessages[fm+1], &srcRect, SDL_GetVideoSurface(), &dstRect);
+charaD.x += 250;
+SDL_BlitSurface(neko, &white, window, &charaD); //キャラ貼り付け
+
+}
+
+if(gClientNum >= 3){
+sprintf (gMsgStrings[fm+2], "%d", jewelpoint3);
+gMessages[fm+2] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm+2], black);
+        dstRect.x += 250;
+        /* メッセージ表示 */
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
+        srcRect.w = gMessages[fm+2]->w;
+        srcRect.h = gMessages[fm+2]->h;
+        SDL_BlitSurface(gMessages[fm+2], &srcRect, SDL_GetVideoSurface(), &dstRect);
+charaD.x += 250;
+SDL_BlitSurface(inu, &white, window, &charaD); //キャラ貼り付け
+
+}
+
+if(gClientNum == 4){
+sprintf (gMsgStrings[fm+3], "%d", jewelpoint4);
+gMessages[fm+3] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm+3], black);
+        dstRect.x += 250;
+        /* メッセージ表示 */
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
+        srcRect.w = gMessages[fm+3]->w;
+        srcRect.h = gMessages[fm+3]->h;
+        SDL_BlitSurface(gMessages[fm+3], &srcRect, SDL_GetVideoSurface(), &dstRect);
+charaD.x += 250;
+SDL_BlitSurface(panda, &white, window, &charaD); //キャラ貼り付け
+}
+
+
+
+
     SDL_Flip(window);// 画面に図形を表示（反映）
 
 if( jewelpoint1 == player[0].jewelP &&
@@ -1510,7 +1560,7 @@ winP = 3;
 
 for(i=0; i<gClientNum; i++){
 if(player[winP].jewelP == player[i].jewelP){
-dstRect.x = 100+(i*250);
+dstRect.x = 150+(i*250);
 SDL_BlitSurface(usausa, &srcRect, SDL_GetVideoSurface(), &dstRect);
 SDL_Flip(window);// 画面に図形を表示（反映）
 }
@@ -1521,8 +1571,24 @@ SDL_Flip(window);// 画面に図形を表示（反映）
 
     SDL_BlitSurface(TFP, NULL, window, NULL);
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SDL_Delay(4000);
+    SDL_Delay(2000);
 
+		fm = 17;
+		dstRect.y = 600;
+        dstRect.x = 150;
+        /* メッセージ表示 */
+        srcRect.w = gMessages[fm]->w;
+        srcRect.h = gMessages[fm]->h;
+        SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
+		dstRect.y += 80;
+        srcRect.w = gMessages[fm+1]->w;
+        srcRect.h = gMessages[fm+1]->h;
+        SDL_BlitSurface(gMessages[fm+1], &srcRect, SDL_GetVideoSurface(), &dstRect);
+
+    SDL_Flip(window);// 画面に図形を表示（反映）
+    SDL_Delay(2000);
+
+/*
 time = 0;
 jewelpoint = 0;
 stageP = 1;
@@ -1533,8 +1599,21 @@ switchblock[j].dst.x = 0;
 for(j=0; j<SUM_steps; j++){
 steps[j].dst.x = 0;
 }
-
+*/
 clearset = 1;
+exit_p = 1;
+
+/*
+SDL_JoystickClose(Joystick);
+EXITsetting();
+SendEndCommand();
+while(exit_p == 0){
+SendRecvManager();
+}
+SDL_Quit();	// SDLの利用終了
+//return 0;
+*/
+SDL_Quit();	// SDLの利用終了
 
 }
 
