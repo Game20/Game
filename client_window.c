@@ -1266,6 +1266,7 @@ gameRect.x = 0;
         SendRecvManager();
     }
     scroll();
+    InitStatus();
 }
 
 void StageClear(void){
