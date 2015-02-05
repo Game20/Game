@@ -10,7 +10,7 @@ static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2�
 "1P", "2P", "3P", "4P", "Rabbit × Labyrinth", "ラビット×ラビリンス", "クリアタイム", "獲得トレジャーポイント", "1P---"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
-int debugmode = 11;
+int debugmode = 0;
 
 TTF_Font* sTTF;
 
@@ -429,15 +429,20 @@ void hitjudge(void){
                          //   playSE(2);
                             object[i].status = 1; //ステータス：押されてる
                             switchblock[object[i].flaghold].flaghold = 1;
-							switchcount2 = 1;
+							switchcount2 = -1;
                         }
                     }
                 }
-				else if(switchcount2 == 1){
-                switchcount = i;	
-				switchcount2 = 0;
-				}
-
+                else if(switchcount2 == -1){
+					object[i].status = 0;
+					switchblock[object[i].flaghold].flaghold = 0;
+                    switchcount = i;
+                    switchcount2 = 1;
+                for(j=0; j<=max_map_object; j++){
+                    if(i != j && object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].src.y == 60)
+                    switchblock[object[i].flaghold].flaghold = 1;
+                }
+                }
 
                 //特殊動作
                 if(stageP == 1){
@@ -809,8 +814,10 @@ void hitjudge(void){
         }
     }
 
-				//スイッチ押し込み回避判定
-                if(switchcount != 0){
+				//スイッチ押し込み回避例外判定
+				if(switchcount2 >= 1)
+				switchcount2++;
+                if(switchcount2 == 5){
 				i = switchcount;
 					object[i].status = 0;
 					switchblock[object[i].flaghold].flaghold = 0;
@@ -819,6 +826,7 @@ void hitjudge(void){
                     if(i != j && object[j].gimmick == 2 && object[i].flaghold == object[j].flaghold && object[j].src.y == 60)
                     switchblock[object[i].flaghold].flaghold = 1;
                 }
+				switchcount2 = 0;
                 }
 
 //カギの判定
