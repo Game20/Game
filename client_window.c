@@ -1093,8 +1093,11 @@ void title(void){
 SDL_Rect info = {155, 0};
 SDL_Rect infoD = {0, 0, 660, 60};
 
+	int cursorx = P.x;
+	int cursory = P.y;
     P.x = 150;
     P.y = 400;
+
     PA.x = 0;
     PA.y = 0;
 
@@ -1232,7 +1235,8 @@ SDL_BlitSurface(gMessages[9], &infoD, SDL_GetVideoSurface(), &titleinfo);
         SDL_Flip(window);// 画面に図形を表示（反映）
 	}
     }
-    P.y = 640;
+P.x = cursorx;
+P.y = cursory;
     titlep = 1;
 }
 
