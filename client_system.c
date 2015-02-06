@@ -1457,6 +1457,7 @@ debugmode = 0;
 
                 case SDLK_ESCAPE:	// エスケープキー
                     exit_p = 1;
+                    SendEndCommand();
                     break;
                 }
 			case SDL_JOYAXISMOTION:

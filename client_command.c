@@ -48,6 +48,7 @@ int ExecuteCommand(char command)
         exit_p = 1;
         endFlag = 0;
         clearset = 1;
+        stageP = 3;
         break;
     case START_COMMAND:
         start_flag = 1;
