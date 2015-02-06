@@ -11,7 +11,7 @@ static char gMsgStrings[ 100 ][ 100 ] = { "さいしょから", "ステージ2�
  "1P", "2P", "3P", "4P", "おつかれさまでした！", "ゲームを終了します"};
 static SDL_Color black = {0x00, 0x00, 0x00};
 int setstartp;
-int debugmode = -1;
+int debugmode = -100;
 
 TTF_Font* sTTF;
 
@@ -789,7 +789,11 @@ void hitjudge(void){
                     newposy = switchblock[j].dst.y+45;//上にヒット
                 if(switchblock[j].src.x == 60 && P.x+gameRect.x+10 >= switchblock[j].dst.x-45 && P.x+gameRect.x <= switchblock[j].dst.x+45)
                     P.x = switchblock[j].dst.x-gameRect.x-50;//ヒット
-
+				//例外
+				if(j == 31 && newposy >= switchblock[j].dst.y-60){
+				newposy = switchblock[j].dst.y+105;//上にヒット
+				P.x = switchblock[j].dst.x-gameRect.x;
+				}
                 if(newposy <= switchblock[j].dst.y)
                     hity = -1;//下にヒット
             }
@@ -1263,6 +1267,12 @@ void GameOver(int ClientNum){
 	if(clearpoint == 1)
 	clearpoint = 0;
 
+if(object[50].flaghold == -1){
+white.x = 180;
+white.y = 0;
+SDL_BlitSurface(gMapImage, &white, mapwindow, &object[50].dst);
+}
+
     int endFlag = 1;
 
     SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
@@ -1472,9 +1482,9 @@ sprintf (gMsgStrings[ fm ], "%d", jewelpoint1);
 gMessages[fm] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm], black);
         dstRect.x = 250;
         /* メッセージ表示 */
-		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         srcRect.w = gMessages[fm]->w;
         srcRect.h = gMessages[fm]->h;
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         SDL_BlitSurface(gMessages[fm], &srcRect, SDL_GetVideoSurface(), &dstRect);
 charaD.x = 170;
 SDL_BlitSurface(usa2, &white, window, &charaD); //キャラ貼り付け
@@ -1485,9 +1495,9 @@ sprintf (gMsgStrings[fm+1], "%d", jewelpoint2);
 gMessages[fm+1] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm+1], black);
         dstRect.x += 250;
         /* メッセージ表示 */
-		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         srcRect.w = gMessages[fm+1]->w;
         srcRect.h = gMessages[fm+1]->h;
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         SDL_BlitSurface(gMessages[fm+1], &srcRect, SDL_GetVideoSurface(), &dstRect);
 charaD.x += 250;
 SDL_BlitSurface(neko, &white, window, &charaD); //キャラ貼り付け
@@ -1499,9 +1509,9 @@ sprintf (gMsgStrings[fm+2], "%d", jewelpoint3);
 gMessages[fm+2] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm+2], black);
         dstRect.x += 250;
         /* メッセージ表示 */
-		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         srcRect.w = gMessages[fm+2]->w;
         srcRect.h = gMessages[fm+2]->h;
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         SDL_BlitSurface(gMessages[fm+2], &srcRect, SDL_GetVideoSurface(), &dstRect);
 charaD.x += 250;
 SDL_BlitSurface(inu, &white, window, &charaD); //キャラ貼り付け
@@ -1513,9 +1523,9 @@ sprintf (gMsgStrings[fm+3], "%d", jewelpoint4);
 gMessages[fm+3] = TTF_RenderUTF8_Blended(gTTF, gMsgStrings[fm+3], black);
         dstRect.x += 250;
         /* メッセージ表示 */
-		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         srcRect.w = gMessages[fm+3]->w;
         srcRect.h = gMessages[fm+3]->h;
+		SDL_BlitSurface(gameclear, &srcRect, SDL_GetVideoSurface(), &dstRect);
         SDL_BlitSurface(gMessages[fm+3], &srcRect, SDL_GetVideoSurface(), &dstRect);
 charaD.x += 250;
 SDL_BlitSurface(panda, &white, window, &charaD); //キャラ貼り付け
@@ -1545,7 +1555,7 @@ jewelpoint4++;
 
     SDL_Delay(2000);
 
-dstRect.y += 30;
+dstRect.y += 40;
 srcRect.x = 0;
 srcRect.y = 0;
 srcRect.w = 288;
