@@ -158,7 +158,8 @@ int main(int argc, char* argv[]) {
         SDL_Flip(window); // 画面に図形を表示（反映）
 
 	DisplayStatus();
-
+if(stageP == 3) // ゲームクリアしたなら終了
+    break;
 	//ゲームクリア後の初期化
 	if(clearset == 1){
             title();

@@ -1430,6 +1430,7 @@ debugmode = 0;
             switch (event.type) {
             case SDL_QUIT:
                 exit_p = 1;
+                SendEndCommand();
                 break;
             case SDL_KEYDOWN:// キーボードのキーが押された時
                 switch(event.key.keysym.sym){
