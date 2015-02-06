@@ -723,10 +723,10 @@ void hitjudge(void){
 			object[j].src.y = 0;
 			object[object[j].flaghold].src.y = 60;
             SDL_BlitSurface(objectimage, &object[50].src, mapwindow, &object[50].dst);
-            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
-            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
-            SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
-            SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
+//            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[j].dst); // object貼り付け準備
+//            SDL_BlitSurface(mapwindow, &white, objectwindow, &object[object[j].flaghold].dst); // object貼り付け準備
+//            SDL_BlitSurface(objectimage, &object[j].src, objectwindow, &object[j].dst); // object貼り付け
+//            SDL_BlitSurface(objectimage, &object[object[j].flaghold].src, objectwindow, &object[object[j].flaghold].dst); // object貼り付け
             SDL_BlitSurface(objectimage, &object[50].src, objectwindow, &object[50].dst);
 		}
 
@@ -1597,35 +1597,8 @@ SDL_Flip(window);// 画面に図形を表示（反映）
         SDL_BlitSurface(gMessages[fm+1], &srcRect, SDL_GetVideoSurface(), &dstRect);
 
     SDL_Flip(window);// 画面に図形を表示（反映）
-    SDL_Delay(2000);
+    SDL_Delay(3000);
 
-/*
-time = 0;
-jewelpoint = 0;
-stageP = 1;
-
-for(j=0; j<SUM_switchblock; j++){
-switchblock[j].dst.x = 0;
-}
-for(j=0; j<SUM_steps; j++){
-steps[j].dst.x = 0;
-}
-*/
-//clearset = 1;
-//exit_p = 1;
-
-/*
-SDL_JoystickClose(Joystick);
-EXITsetting();
-SendEndCommand();
-while(exit_p == 0){
-SendRecvManager();
-}
-SDL_Quit();	// SDLの利用終了
-//return 0;
-*/
-//SDL_Quit();	// SDLの利用終了
-//SendEndCommand();
 }
 
 
