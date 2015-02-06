@@ -754,7 +754,7 @@ jewelinit = 0;
 	switchblock[30].dst.x = 177;
 	switchblock[30].dst.y = 1;
 
-	switchblock[31].gimmick = 3;//縦幅
+	switchblock[31].gimmick = 2;//縦幅
 	switchblock[31].status = 1;//横幅
 	switchblock[31].dst.x = 191;
 	switchblock[31].dst.y = 2;
@@ -894,9 +894,10 @@ jewelinit = 0;
 
     object[11].gimmick = 0;
     object[11].dst.x = 28;
-    object[11].dst.y = 6;
+    object[11].dst.y = 5;
 
     object[12].gimmick = 0; //
+    object[12].flaghold = 1;
     object[12].dst.x = 74;
     object[12].dst.y = 2;
 
@@ -963,6 +964,7 @@ jewelinit = 0;
 //ループ
 
     object[25].gimmick = 0;
+//								    object[25].status = 1;
     object[25].dst.x = 158;
     object[25].dst.y = 8;
 
