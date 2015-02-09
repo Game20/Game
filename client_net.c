@@ -1,6 +1,8 @@
 /*****************************************************************
 ファイル名	: client_net.c
 機能		: クライアントのネットワーク処理
+作成者氏名:森祥悟,船坂国之,高松翔馬
+最終更新日:2014.12.18
 *****************************************************************/
 
 #include"common.h"
@@ -143,7 +145,6 @@ int RecvIntData(int *intData)
 機能	: サーバーにデータを送る
 引数	: void		*data		: 送るデータ
 		  int		dataSize	: 送るデータのサイズ
-出力	: なし
 *****************************************************************/
 void SendData(void *data,int dataSize)
 {
@@ -157,8 +158,6 @@ void SendData(void *data,int dataSize)
 /*****************************************************************
 関数名	: CloseSoc
 機能	: サーバーとのコネクションを切断する
-引数	: なし
-出力	: なし
 *****************************************************************/
 void CloseSoc(void)
 {
@@ -174,7 +173,6 @@ void CloseSoc(void)
 機能	: サーバーから全クライアントのユーザー名を受信する
 引数	: int		*num			: クライアント数
 		  char		clientNames[][]	: 全クライアントのユーザー名
-出力	: なし
 *****************************************************************/
 static void GetAllName(int *clientID,int *num,char clientNames[][MAX_NAME_SIZE])
 {
@@ -189,20 +187,12 @@ static void GetAllName(int *clientID,int *num,char clientNames[][MAX_NAME_SIZE])
     for(i=0;i<(*num);i++){
         RecvData(clientNames[i],MAX_NAME_SIZE);
     }
-/*#ifndef NDEBUG
-    printf("#####\n");
-    printf("client number = %d\n",(*num));
-    for(i=0;i<(*num);i++){
-        printf("%d:%s\n",i,clientNames[i]);
-    }
-#endif*/
 }
 
 /*****************************************************************
 関数名	: SetMask
 機能	: select()のためのマスク値を設定する
 引数	: なし
-出力	: なし
 *****************************************************************/
 static void SetMask(void)
 {

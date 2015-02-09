@@ -1,11 +1,12 @@
-//#include<stdio.h>
-//#include<stdlib.h>
-//#include<string.h>
+/*****************************************************************
+ファイル名	: client_func.h
+機能		: クライアントで使用する定数や関数の宣言を行う
+作成者氏名:船坂国之,坪井正夢,高松翔馬,森祥悟
+最終更新日:2015.2.5
+*****************************************************************/
+
 #include<SDL/SDL.h>
-//#include <SDL/SDL_image.h>       // SDL_imageを用いるために必要なヘッダファイルをインクルード
-//#include <SDL/SDL_gfxPrimitives.h>	// gfxによる図形処理をするために必要なヘッダファイルをインクルード
 #include <SDL/SDL_ttf.h>	// TrueTypeフォントを表示するために必要なヘッダファイルをインクルード
-//#include <SDL/SDL_opengl.h> // SDLでOpenGLを扱うために必要なヘッダファイルをインクルード
 #include <SDL/SDL_mixer.h> //SDLで効果音等を扱うために必要なヘッダファイルをインクルード
 #include"common.h"
 
@@ -16,15 +17,8 @@
 
 typedef struct{
     SDL_Rect pos; // 座標
-    SDL_Rect anim;
+    SDL_Rect anim; // アニメーション
     int jewelP;
-    //SDL_Rect anime; // アニメーション
-    //int jumpf; // ジャンプフラグ
-    //int jump_a; // jump acceleration
-    //int LR; // 右左
-    //int UD; // 上下
-    //int status; // ステータス
-    //int deadf; // 生死フラグ0=生存 1=死
 } Player; // プレイヤーの構造体
 
 
@@ -78,14 +72,6 @@ SDL_Surface *window, *mapwindow, *objectwindow; // ウィンドウデータへ�
 SDL_Rect gameRect; // ゲームウィンドウの座標
 
 extern SDL_Event event; // SDLによるイベントを検知するための構造
-
-//char gMapDataFile[] = "map.data"; // マップデータファイルパス
-//extern char gMapDataFile2[] = "map2.data";
-//extern char gMapDataFile3[] = "map3.data";
-//extern char gMapDataFile4[] = "map4.data";
-//extern char gMapImgFile[] = "map.png"; // マップ画像
-
-//extern void SetMap(void);
 
 extern SDL_Surface *gMessages[ 100 ];
 
@@ -166,9 +152,6 @@ extern int SendRecvManager(void);
 /* client_window.c */
 extern void title(void);
 extern void Mapshift(void);
-//extern int InitWindows(int clientID,int num,char name[][MAX_NAME_SIZE]);
-//extern void DestroyWindow(void);
-//extern void WindowEvent(int num);
 extern void DrawChara(void); //他プレイヤー描画
 extern void GameOver(int ClientNum);
 extern void StageClear(void);
@@ -198,14 +181,6 @@ extern void playSE(num);///効果音再生
 /* 未定 */
 void story(void);
 void result(void);
-
-
-
-/* Wiiリモコンを用いるための構造体を宣言（初期化） */
-//extern wiimote_t wiimote = WIIMOTE_INIT; // Wiiリモコンの状態格納用
-//extern wiimote_report_t report = WIIMOTE_REPORT_INIT; // レポートタイプ用
-
-
 
 
 
