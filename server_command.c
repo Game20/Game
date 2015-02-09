@@ -1,6 +1,8 @@
 /*****************************************************************
 ファイル名	: server_command.c
 機能		: サーバーのコマンド処理
+作成者氏名:森祥悟,坪井正夢,船坂国之,高松翔馬
+最終更新日:2015.1.30
 *****************************************************************/
 
 #include"server_common.h"
@@ -27,10 +29,8 @@ Plc object_move;//移動判定を格納する(client_window内のmovex,movey)
 関数名	: ExecuteCommand
 機能	: クライアントから送られてきたコマンドを元に，
 		  引き数を受信し，実行する
-引数	: char	command		: コマンド
-		  int	pos			: コマンドを送ったクライアント番号
-出力	: プログラム終了コマンドが送られてきた時には0を返す．
-		  それ以外は1を返す
+引数　　: command     送られてきたコマンド
+         pos         コマンドを送ってきたクライアント
 *****************************************************************/
 int ExecuteCommand(char command,int pos)
 {
@@ -225,7 +225,6 @@ static
 引数	: void		*data		: 送信用データ
 		  int		intData		: セットするデータ
 		  int		*dataSize	: 送信用データの現在のサイズ
-出力	: なし
 *****************************************************************/
 void SetIntData2DataBlock(void *data,int intData,int *dataSize)
 {
@@ -249,7 +248,6 @@ void SetIntData2DataBlock(void *data,int intData,int *dataSize)
 引数	: void		*data		: 送信用データ
 		  int		intData		: セットするデータ
 		  int		*dataSize	: 送信用データの現在のサイズ
-出力	: なし
 *****************************************************************/
 void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 {

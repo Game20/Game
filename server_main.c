@@ -1,13 +1,14 @@
 /*****************************************************************
 ファイル名	: server_main.c
 機能		: サーバーのメインルーチン
+作成者氏名:森祥悟,船坂国之
+最終更新日:2015.1.30
 *****************************************************************/
 
 #include<SDL/SDL.h>
 #include"server_common.h"
 
-//static int Judge2(void *data);	/* 追加 */
-//static int Judge3(void *data);	/* 追加 */
+
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 //int argc,char *argv[]
 int main(void)
@@ -16,7 +17,6 @@ int main(void)
     int num;
     int	endFlag = 1;
 
-    SDL_Thread *thr1;
 
 while(1){
     printf("プレイ人数(2〜4)を入力してください:");
@@ -64,6 +64,10 @@ while(1){
     return 0;
 }
 
+/*****************************************************************
+関数名	: SetCharData2DataBlock
+機能	: 送信用データをセットする
+*****************************************************************/
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 {
     /* 引き数チェック */
