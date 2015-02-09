@@ -287,7 +287,7 @@ void SendJewelCommand(jewel)
 }
 
 /*****
-static
+      static
 *****/
 /*****************************************************************
 関数の名前:void SetIntData2DataBlock(void *data,int intData,int *dataSize)
@@ -367,70 +367,70 @@ static void RecvObjectData(void)
         RecvIntData(&object[i].movey);
         SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
 
-    if(object[i].gimmick == 2) {
+        if(object[i].gimmick == 2) {
 
-        switchblock[object[i].flaghold].flaghold = object[i].status;
-        if(object[i].status != 0)
-            playSE(2);
+            switchblock[object[i].flaghold].flaghold = object[i].status;
+            if(object[i].status != 0)
+                playSE(2);
 
-	if(object[i].status)
-	switchblock[object[i].flaghold].flaghold = 1;
-	//特殊動作
-	if(stageP == 1){
-            if(i == 11 && object[i+1].status == 1)
+            if(object[i].status)
                 switchblock[object[i].flaghold].flaghold = 1;
-            if(i >= 12 && i <= 14){
-                if(object[i].status == 1)
-                    switchblock[object[i-1].flaghold].flaghold = 1;
-                if(object[i].status == 0 && object[i-1].status == 0)
-                    switchblock[object[i-1].flaghold].flaghold = 0;
-                if(object[i].status == 0 && object[i+1].status == 1)
+            //特殊動作
+            if(stageP == 1){
+                if(i == 11 && object[i+1].status == 1)
                     switchblock[object[i].flaghold].flaghold = 1;
+                if(i >= 12 && i <= 14){
+                    if(object[i].status == 1)
+                        switchblock[object[i-1].flaghold].flaghold = 1;
+                    if(object[i].status == 0 && object[i-1].status == 0)
+                        switchblock[object[i-1].flaghold].flaghold = 0;
+                    if(object[i].status == 0 && object[i+1].status == 1)
+                        switchblock[object[i].flaghold].flaghold = 1;
+                }
             }
-	}
 
-	if(stageP == 2){
-            if(i == 30){
-                switchblock[30].flaghold = object[i].status;
-            }
-            if(i == 33 && object[i].status != 2){
-                switchblock[10].flaghold = object[i].status;
-                switchblock[11].flaghold = object[i].status;
-                switchblock[31].flaghold = object[i].status;
-            }
-            if(i == 34 && object[i].status == 1 && object[i-1].status == 1 && object[35].flaghold != -1){
-                switchblock[11].flaghold = 0;
-				switchblock[9].flaghold = 0;
+            if(stageP == 2){
+                if(i == 30){
+                    switchblock[30].flaghold = object[i].status;
+                }
+                if(i == 33 && object[i].status != 2){
+                    switchblock[10].flaghold = object[i].status;
+                    switchblock[11].flaghold = object[i].status;
+                    switchblock[31].flaghold = object[i].status;
+                }
+                if(i == 34 && object[i].status == 1 && object[i-1].status == 1 && object[35].flaghold != -1){
+                    switchblock[11].flaghold = 0;
+                    switchblock[9].flaghold = 0;
 
-				}
-            if(i == 34)
-				switchblock[31].flaghold = 1;
+                }
+                if(i == 34)
+                    switchblock[31].flaghold = 1;
 //
-            if(i == 37){
-                switchblock[20].flaghold = object[i].status;
-                switchblock[27].flaghold = object[i].status;
-            }
-            if(i == 38){
-                switchblock[23].flaghold = object[i].status;
-                switchblock[19].flaghold = object[i].status;
-            }
-            if(i == 39){
-                switchblock[24].flaghold = object[i].status;
-                switchblock[21].flaghold = object[i].status;
+                if(i == 37){
+                    switchblock[20].flaghold = object[i].status;
+                    switchblock[27].flaghold = object[i].status;
+                }
+                if(i == 38){
+                    switchblock[23].flaghold = object[i].status;
+                    switchblock[19].flaghold = object[i].status;
+                }
+                if(i == 39){
+                    switchblock[24].flaghold = object[i].status;
+                    switchblock[21].flaghold = object[i].status;
+                }
+
+                if(i == 40){
+                    switchblock[25].flaghold = 1;
+                }
+                if(i == 41){
+                    switchblock[22].flaghold = 1;
+                    switchblock[26].flaghold = 1;
+                }
             }
 
-            if(i == 40){
-            switchblock[25].flaghold = 1;
-            }
-            if(i == 41){
-               switchblock[22].flaghold = 1;
-               switchblock[26].flaghold = 1;
-            }
-       }
 
 
-
-    }
+        }
     }
 
     if(i >= 100){ // 宝石なら
