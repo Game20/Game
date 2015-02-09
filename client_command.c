@@ -1,6 +1,8 @@
 /*****************************************************************
-ファイル名	: client_command.c
-機能		: クライアントのコマンド処理
+ファイル名:client_command.c
+　　　機能:クライアントのコマンド処理
+作成者氏名:森祥悟,坪井正夢,高松翔馬
+最終更新日:2015.2.6
 *****************************************************************/
 
 #include"common.h"
@@ -8,7 +10,7 @@
 
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize);
 static void SetIntData2DataBlock(void *data,int intData,int *dataSize);
-static void RecvStartData(void);
+//static void RecvStartData(void);
 static void RecvMoveData(void);
 static void RecvObjectData(void);
 static void RecvGameoverData(void);
@@ -28,21 +30,13 @@ int gClientNum;
 int EscapeCnt = 0;
 
 /*****************************************************************
-関数名	: ExecuteCommand
-機能	: サーバーから送られてきたコマンドを元に，
-		  引き数を受信し，実行する
-引数	: char	command		: コマンド
-出力	: プログラム終了コマンドがおくられてきた時には0を返す．
-		  それ以外は1を返す
+関数の名前:int ExecuteCommand(char command)
+関数の機能:サーバーから送られてきたコマンドを元に,処理をする
 *****************************************************************/
 int ExecuteCommand(char command)
 {
     int	endFlag = 1;
-/*#ifndef NDEBUG
-    printf("#####\n");
-    printf("ExecuteCommand()\n");
-    printf("command = %c\n",command);
-#endif*/
+
     switch(command){
     case END_COMMAND:
         exit_p = 1;
@@ -89,12 +83,9 @@ int ExecuteCommand(char command)
     return endFlag;
 }
 
-/* 追加*/
 /*****************************************************************
-関数名	: SendStartCommand
-機能	: ゲーム開始をサーバーに送る
-引数	: なし
-出力	: なし
+関数の名前:void SendStartCommand(void)
+関数の機能: ゲーム開始をサーバに送る
 *****************************************************************/
 void SendStartCommand(void)
 {
@@ -110,10 +101,9 @@ void SendStartCommand(void)
 }
 
 /*****************************************************************
-関数名	: SendMoveCommand
-機能	: 移動したことをサーバーに送る
-引数	: なし
-出力	: なし
+関数の名前:void SendMoveCommand(int x, int y, int animx, int animy)
+関数の機能:移動したことをサーバに送る
+　　　引数:操作キャラのx,y座標とアニメーションのx,y座標
 *****************************************************************/
 void SendMoveCommand(int x, int y, int animx, int animy)
 {
@@ -134,12 +124,10 @@ void SendMoveCommand(int x, int y, int animx, int animy)
     SendData(data,dataSize);
 }
 
-
 /*****************************************************************
-関数名	: SendObjectCommand
-機能	: 移動したことをサーバーに送る
-引数	: なし
-出力	: なし
+関数の名前:void SendObjectCommand(int num, int status, int x, int y, int movex, int movey)
+関数の機能:オブジェクトのデータをサーバに送る
+　　　引数:オブジェクトの番号,状態,座標,移動距離
 *****************************************************************/
 void SendObjectCommand(int num, int status, int x, int y, int movex, int movey)
 {
@@ -163,21 +151,14 @@ void SendObjectCommand(int num, int status, int x, int y, int movex, int movey)
 }
 
 /*****************************************************************
-関数名	: SendEndCommand
-機能	: プログラムの終了を知らせるために，
-		  サーバーにデータを送る
-引数	: なし
-出力	: なし
+関数の名前:void SendEndCommand(void)
+関数の機能:プログラムの終了をサーバに送信
 *****************************************************************/
 void SendEndCommand(void)
 {
     unsigned char	data[MAX_DATA];
     int			dataSize;
 
-/*#ifndef NDEBUG
-    printf("#####\n");
-    printf("SendEndCommand()\n");
-#endif*/
     dataSize = 0;
     /* コマンドのセット */
     SetCharData2DataBlock(data,END_COMMAND,&dataSize);
@@ -186,6 +167,10 @@ void SendEndCommand(void)
     SendData(data,dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendGameoverCommand(void)
+関数の機能:ゲームオーバーしたことをサーバに送信
+*****************************************************************/
 void SendGameoverCommand(void)
 {
     unsigned char	data[MAX_DATA];
@@ -197,6 +182,10 @@ void SendGameoverCommand(void)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendNewposCommand(void)
+関数の機能:初期座標を受信するためのコマンドをサーバに送信
+*****************************************************************/
 void SendNewposCommand(void)
 {
     unsigned char	data[MAX_DATA];
@@ -207,6 +196,10 @@ void SendNewposCommand(void)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendGameclearCommand(void)
+関数の機能:ゲームクリアしたことをサーバに送信
+*****************************************************************/
 void SendGameclearCommand(void)
 {
     unsigned char	data[MAX_DATA];
@@ -217,6 +210,10 @@ void SendGameclearCommand(void)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendWindowCommand(void)
+関数の機能:ゲーム画面の座標をサーバに送信
+*****************************************************************/
 void SendWindowCommand(void)
 {
     unsigned char	data[MAX_DATA];
@@ -228,6 +225,10 @@ void SendWindowCommand(void)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendEscapeCommand(int titlep)
+関数の機能:ポーズ画面の情報をサーバに送信
+*****************************************************************/
 void SendEscapeCommand(int titlep)
 {
     unsigned char	data[MAX_DATA];
@@ -239,6 +240,10 @@ void SendEscapeCommand(int titlep)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendTimeCommand(void)
+関数の機能:時間の値をサーバに送信
+*****************************************************************/
 void SendTimeCommand(void)
 {
     unsigned char	data[MAX_DATA];
@@ -250,6 +255,10 @@ void SendTimeCommand(void)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void SendTitleCommand(int y, int titlep)
+関数の機能:タイトル画面でのカーソルの位置をサーバに送信
+*****************************************************************/
 void SendTitleCommand(int y, int titlep)
 {
     unsigned char	data[MAX_DATA];
@@ -262,6 +271,10 @@ void SendTitleCommand(int y, int titlep)
     SendData(data, dataSize);
 }
 
+/*****************************************************************
+関数の名前:void void SendJewelCommand(jewel)
+関数の機能:トレジャーポイント(ゲーム内の宝石獲得点)をサーバに送信
+*****************************************************************/
 void SendJewelCommand(jewel)
 {
     unsigned char	data[MAX_DATA];
@@ -274,15 +287,12 @@ void SendJewelCommand(jewel)
 }
 
 /*****
-static
+      static
 *****/
 /*****************************************************************
-関数名	: SetIntData2DataBlock
-機能	: int 型のデータを送信用データの最後にセットする
-引数	: void		*data		: 送信用データ
-		  int		intData		: セットするデータ
-		  int		*dataSize	: 送信用データの現在のサイズ
-出力	: なし
+関数の名前:void SetIntData2DataBlock(void *data,int intData,int *dataSize)
+関数の機能:int型のデータを送信データの最後にセットする
+　　　引数:送信データ,セットするデータ,送信データサイズ
 *****************************************************************/
 static void SetIntData2DataBlock(void *data,int intData,int *dataSize)
 {
@@ -302,12 +312,9 @@ static void SetIntData2DataBlock(void *data,int intData,int *dataSize)
 
 
 /*****************************************************************
-関数名	: SetCharData2DataBlock
-機能	: char 型のデータを送信用データの最後にセットする
-引数	: void		*data		: 送信用データ
-		  int		intData		: セットするデータ
-		  int		*dataSize	: 送信用データの現在のサイズ
-出力	: なし
+関数の名前:void SetCharData2DataBlock(void *data,char charData,int *dataSize)
+関数の機能:char型のデータを送信用データの最後にセットする
+　　　引数:送信データ,セットするデータ,送信データの現在のサイズ
 *****************************************************************/
 static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
 {
@@ -321,19 +328,14 @@ static void SetCharData2DataBlock(void *data,char charData,int *dataSize)
     (*dataSize) += sizeof(char);
 }
 
-
-/**************************追加関数******************************/
-static void RecvStartData(void)
-{
-
-}
-
+/*****************************************************************
+関数の名前:void RecvMoveData(void)
+関数の機能:各クライアントの位置座標をサーバから受信
+*****************************************************************/
 static void RecvMoveData(void)
 {
     int i;
     for(i = 0; i < gClientNum; i++) {
-        //if(player[i+1].pos.x == NULL)
-        //    break;
         RecvIntData(&player[i].pos.x);
         RecvIntData(&player[i].pos.y);
         RecvIntData(&player[i].anim.x);
@@ -342,11 +344,14 @@ static void RecvMoveData(void)
             break;
         player[i].pos.x -= gameRect.x;
         player[i].pos.y -= gameRect.y;
-        //if(player[i].pos.x == NULL)
-        //    break;
     }
 }
 
+/*****************************************************************
+関数の名前:void RecvObjectData(void)
+関数の機能:オブジェクトの位置座標,状態,移動距離等をサーバから受信
+　　　　　:ゲーム中の宝石の有無をサーバから受信
+*****************************************************************/
 static void RecvObjectData(void)
 {
     int i;
@@ -362,70 +367,70 @@ static void RecvObjectData(void)
         RecvIntData(&object[i].movey);
         SDL_BlitSurface(objectimage, &object[i].src, objectwindow, &object[i].dst); // object貼り付け
 
-    if(object[i].gimmick == 2) {
+        if(object[i].gimmick == 2) {
 
-        switchblock[object[i].flaghold].flaghold = object[i].status;
-        if(object[i].status != 0)
-            playSE(2);
+            switchblock[object[i].flaghold].flaghold = object[i].status;
+            if(object[i].status != 0)
+                playSE(2);
 
-	if(object[i].status)
-	switchblock[object[i].flaghold].flaghold = 1;
-	//特殊動作
-	if(stageP == 1){
-            if(i == 11 && object[i+1].status == 1)
+            if(object[i].status)
                 switchblock[object[i].flaghold].flaghold = 1;
-            if(i >= 12 && i <= 14){
-                if(object[i].status == 1)
-                    switchblock[object[i-1].flaghold].flaghold = 1;
-                if(object[i].status == 0 && object[i-1].status == 0)
-                    switchblock[object[i-1].flaghold].flaghold = 0;
-                if(object[i].status == 0 && object[i+1].status == 1)
+            //特殊動作
+            if(stageP == 1){
+                if(i == 11 && object[i+1].status == 1)
                     switchblock[object[i].flaghold].flaghold = 1;
+                if(i >= 12 && i <= 14){
+                    if(object[i].status == 1)
+                        switchblock[object[i-1].flaghold].flaghold = 1;
+                    if(object[i].status == 0 && object[i-1].status == 0)
+                        switchblock[object[i-1].flaghold].flaghold = 0;
+                    if(object[i].status == 0 && object[i+1].status == 1)
+                        switchblock[object[i].flaghold].flaghold = 1;
+                }
             }
-	}
 
-	if(stageP == 2){
-            if(i == 30){
-                switchblock[30].flaghold = object[i].status;
-            }
-            if(i == 33 && object[i].status != 2){
-                switchblock[10].flaghold = object[i].status;
-                switchblock[11].flaghold = object[i].status;
-                switchblock[31].flaghold = object[i].status;
-            }
-            if(i == 34 && object[i].status == 1 && object[i-1].status == 1 && object[35].flaghold != -1){
-                switchblock[11].flaghold = 0;
-				switchblock[9].flaghold = 0;
+            if(stageP == 2){
+                if(i == 30){
+                    switchblock[30].flaghold = object[i].status;
+                }
+                if(i == 33 && object[i].status != 2){
+                    switchblock[10].flaghold = object[i].status;
+                    switchblock[11].flaghold = object[i].status;
+                    switchblock[31].flaghold = object[i].status;
+                }
+                if(i == 34 && object[i].status == 1 && object[i-1].status == 1 && object[35].flaghold != -1){
+                    switchblock[11].flaghold = 0;
+                    switchblock[9].flaghold = 0;
 
-				}
-            if(i == 34)
-				switchblock[31].flaghold = 1;
+                }
+                if(i == 34)
+                    switchblock[31].flaghold = 1;
 //
-            if(i == 37){
-                switchblock[20].flaghold = object[i].status;
-                switchblock[27].flaghold = object[i].status;
-            }
-            if(i == 38){
-                switchblock[23].flaghold = object[i].status;
-                switchblock[19].flaghold = object[i].status;
-            }
-            if(i == 39){
-                switchblock[24].flaghold = object[i].status;
-                switchblock[21].flaghold = object[i].status;
+                if(i == 37){
+                    switchblock[20].flaghold = object[i].status;
+                    switchblock[27].flaghold = object[i].status;
+                }
+                if(i == 38){
+                    switchblock[23].flaghold = object[i].status;
+                    switchblock[19].flaghold = object[i].status;
+                }
+                if(i == 39){
+                    switchblock[24].flaghold = object[i].status;
+                    switchblock[21].flaghold = object[i].status;
+                }
+
+                if(i == 40){
+                    switchblock[25].flaghold = 1;
+                }
+                if(i == 41){
+                    switchblock[22].flaghold = 1;
+                    switchblock[26].flaghold = 1;
+                }
             }
 
-            if(i == 40){
-            switchblock[25].flaghold = 1;
-            }
-            if(i == 41){
-               switchblock[22].flaghold = 1;
-               switchblock[26].flaghold = 1;
-            }
-       }
 
 
-
-    }
+        }
     }
 
     if(i >= 100){ // 宝石なら
@@ -439,6 +444,10 @@ static void RecvObjectData(void)
 
 }
 
+/***************************************************************************
+関数の名前:void RecvGameoverData(void)
+関数の機能:ゲームオーバーをサーバから受信
+****************************************************************************/
 static void RecvGameoverData(void)
 {
     int num;
@@ -453,6 +462,10 @@ static void RecvGameoverData(void)
     Mix_ResumeMusic();///音楽再開
 }
 
+/***************************************************************************
+関数の名前:void RecvNewposData(void)
+関数の機能:初期座標をサーバから受信
+****************************************************************************/
 static void RecvNewposData(void)
 {
     RecvIntData(&mynum);
@@ -462,11 +475,19 @@ static void RecvNewposData(void)
 
 }
 
+/***************************************************************************
+関数の名前:void RecvWindowCommand(void)
+関数の機能:ゲーム画面の座標をサーバから受信
+****************************************************************************/
 static void RecvWindowCommand(void)
 {
     RecvIntData(&gameRect.x);
 }
 
+/***************************************************************************
+関数の名前:void RecvEscapeData(void)
+関数の機能:ポーズ画面の情報をサーバから受信
+****************************************************************************/
 static void RecvEscapeData(void)
 {
     RecvIntData(&titlep);
@@ -476,11 +497,19 @@ static void RecvEscapeData(void)
     }
 }
 
+/***************************************************************************
+関数の名前:void RecvEscapeData(void)
+関数の機能:時間の値をサーバから受信
+****************************************************************************/
 static void RecvTimeCommand(void)
 {
     RecvIntData(&time);
 }
 
+/***************************************************************************
+関数の名前:void RecvTitleCommand(void)
+関数の機能:タイトル画面での情報(カーソルの位置等)をサーバから受信
+****************************************************************************/
 static void RecvTitleCommand(void)
 {
     RecvIntData(&P.y);
@@ -489,14 +518,15 @@ static void RecvTitleCommand(void)
     if(titlep == 0){
         if(P.y == 500)
             stageP = 2;
-            //titlep = 1;
-            /*
-        if(P.y == 600)
-            EXIT();*/
+
     }
 
 }
 
+/***************************************************************************
+関数の名前:void RecvJewelCommand(void)
+関数の機能:各クライアントのトレジャーポイントをサーバから受信
+****************************************************************************/
 static void RecvJewelCommand(void)
 {
     RecvIntData(&mynum);
